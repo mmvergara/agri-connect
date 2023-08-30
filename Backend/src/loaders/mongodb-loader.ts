@@ -2,14 +2,17 @@ import mongoose from "mongoose";
 import { MONGODB_URL } from "../config";
 
 const MongodbLoader = async () => {
-  console.log("- Loading mongodb");
-  mongoose.connect(MONGODB_URL);
-  mongoose.connection.on("connected", () => {
-    console.log("MongoDB connected");
-  });
-  mongoose.connection.on("error", (err) => {
-    console.log("MongoDB connection error: " + err);
-  });
+  try {
+    mongoose.connect(MONGODB_URL);
+    mongoose.connection.on("connected", () => {
+      console.log("MongoDB connection established");
+    });
+    mongoose.connection.on("error", (err) => {
+      console.log("MongoDB connection error: " + err);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-var db = mongoose.connection;
+export default MongodbLoader;
