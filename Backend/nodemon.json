@@ -2,5 +2,5 @@
   "watch": ["src", ".env"],
   "ext": "js,ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "except": "ts-node --transpile-only --files src/app.ts"
+  "except": "ts-node  ./src/app.ts"
 }
