@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className="flex">
+    <main className="">
       <Link href="/auth/sign-in"> SignIn </Link>
     </main>
   );

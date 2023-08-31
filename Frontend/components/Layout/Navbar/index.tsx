@@ -1,21 +1,15 @@
-"use client";
-import {
-  Button,
-  Center,
-  Flex,
-  Text,
-  Spacer,
-  MenuButton,
-  Menu,
-  MenuList,
-  MenuItem,
-  IconButton,
-  Icon,
-} from "@chakra-ui/react";
-import ToggleColorMode from "./ToggleColorMode";
+import { Button, Center, Flex, Text, Spacer, Icon } from "@chakra-ui/react";
+import { FaBell } from "react-icons/fa";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import MenuBar from "./MenuBar";
+
+const LazyLoadedToggleColorMode = dynamic(() => import("./ToggleColorMode"), {
+  ssr: false,
+});
+const LazyLoadedMenuBar = dynamic(() => import("./MenuBar"), {
+  ssr: false,
+});
 
 const Navbar = () => {
   return (
@@ -24,7 +18,7 @@ const Navbar = () => {
         <Link href="/" className="flex items-center justify-center gap-2">
           <Image
             src="/agri-connect-logo.png"
-            alt="logo"
+            alt="agri-connect-logo"
             width={40}
             height={40}
           />
@@ -34,16 +28,16 @@ const Navbar = () => {
         </Link>
         <Spacer />
         <Center>
-          <ToggleColorMode />
+          <LazyLoadedToggleColorMode />
           <Button
             color="green.100"
             bgColor="green.900"
             colorScheme="blackAlpha"
             p={1}
           >
-            s
+            <Icon as={FaBell} />
           </Button>
-          <MenuBar />
+          <LazyLoadedMenuBar />
         </Center>
       </Flex>
     </Flex>

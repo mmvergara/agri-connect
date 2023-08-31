@@ -9,8 +9,9 @@ const ToggleColorMode = () => {
   return (
     <Button
       onClick={handleToggleColorMode}
-      colorScheme="blackAlpha"
       color="green.100"
+      bgColor="green.900"
+      colorScheme="blackAlpha"
       p={1}
     >
       {colorMode === "light" ? (

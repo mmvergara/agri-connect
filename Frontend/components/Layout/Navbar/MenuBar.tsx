@@ -1,4 +1,3 @@
-"use client";
 import {
   MenuButton,
   Menu,
@@ -7,14 +6,29 @@ import {
   IconButton,
   Icon,
 } from "@chakra-ui/react";
-import { BsFillChatDotsFill } from "react-icons/bs";
-
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoChatbubblesSharp } from "react-icons/io5";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 const MenuBar = () => {
+  const MenuItems = [
+    {
+      name: "Community Chat",
+      icon: <Icon as={IoChatbubblesSharp} />,
+      link: "/community-chat",
+    },
+    {
+      name: "Sign Out",
+      icon: <Icon as={RiLogoutCircleRFill} />,
+      link: "/auth/sign-in",
+    },
+  ];
   return (
-    <Menu isLazy>
+    <Menu>
       <MenuButton
         as={IconButton}
-        icon={<BsFillChatDotsFill />}
+        icon={<Icon as={GiHamburgerMenu} />}
         color="green.100"
         bgColor="green.900"
         colorScheme="blackAlpha"
@@ -23,29 +37,21 @@ const MenuBar = () => {
       <MenuList
         bg="green.900"
         color="white"
-        className="rounded-sm transition-none p-0 gap-0"
+        className="rounded-sm transition-none p-0 gap-0 py-0"
+        style={{ padding: 1 }}
       >
-        <MenuItem className="p-0">
-          <button className="py-3 hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold">
-            <Icon as={BsFillChatDotsFill} />
-            <span>Community Chat</span>
-          </button>
-        </MenuItem>
-        <MenuItem className="p-0">
-          <button className="py-3 hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold">
-            Forum
-          </button>
-        </MenuItem>
-        <MenuItem className="p-0">
-          <button className="py-3 hover:bg-green-950 grow min-h-[40px]">
-            Profile
-          </button>
-        </MenuItem>
-        <MenuItem className="p-0">
-          <button className="py-3 hover:bg-green-950 grow min-h-[40px]">
-            Sign Out
-          </button>
-        </MenuItem>
+        {MenuItems.map(({ icon, link, name }) => (
+          <MenuItem
+            as={Link}
+            key={name}
+            icon={icon}
+            bg="green.900"
+            className="hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold"
+            href={link}
+          >
+            <span>{name}</span>
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   );
