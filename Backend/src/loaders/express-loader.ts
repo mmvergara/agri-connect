@@ -9,6 +9,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
+
 const ExpressLoader = async ({ app }: { app: Express }) => {
   app.get("/status", (req, res) => res.sendStatus(200).end());
   app.head("/status", (req, res) => res.sendStatus(200).end());
