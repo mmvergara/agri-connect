@@ -7,7 +7,12 @@ const ToggleColorMode = () => {
     toggleColorMode();
   };
   return (
-    <Button onClick={handleToggleColorMode}>
+    <Button
+      onClick={handleToggleColorMode}
+      colorScheme="blackAlpha"
+      color="green.100"
+      p={1}
+    >
       {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
     </Button>
   );
