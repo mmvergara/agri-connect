@@ -1,5 +1,3 @@
-"use client";
-
 const SignInPage = () => {
   return <>Sign In Page</>;
 };
