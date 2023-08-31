@@ -1,4 +1,12 @@
-import { Button, Center, Flex, Text, Spacer, Icon } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Flex,
+  Text,
+  Spacer,
+  Icon,
+  Heading,
+} from "@chakra-ui/react";
 import { FaBell } from "react-icons/fa";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -22,9 +30,9 @@ const Navbar = () => {
             width={40}
             height={40}
           />
-          <Text as="b" color="green.100">
+          <Heading as="h1" size="md" color="green.100" className="tracking-wider">
             AgriConnect
-          </Text>
+          </Heading>
         </Link>
         <Spacer />
         <Center>

@@ -7,12 +7,17 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import { RiLogoutCircleRFill } from "react-icons/ri";
+import { AiFillShop } from "react-icons/ai";
 const MenuBar = () => {
   const MenuItems = [
+    {
+      name: "Marketplace",
+      icon: <Icon as={AiFillShop} />,
+      link: "/market",
+    },
     {
       name: "Community Chat",
       icon: <Icon as={IoChatbubblesSharp} />,
@@ -25,7 +30,7 @@ const MenuBar = () => {
     },
   ];
   return (
-    <Menu>
+    <Menu isLazy placement="bottom-end">
       <MenuButton
         as={IconButton}
         icon={<Icon as={GiHamburgerMenu} />}
@@ -37,7 +42,7 @@ const MenuBar = () => {
       <MenuList
         bg="green.900"
         color="white"
-        className="rounded-sm transition-none p-0 gap-0 py-0"
+        className="rounded-sm transition-none p-0 gap-0 py-0 border-none"
         style={{ padding: 1 }}
       >
         {MenuItems.map(({ icon, link, name }) => (
