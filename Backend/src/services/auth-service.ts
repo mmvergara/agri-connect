@@ -7,7 +7,7 @@ export const createUser = async (user: RegisterFields) => {
     const { email, password, username } = user;
     const newUser = await UserModel.create({
       email,
-      password,
+      password: await bcrypt.hash(password, 10),
       username,
     });
     await newUser.save();

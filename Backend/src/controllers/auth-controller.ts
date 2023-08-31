@@ -29,10 +29,9 @@ export const login = async (req: Req, res: Res) => {
     if (!user) throw new Error("User does not exist");
 
     await validatePassword(password, user.password);
-    console.log(req.session.destroy.toString());
+
     req.session.isLoggedIn = true;
     req.session.userId = user._id;
-
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
