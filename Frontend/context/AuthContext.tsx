@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { LoginFields, UserData } from "@/types/shared-types/auth-types";
 import { useToast } from "@chakra-ui/react";
-import { Login } from "@/services/AuthService";
+import { Login, Logout } from "@/services/AuthService";
 
 type Props = { children: JSX.Element | JSX.Element[] };
 export type AuthContextType = {
@@ -42,6 +42,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    Logout();
   };
 
   const contextValue: AuthContextType = {

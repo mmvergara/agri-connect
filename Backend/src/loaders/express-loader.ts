@@ -16,7 +16,7 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
 
   app.use(helmet());
   console.log("CORS Enabled");
-  app.use(cors());
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
   const store = MongoStore.create({
     mongoUrl: MONGODB_URL,
@@ -30,9 +30,9 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         sameSite: "none",
+        httpOnly: false,
       },
     })
   );

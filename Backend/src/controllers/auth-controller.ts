@@ -5,7 +5,7 @@ import {
 } from "../validators/auth-validators";
 import { getUserByEmail } from "../services/user-services";
 import { Req, Res } from "../types/express-types";
-import { UserData } from "../types/shared-types/auth-types";
+import { UserData } from "../shared-types/auth-types";
 
 export const register = async (req: Req, res: Res) => {
   try {
@@ -28,7 +28,7 @@ export const login = async (req: Req, res: Res) => {
 
     const user = await getUserByEmail(email);
     if (!user) throw new Error("User does not exist");
-
+    console.log(user.password, password);
     await validatePassword(password, user.password);
 
     req.session.isLoggedIn = true;
@@ -54,11 +54,9 @@ export const logout = async (req: Req, res: Res) => {
   }
 };
 
-export const checkAuth = async (req: Req, res: Res) => {
+export const dataTemp = async (req: Req, res: Res) => {
   try {
-    const { isLoggedIn, userId } = req.session;
-    if (!isLoggedIn || !userId) throw new Error("User not authenticated");
-    return res.status(200).json({ data: null, error: null });
+    return res.status(200).json({ data: req.session, error: null });
   } catch (error) {
     return res.status(400).json({ error: error.message, data: null });
   }

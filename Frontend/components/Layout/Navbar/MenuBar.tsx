@@ -12,9 +12,14 @@ import { IoChatbubblesSharp } from "react-icons/io5";
 import { RiLogoutCircleRFill } from "react-icons/ri";
 import { AiFillShop } from "react-icons/ai";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 const MenuBar = () => {
   const { logout } = useAuth();
-  const handleSignOut = () => logout();
+  const router = useRouter();
+  const handleSignOut = () => {
+    logout();
+    router.push("/");
+  };
   const MenuItems = [
     {
       name: "Marketplace",

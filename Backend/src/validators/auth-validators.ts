@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { email, password, username } from "./field-schemas";
-import { LoginFields, RegisterFields } from "../types/shared-types/auth-types";
+import { LoginFields, RegisterFields } from "../shared-types/auth-types";
 
 export const RegisterSchema = Joi.object<RegisterFields, true, RegisterFields>({
   email,

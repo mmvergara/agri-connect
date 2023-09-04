@@ -1,3 +1,4 @@
+import FecthMyData from "@/components/fetchmydata";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <main className="">
       <Link href="/auth"> SignIn </Link>
+      <FecthMyData />
     </main>
   );
 }

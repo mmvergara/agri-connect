@@ -32,4 +32,14 @@ export const Register = async (userData: RegisterFields) => {
   }
 };
 
-export const CheckAuth = () => AxiosGet("/auth/check-auth");
+export const Logout = async () => {
+  try {
+    await AxiosPost("/auth/logout", {});
+  } catch (error) {
+    const err = error as ApiErr;
+    return {
+      data: null,
+      error: err.response?.data.error || "Something wen't wrong",
+    };
+  }
+};

@@ -1,4 +1,4 @@
-import { RegisterFields } from "../types/shared-types/auth-types";
+import { RegisterFields } from "../shared-types/auth-types";
 import { UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
 
@@ -20,7 +20,8 @@ export const createUser = async (user: RegisterFields) => {
 
 export const validatePassword = async (p1: string, p2: string) => {
   try {
-    await bcrypt.compare(p1, p2);
+    const res = await bcrypt.compare(p1, p2);
+    if (!res) throw new Error("Invalid Password");
   } catch (error) {
     console.log(error);
     throw new Error("Invalid Password");
