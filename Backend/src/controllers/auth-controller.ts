@@ -13,10 +13,10 @@ export const register = async (req: Req, res: Res) => {
     const existingUser = await getUserByEmail(RegisterValues.email);
     if (existingUser) throw new Error("User already exists");
 
-    const newUser = await createUser(RegisterValues);
-    return res.status(201).json(newUser);
+    await createUser(RegisterValues);
+    return res.status(201).json({ data: null, error: null });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ data: null, error: error.message });
   }
 };
 
@@ -32,18 +32,18 @@ export const login = async (req: Req, res: Res) => {
 
     req.session.isLoggedIn = true;
     req.session.userId = user._id;
-    return res.status(200).json(user);
+    return res.status(200).json({ data: user, error: null });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message, data: null });
   }
 };
 
 export const logout = async (req: Req, res: Res) => {
   try {
     req.session.destroy();
-    return res.status(200).json({ message: "Logged out successfully" });
+    return res.status(200).json({ data: null, error: null });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message, data: null });
   }
 };

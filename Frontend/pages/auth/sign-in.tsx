@@ -1,16 +1,21 @@
+import { useAuth } from "@/context/AuthContext";
 import {
   Button,
-  Flex,
   FormControl,
   Text,
   Heading,
   Input,
-  Divider,
+  Container,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { FormEvent, useState } from "react";
 
 const SignInPage = () => {
+  const { login, user } = useAuth();
+  const router = useRouter();
+  if (user) router.push("/");
+  const [isSignIn, setIsSignIn] = useState(true);
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -18,32 +23,47 @@ const SignInPage = () => {
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const handleSignIn = async () => {
+    if (await login({ email: inputs.email, password: inputs.password })) {
+      router.push("/");
+    }
+  };
+  const handleSignUp = async () => {};
+
+  const changeAuthMode = () => setIsSignIn((o) => !o);
+  const handleFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!inputs.email || !inputs.password) return;
+    if (isSignIn) {
+      handleSignIn();
+    } else {
+      handleSignUp();
+    }
+  };
   return (
-    <Flex grow={1} height="94.2vh" className="overflow-hidden">
-      <Flex flex={1} bg="green.800" height="100%">
-        <Heading>Agri Connect</Heading>
-      </Flex>
-      <Flex flex={1}>
-        <FormControl
-          className={`max-w-[500px] pl-16 flex flex-col gap-8 pt-16`}
-        >
-          <Image
-            src="/agri-connect-logo.png"
-            alt="agri-connect-logo"
-            width={100}
-            height={100}
-            className="mx-auto"
-          />
-          <Heading as="h2" textAlign="center" size="md">
-            AgriConnect | Sign Up
-          </Heading>
-          <Text fontWeight={500} textAlign="center" className="opacity-70">
-            Username and Email cannot be changed later
-          </Text>
-          <Divider />
+    <Container maxW="container.sm" className="">
+      <FormControl
+        as="form"
+        onSubmit={handleFormSubmit}
+        className={`max-w-[500px] flex flex-col gap-4 pt-16 mx-auto`}
+      >
+        <Image
+          src="/agri-connect-logo.png"
+          alt="agri-connect-logo"
+          width={100}
+          height={100}
+          className="mx-auto"
+        />
+        <Heading as="h2" textAlign="center" size="md">
+          AgriConnect | {isSignIn ? "Sign In" : "Sign Up"}
+        </Heading>
+        <Text fontWeight={500} textAlign="center" className="opacity-70">
+          {!isSignIn ? "Username and Email cannot be changed later" : ""}
+        </Text>
+        {!isSignIn && (
           <Input
             name="username"
             type="text"
@@ -51,35 +71,36 @@ const SignInPage = () => {
             onChange={handleInputChange}
             placeholder="Username"
           />
-          <Input
-            name="email"
-            type="email"
-            value={inputs.email}
-            onChange={handleInputChange}
-            placeholder="Email"
-          />
-          <Input
-            name="password"
-            type="password"
-            value={inputs.password}
-            onChange={handleInputChange}
-            placeholder="Password"
-          />
-          <Divider />
+        )}
+        <Input
+          name="email"
+          type="email"
+          id="emailInput"
+          value={inputs.email}
+          onChange={handleInputChange}
+          placeholder="Email"
+        />
+        <Input
+          name="password"
+          type="password"
+          id="passwordInput"
+          value={inputs.password}
+          onChange={handleInputChange}
+          placeholder="Password"
+        />
 
-          <Button colorScheme="teal" size="md">
-            <span>Create Account</span>
+        <Button type="submit" colorScheme="teal" size="md">
+          <span>{isSignIn ? "Sign In" : "Create Account"}</span>
+        </Button>
+
+        <Text textAlign="center">
+          {isSignIn ? "Don't have an account? " : "Already have an account? "}
+          <Button variant="link" colorScheme="teal" onClick={changeAuthMode}>
+            {isSignIn ? "Sign Up" : "Sign In"}
           </Button>
-
-          <Text textAlign="center">
-            Already have an account?{" "}
-            <Button variant="link" colorScheme="teal">
-              Sign In
-            </Button>
-          </Text>
-        </FormControl>
-      </Flex>
-    </Flex>
+        </Text>
+      </FormControl>
+    </Container>
   );
 };
 

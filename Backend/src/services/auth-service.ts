@@ -1,4 +1,4 @@
-import { RegisterFields } from "../types/auth-types";
+import { RegisterFields } from "../types/shared-types/auth-types";
 import { UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
 

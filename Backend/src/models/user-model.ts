@@ -1,13 +1,8 @@
 import { Model, models, model } from "mongoose";
 import { Document, Schema } from "mongoose";
+import { userDbData } from "../types/shared-types/DB-Model-Types";
 
-interface UserDocument extends Document {
-  email: string;
-  password: string;
-  username: string;
-  verified: boolean;
-  role: "admin" | "user";
-}
+type UserDocument = Document & userDbData;
 
 interface Methods {
   comparePassword: (password: string) => Promise<boolean>;
@@ -22,6 +17,7 @@ const userSchema = new Schema<UserDocument, {}, Methods>({
     trim: true,
   },
   password: { type: String, required: true },
+  avatarUrl: { type: String, default: "" },
   username: { type: String, required: true },
   verified: { type: Boolean, default: false },
   role: { type: String, default: "user" },

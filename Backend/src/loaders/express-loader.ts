@@ -14,26 +14,15 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
   app.get("/status", (req, res) => res.sendStatus(200).end());
   app.head("/status", (req, res) => res.sendStatus(200).end());
 
-  app.enable("trust proxy");
-
-  app.use(
-    helmet({
-      contentSecurityPolicy: false,
-    })
-  );
-
-  app.use(
-    cors({
-      credentials: true,
-    })
-  );
+  app.use(helmet());
+  console.log("CORS Enabled");
+  app.use(cors());
 
   const store = MongoStore.create({
     mongoUrl: MONGODB_URL,
     collectionName: "sessions",
   });
 
-  app.set("trust proxy", 1);
   app.use(
     session({
       store,
