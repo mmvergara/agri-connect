@@ -11,7 +11,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import { RiLogoutCircleRFill } from "react-icons/ri";
 import { AiFillShop } from "react-icons/ai";
+import { useAuth } from "@/context/AuthContext";
 const MenuBar = () => {
+  const { logout } = useAuth();
+  const handleSignOut = () => logout();
   const MenuItems = [
     {
       name: "Marketplace",
@@ -22,11 +25,6 @@ const MenuBar = () => {
       name: "Community Chat",
       icon: <Icon as={IoChatbubblesSharp} />,
       link: "/community-chat",
-    },
-    {
-      name: "Sign Out",
-      icon: <Icon as={RiLogoutCircleRFill} />,
-      link: "/auth/sign-in",
     },
   ];
   return (
@@ -57,6 +55,14 @@ const MenuBar = () => {
             <span>{name}</span>
           </MenuItem>
         ))}
+        <MenuItem
+          icon={<Icon as={RiLogoutCircleRFill} />}
+          bg="green.900"
+          className="hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold"
+          onClick={handleSignOut}
+        >
+          <span>Sign Out</span>
+        </MenuItem>
       </MenuList>
     </Menu>
   );

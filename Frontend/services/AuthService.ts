@@ -1,13 +1,15 @@
-import { LoginFields, UserData } from "@/types/shared-types/auth-types";
+import {
+  LoginFields,
+  RegisterFields,
+  UserData,
+} from "@/types/shared-types/auth-types";
 import { ApiErr, ApiRes } from "@/types";
-import { AxiosPost } from "./AxiosInstance";
+import { AxiosGet, AxiosPost } from "./AxiosInstance";
 
-export const Login = async (
-  userData: LoginFields
-): Promise<ApiRes<UserData>> => {
+export const Login = async (userData: LoginFields) => {
   try {
-    const { data } = await AxiosPost<UserData>("/auth/login", userData);
-    return { data, error: null };
+    const res = await AxiosPost<UserData>("/auth/login", userData);
+    return res.data;
   } catch (error) {
     const err = error as ApiErr;
     return {
@@ -16,3 +18,18 @@ export const Login = async (
     };
   }
 };
+
+export const Register = async (userData: RegisterFields) => {
+  try {
+    await AxiosPost<UserData>("/auth/register", userData);
+    return { data: null, error: null };
+  } catch (error) {
+    const err = error as ApiErr;
+    return {
+      data: null,
+      error: err.response?.data.error || "Something wen't wrong",
+    };
+  }
+};
+
+export const CheckAuth = () => AxiosGet("/auth/check-auth");

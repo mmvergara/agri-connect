@@ -5,6 +5,7 @@ import {
 } from "../validators/auth-validators";
 import { getUserByEmail } from "../services/user-services";
 import { Req, Res } from "../types/express-types";
+import { UserData } from "../types/shared-types/auth-types";
 
 export const register = async (req: Req, res: Res) => {
   try {
@@ -32,7 +33,12 @@ export const login = async (req: Req, res: Res) => {
 
     req.session.isLoggedIn = true;
     req.session.userId = user._id;
-    return res.status(200).json({ data: user, error: null });
+    const UserData: UserData = {
+      id: user._id,
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+    };
+    return res.status(200).json({ data: UserData, error: null });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ error: error.message, data: null });
@@ -42,6 +48,16 @@ export const login = async (req: Req, res: Res) => {
 export const logout = async (req: Req, res: Res) => {
   try {
     req.session.destroy();
+    return res.status(200).json({ data: null, error: null });
+  } catch (error) {
+    return res.status(400).json({ error: error.message, data: null });
+  }
+};
+
+export const checkAuth = async (req: Req, res: Res) => {
+  try {
+    const { isLoggedIn, userId } = req.session;
+    if (!isLoggedIn || !userId) throw new Error("User not authenticated");
     return res.status(200).json({ data: null, error: null });
   } catch (error) {
     return res.status(400).json({ error: error.message, data: null });

@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import { Register } from "@/services/AuthService";
 import {
   Button,
   FormControl,
@@ -6,6 +7,7 @@ import {
   Heading,
   Input,
   Container,
+  useToast,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -13,7 +15,9 @@ import { FormEvent, useState } from "react";
 
 const SignInPage = () => {
   const { login, user } = useAuth();
+  const toast = useToast();
   const router = useRouter();
+
   if (user) router.push("/");
   const [isSignIn, setIsSignIn] = useState(true);
   const [inputs, setInputs] = useState({
@@ -31,7 +35,16 @@ const SignInPage = () => {
       router.push("/");
     }
   };
-  const handleSignUp = async () => {};
+  const handleSignUp = async () => {
+    await Register(inputs);
+    toast({
+      title: "Account Created.",
+      isClosable: true,
+      status: "success",
+    });
+    setIsSignIn(true);
+    setInputs((prev) => ({ ...prev, username: "", password: "" }));
+  };
 
   const changeAuthMode = () => setIsSignIn((o) => !o);
   const handleFormSubmit = (e: FormEvent) => {
@@ -63,6 +76,15 @@ const SignInPage = () => {
         <Text fontWeight={500} textAlign="center" className="opacity-70">
           {!isSignIn ? "Username and Email cannot be changed later" : ""}
         </Text>
+
+        <Input
+          name="email"
+          type="email"
+          id="emailInput"
+          value={inputs.email}
+          onChange={handleInputChange}
+          placeholder="Email"
+        />
         {!isSignIn && (
           <Input
             name="username"
@@ -72,14 +94,6 @@ const SignInPage = () => {
             placeholder="Username"
           />
         )}
-        <Input
-          name="email"
-          type="email"
-          id="emailInput"
-          value={inputs.email}
-          onChange={handleInputChange}
-          placeholder="Email"
-        />
         <Input
           name="password"
           type="password"

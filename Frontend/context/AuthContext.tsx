@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { LoginFields, UserData } from "@/types/shared-types/auth-types";
 import { useToast } from "@chakra-ui/react";
 import { Login } from "@/services/AuthService";
@@ -10,14 +10,13 @@ export type AuthContextType = {
   logout: () => void;
 };
 
+// Intialize AuthContext
 const initialAuthContextValue: AuthContextType = {
   user: null,
   login: async () => false,
   logout: () => {},
 };
-
 const AuthContext = createContext<AuthContextType>(initialAuthContextValue);
-
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
@@ -36,11 +35,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       return false;
     }
     if (data) setUser(data);
+    localStorage.setItem("user", JSON.stringify(data));
     return true;
   };
 
   const logout = () => {
-    console.log("logout ");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
@@ -49,6 +49,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     login,
     logout,
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) setUser(JSON.parse(user) as UserData);
+  }, []);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

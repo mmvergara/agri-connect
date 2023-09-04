@@ -1,4 +1,5 @@
 import { BASE_URL } from "@/config";
+import { ApiRes } from "@/types";
 import axios from "axios";
 
 export const AxiosInstance = axios.create({
@@ -9,6 +10,6 @@ export const AxiosInstance = axios.create({
 });
 
 export const AxiosPost = async <T>(url: string, data: any) =>
-  AxiosInstance.post<T>(url, data);
+  AxiosInstance.post<ApiRes<T>>(url, data);
 
 export const AxiosGet = async <T>(url: string) => AxiosInstance.get<T>(url);

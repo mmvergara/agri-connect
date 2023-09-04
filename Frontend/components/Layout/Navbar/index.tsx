@@ -1,12 +1,5 @@
-import {
-  Button,
-  Center,
-  Flex,
-  Text,
-  Spacer,
-  Icon,
-  Heading,
-} from "@chakra-ui/react";
+import { Button, Center, Flex, Spacer, Icon, Heading } from "@chakra-ui/react";
+import { useAuth } from "@/context/AuthContext";
 import { FaBell } from "react-icons/fa";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -20,6 +13,7 @@ const LazyLoadedMenuBar = dynamic(() => import("./MenuBar"), {
 });
 
 const Navbar = () => {
+  const { user } = useAuth();
   return (
     <Flex as="header" boxShadow="lg" bg="green.900">
       <Flex minH={54} width="100%" maxW="1200px" mx="auto" px="10px">
@@ -30,8 +24,13 @@ const Navbar = () => {
             width={40}
             height={40}
           />
-          <Heading as="h1" size="md" color="green.100" className="tracking-wider">
-            AgriConnect
+          <Heading
+            as="h1"
+            size="md"
+            color="green.100"
+            className="tracking-wider"
+          >
+            AgriConnect {user?.username ? `| ${user.username}` : ""}
           </Heading>
         </Link>
         <Spacer />
@@ -45,7 +44,20 @@ const Navbar = () => {
           >
             <Icon as={FaBell} />
           </Button>
-          <LazyLoadedMenuBar />
+          {user ? (
+            <LazyLoadedMenuBar />
+          ) : (
+            <Button
+              as={Link}
+              color="green.100"
+              bgColor="green.800"
+              colorScheme="whiteAlpha"
+              href="/auth"
+              style={{ fontWeight: 400 }}
+            >
+              Sign In
+            </Button>
+          )}
         </Center>
       </Flex>
     </Flex>
