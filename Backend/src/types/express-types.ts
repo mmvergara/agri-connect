@@ -1,11 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 export interface Req extends Request {
-  session: {
-    isLoggedIn: boolean;
-    userId: string;
-    destroy: () => void;
-  };
+  session: Request["session"] & { isLoggedIn: boolean };
 }
 
 export type Res = Response;

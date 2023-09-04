@@ -25,6 +25,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const login = async (userData: LoginFields) => {
     const { data, error } = await Login(userData);
+
     if (error) {
       toast({
         title: error,
@@ -52,8 +53,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("Use Effect")
     const user = localStorage.getItem("user");
-    if (user) setUser(JSON.parse(user) as UserData);
+    if (user == "undefined" || user == null) {
+      localStorage.removeItem("user");
+      return;
+    }
+    const userData = JSON.parse(user) as UserData;
+    if (new Date(userData.token_expiration).getTime() < new Date().getTime()) {
+      localStorage.removeItem("user");
+      console.log("Session Expired");
+      return;
+    }
+    if (user) setUser(userData);
   }, []);
 
   return (

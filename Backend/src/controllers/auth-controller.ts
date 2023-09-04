@@ -32,13 +32,14 @@ export const login = async (req: Req, res: Res) => {
     await validatePassword(password, user.password);
 
     req.session.isLoggedIn = true;
-    req.session.userId = user._id;
     const UserData: UserData = {
       id: user._id,
       username: user.username,
       avatarUrl: user.avatarUrl,
+      token_expiration: new Date(req.session.cookie.expires),
     };
-    return res.status(200).json({ data: UserData, error: null });
+    console.log(UserData.token_expiration);
+    return res.status(200).send({ data: UserData, error: null });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ error: error.message, data: null });
@@ -47,7 +48,11 @@ export const login = async (req: Req, res: Res) => {
 
 export const logout = async (req: Req, res: Res) => {
   try {
-    req.session.destroy();
+    console.log(req.session);
+    req.session.destroy((err) => {
+      console.log(err);
+      console.log("User logged out");
+    });
     return res.status(200).json({ data: null, error: null });
   } catch (error) {
     return res.status(400).json({ error: error.message, data: null });

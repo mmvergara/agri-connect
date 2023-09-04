@@ -6,6 +6,7 @@ const FecthMyData = () => {
   const handleFetch = async () => {
     try {
       const res = await AxiosGet("/auth/data");
+      console.log(res);
     } catch (error) {
       console.log(error);
     }

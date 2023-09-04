@@ -2,6 +2,7 @@ export type UserData = {
   id: string;
   username: string;
   avatarUrl: string;
+  token_expiration: Date;
 };
 
 export type LoginFields = {

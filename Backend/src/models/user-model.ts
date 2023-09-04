@@ -1,6 +1,6 @@
 import { Model, models, model } from "mongoose";
 import { Document, Schema } from "mongoose";
-import { userDbData } from "../shared-types/DB-Model-Types";
+import { userDbData } from "../shared-types/db-model-types";
 
 type UserDocument = Document & userDbData;
 

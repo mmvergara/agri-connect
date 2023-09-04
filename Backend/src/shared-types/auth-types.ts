@@ -1,7 +1,8 @@
 export type UserData = {
   id: string;
-  username: string;
   avatarUrl: string;
+  username: string;
+  token_expiration: Date;
 };
 
 export type LoginFields = {
