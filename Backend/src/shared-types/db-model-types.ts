@@ -11,5 +11,8 @@ export type productDbData = {
   productName: string;
   productDescription: string;
   productPrice: number;
-  productImages: string[];
+  productPricePer: string;
+  productImageUrl: string;
+  productOwnerID: string;
+  productInStock: boolean;
 };

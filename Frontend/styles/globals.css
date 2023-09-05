@@ -30,3 +30,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+img {
+  object-fit: cover !important;
+  object-position: center !important;
+}

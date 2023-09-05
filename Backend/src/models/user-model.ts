@@ -24,4 +24,4 @@ const userSchema = new Schema<UserDocument, {}, Methods>({
 });
 
 export const UserModel: Model<UserDocument> =
-  models.User || model("User", userSchema);
+  models.User || model("agriconnect-users", userSchema);

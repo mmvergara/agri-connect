@@ -12,7 +12,7 @@ export default function Home() {
       label: "Sign In",
     },
     {
-      href: "/products/create",
+      href: "/product/create",
       label: "Create Product",
     },
   ];
