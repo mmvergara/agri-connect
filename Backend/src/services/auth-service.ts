@@ -23,7 +23,6 @@ export const validatePassword = async (p1: string, p2: string) => {
     const res = await bcrypt.compare(p1, p2);
     if (!res) throw new Error("Invalid Password");
   } catch (error) {
-    console.log(error);
-    throw new Error("Invalid Password");
+    throw new Error("Error Validating password");
   }
 };

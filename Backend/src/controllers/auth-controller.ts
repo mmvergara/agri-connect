@@ -3,7 +3,7 @@ import {
   ValidateLoginFields,
   ValidateRegisterFields,
 } from "../validators/auth-validators";
-import { getUserByEmail } from "../services/user-services";
+import { getUserByEmail, getUserByUsername } from "../services/user-services";
 import { Req, Res } from "../types/express-types";
 import { UserData } from "../shared-types/auth-types";
 
@@ -13,6 +13,9 @@ export const register = async (req: Req, res: Res) => {
 
     const existingUser = await getUserByEmail(RegisterValues.email);
     if (existingUser) throw new Error("User already exists");
+
+    const sameUsername = await getUserByUsername(RegisterValues.username);
+    if (sameUsername) throw new Error("Username already exists");
 
     await createUser(RegisterValues);
     return res.status(201).json({ data: null, error: null });
@@ -28,14 +31,19 @@ export const login = async (req: Req, res: Res) => {
 
     const user = await getUserByEmail(email);
     if (!user) throw new Error("User does not exist");
-    console.log(user.password, password);
+
     await validatePassword(password, user.password);
 
+    // Save user data to session
     req.session.isLoggedIn = true;
+    req.session.user_id = user._id;
+    req.session.isAdmin = user.isAdmin;
+
     const UserData: UserData = {
       id: user._id,
       username: user.username,
       avatarUrl: user.avatarUrl,
+      isAdmin: user.isAdmin,
       token_expiration: new Date(req.session.cookie.expires),
     };
     console.log(UserData.token_expiration);

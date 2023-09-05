@@ -5,7 +5,8 @@ export const getUsers = async () => {
     const users = await UserModel.find();
     return users;
   } catch (error) {
-    throw error;
+    // We are throwing an error here because we want to handle it in the controller
+    throw new Error("Error fetching data");
   }
 };
 
@@ -14,7 +15,8 @@ export const getUserByEmail = async (email: string) => {
     const user = await UserModel.findOne({ email });
     return user;
   } catch (error) {
-    throw error;
+    // We are throwing an error here because we want to handle it in the controller
+    throw new Error("Error fetching data");
   }
 };
 
@@ -23,6 +25,17 @@ export const getUserById = async (id: string) => {
     const user = await UserModel.findById(id);
     return user;
   } catch (error) {
-    throw error;
+    // We are throwing an error here because we want to handle it in the controller
+    throw new Error("Error fetching data");
+  }
+};
+
+export const getUserByUsername = async (username: string) => {
+  try {
+    const user = await UserModel.findOne({ username: username });
+    return user;
+  } catch (error) {
+    // We are throwing an error here because we want to handle it in the controller
+    throw new Error("Error fetching data");
   }
 };

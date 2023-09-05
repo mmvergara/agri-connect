@@ -4,7 +4,7 @@ export type userDbData = {
   avatarUrl: string;
   username: string;
   verified: boolean;
-  role: "admin" | "user";
+  isAdmin: boolean;
 };
 
 export type productDbData = {

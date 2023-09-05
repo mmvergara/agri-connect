@@ -1,3 +1,9 @@
+# Pages
+ - Home
+ - Auth
+
+ - User/[user_id]:q
+ 
 # Startup Name: AgriConnect
 
 - Problem

@@ -20,7 +20,7 @@ const userSchema = new Schema<UserDocument, {}, Methods>({
   avatarUrl: { type: String, default: "" },
   username: { type: String, required: true },
   verified: { type: Boolean, default: false },
-  role: { type: String, default: "user" },
+  isAdmin: { type: Boolean, default: false },
 });
 
 export const UserModel: Model<UserDocument> =

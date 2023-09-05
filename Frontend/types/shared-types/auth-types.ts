@@ -2,6 +2,7 @@ export type UserData = {
   id: string;
   username: string;
   avatarUrl: string;
+  isAdmin: boolean;
   token_expiration: Date;
 };
 
