@@ -3,8 +3,8 @@ import {
   RegisterFields,
   UserData,
 } from "@/types/shared-types/auth-types";
-import { ApiErr, ApiRes } from "@/types";
-import { AxiosGet, AxiosPost } from "./AxiosInstance";
+import { ApiErr } from "@/types";
+import { AxiosPost } from "./AxiosInstance";
 
 export const Login = async (userData: LoginFields) => {
   try {

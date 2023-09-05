@@ -6,11 +6,20 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/spline-sans";
 import "@/styles/globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { createStandaloneToast } from "@chakra-ui/react";
+
+const { ToastContainer, toast } = createStandaloneToast();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={mainChakraTheme}>
+    <ChakraProvider
+      theme={mainChakraTheme}
+      toastOptions={{
+        defaultOptions: { position: "top-right", isClosable: true },
+      }}
+    >
       <AuthProvider>
+        <ToastContainer />
         <Navbar />
         <Component {...pageProps} />
       </AuthProvider>

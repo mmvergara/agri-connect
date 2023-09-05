@@ -1,7 +1,6 @@
 import type { Express } from "express";
 import { MONGODB_URL, MORGAN } from "../config";
 import cookieParser from "cookie-parser";
-import MongoStore from "connect-mongo";
 import compression from "compression";
 import session from "express-session";
 import mongoSession from "connect-mongodb-session";

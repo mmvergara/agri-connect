@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/config";
 import { ApiRes } from "@/types";
 import axios from "axios";
+import { createStandaloneToast } from "@chakra-ui/react";
 axios.defaults.withCredentials = true;
 export const AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -10,9 +11,16 @@ export const AxiosInstance = axios.create({
   withCredentials: true,
 });
 
+const { toast } = createStandaloneToast();
+
 AxiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    toast({
+      title: error.response.data.error,
+      status: "error",
+      position: "top-right",
+    });
     console.log(error);
     return Promise.reject(error);
   }
