@@ -14,7 +14,7 @@ const productSchema = new Schema<ProductDocument, {}, Methods>({
   productPrice: { type: Number, required: true },
   productImageUrl: { type: String, required: true },
   productOwnerID: { type: String, required: true },
-  productInStock: { type: Boolean, required: true },
+  productInStock: { type: Boolean, required: true, default: true },
   productPricePer: { type: String, required: true },
 });
 

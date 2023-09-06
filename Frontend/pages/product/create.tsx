@@ -1,3 +1,4 @@
+import { createProduct } from "@/services/ProductService";
 import {
   useColorModeValue,
   FormControl,
@@ -27,10 +28,18 @@ const CreateProduct = () => {
   });
   const [image, setImage] = useState<File | null>(null);
 
-  const handleFormSubmit = (e: FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!image) return console.log("No image");
-    console.log(inputs, image);
+    const formData = new FormData();
+    formData.append("productName", inputs.productName);
+    formData.append("productDescription", inputs.productDescription);
+    formData.append("productPrice", inputs.productPrice);
+    formData.append("productPricePer", inputs.productPricePer);
+    formData.append("productImage", image);
+    const { data, error } = await createProduct(formData);
+    if (error) return console.log(error);
+    console.log(data);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

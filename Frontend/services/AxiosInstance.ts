@@ -26,8 +26,20 @@ AxiosInstance.interceptors.response.use(
   }
 );
 
-export const AxiosPost = async <T>(url: string, data: any) =>
-  AxiosInstance.post<ApiRes<T>>(url, data);
+export const AxiosPost = async <T>(
+  url: string,
+  data: any,
+  isMultipart: boolean = false
+) => {
+  const headers = isMultipart
+    ? {
+        "Content-Type": "multipart/form-data",
+      }
+    : {
+        "Content-Type": "application/json",
+      };
+  return AxiosInstance.post<ApiRes<T>>(url, data, { headers });
+};
 
 export const AxiosGet = async <T>(url: string) =>
   AxiosInstance.get<ApiRes<T>>(url);
