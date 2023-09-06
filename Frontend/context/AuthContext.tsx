@@ -21,7 +21,8 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const login = async (userData: LoginFields) => {
-    const { data } = await Login(userData);
+    const { data, error } = await Login(userData);
+    if (error) return false;
     if (data) setUser(data);
     localStorage.setItem("user", JSON.stringify(data));
     return true;
@@ -47,7 +48,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       return;
     }
     const userData = JSON.parse(user) as UserData;
-
+    if (!userData) return console.log("No user data");
     // Check if token is expired
     if (new Date(userData.token_expiration).getTime() < new Date().getTime()) {
       localStorage.removeItem("user");
