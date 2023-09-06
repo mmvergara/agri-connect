@@ -13,7 +13,6 @@ export const createUser = async (user: RegisterFields) => {
     await newUser.save();
     return newUser;
   } catch (error) {
-    console.log(error);
     throw new Error("Error creating user");
   }
 };
