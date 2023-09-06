@@ -1,9 +1,9 @@
-import { createUser, validatePassword } from "../services/auth-service";
+import { createUser, validatePassword } from "./auth-services";
 import {
   ValidateLoginFields,
   ValidateRegisterFields,
 } from "../validators/auth-validators";
-import { getUserByEmail, getUserByUsername } from "../services/user-services";
+import { getUserByEmail, getUserByUsername } from "./user-services";
 import { Req, Res } from "../types/express-types";
 import { UserData } from "../shared-types/auth-types";
 

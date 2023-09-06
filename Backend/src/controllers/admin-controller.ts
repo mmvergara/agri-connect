@@ -1,4 +1,4 @@
-import { getUserByUsername } from "../services/user-services";
+import { getUserByUsername } from "./user-services";
 import { Req, Res } from "../types/express-types";
 
 export const searchUsers = async (req: Req, res: Res) => {
