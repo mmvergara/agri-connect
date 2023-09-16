@@ -39,6 +39,7 @@ const CreateProduct = () => {
     formData.append("productImage", image);
     const { data, error } = await createProduct(formData);
     if (error) return console.log(error);
+
     console.log(data);
   };
 
