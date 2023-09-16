@@ -1,9 +1,12 @@
-import express from "express";
+import { MainLoader } from "./loaders/main-loader";
 import { PORT } from "./config";
+import express from "express";
+
 const startServer = async () => {
   const app = express();
-
-  (await import("./loaders")).default({ app });
+  
+  // Load express, mongodb, etc
+  await MainLoader({ app });
 
   app
     .listen(PORT, () => {

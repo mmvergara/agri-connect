@@ -6,7 +6,7 @@ export const createProduct = async (req: Req, res: Res) => {
     if (!productData) throw new Error("Error Uploading Image");
 
     const newProd = await saveProductDb(productData);
-    console.log(newProd)
+    console.log(newProd);
     return res.status(201).json({ data: newProd, error: null });
   } catch (error) {
     return res.status(400).json({ data: null, error: error.message });
