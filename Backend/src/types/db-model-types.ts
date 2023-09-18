@@ -13,8 +13,16 @@ export type productDbData = {
   productPrice: number;
   productPricePer: string;
   productImageUrl: string;
-  productOwnerID: string;
+  productOwner: userDbData;
   productInStock: boolean;
-  productDateCreated: string;
-  productDateUpdated: string;
+};
+
+export type endorserDbData = {
+  endorser: userDbData;
+  userBeingEndorsed: userDbData;
+};
+
+export type recommendationDbData = {
+  recommender: userDbData;
+  productBeingRecommended: productDbData;
 };

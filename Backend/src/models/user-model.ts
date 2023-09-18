@@ -1,14 +1,10 @@
 import { Model, models, model } from "mongoose";
 import { Document, Schema } from "mongoose";
-import { userDbData } from "../shared-types/db-model-types";
+import { userDbData } from "../types/db-model-types";
 
 type UserDocument = Document & userDbData;
 
-interface Methods {
-  comparePassword: (password: string) => Promise<boolean>;
-}
-
-const userSchema = new Schema<UserDocument, {}, Methods>({
+const userSchema = new Schema<UserDocument, {}>({
   email: {
     type: String,
     required: true,

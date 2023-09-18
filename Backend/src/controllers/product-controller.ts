@@ -12,3 +12,4 @@ export const createProduct = async (req: Req, res: Res) => {
     return res.status(400).json({ data: null, error: error.message });
   }
 };
+

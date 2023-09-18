@@ -30,6 +30,7 @@ export const parserCreateProductReq = async (req: Req) => {
   });
   return productData;
 };
+
 export const saveProductDb = async (ProductData: ProductData) => {
   try {
     console.log(ProductData);
@@ -42,3 +43,19 @@ export const saveProductDb = async (ProductData: ProductData) => {
     throw new Error("Error creating product");
   }
 };
+
+export const getProducts = async (skipBy: number) => {
+  try {
+    const products = await productModel
+      .find()
+      .sort({
+        createdAt: -1,
+      })
+      .skip(skipBy)
+      .limit(30);
+    return products;
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+

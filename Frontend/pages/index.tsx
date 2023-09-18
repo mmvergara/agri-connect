@@ -1,4 +1,5 @@
 import FecthMyData from "@/components/fetchmydata";
+import { useAuth } from "@/context/AuthContext";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const user = useAuth();
   const links = [
     {
       href: "/auth",
@@ -14,6 +16,14 @@ export default function Home() {
     {
       href: "/product/create",
       label: "Create Product",
+    },
+    {
+      href: "/u/user2@gmail.com",
+      label: "User 2 Profile",
+    },
+    {
+      href: `/u/${user.user?.username}`,
+      label: "My Profile",
     },
   ];
   return (
