@@ -10,6 +10,7 @@ import {
   Heading,
   Text,
   useColorMode,
+  createStandaloneToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -19,6 +20,7 @@ import { MdLibraryAdd } from "react-icons/md";
 
 const CreateProduct = () => {
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
+  const { toast } = createStandaloneToast();
   const { colorMode } = useColorMode();
   const [inputs, setInputs] = useState({
     productName: "",
@@ -37,10 +39,11 @@ const CreateProduct = () => {
     formData.append("productPrice", inputs.productPrice);
     formData.append("productPricePer", inputs.productPricePer);
     formData.append("productImage", image);
-    const { data, error } = await createProduct(formData);
-    if (error) return console.log(error);
-
-    console.log(data);
+    const { error } = await createProduct(formData);
+    if (error) {
+      return toast({ title: error, status: "error" });
+    }
+    toast({ title: "Product created successfully", status: "success" });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

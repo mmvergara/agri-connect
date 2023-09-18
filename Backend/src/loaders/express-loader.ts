@@ -14,7 +14,6 @@ const MongoDBSession = mongoSession(session);
 const ExpressLoader = async ({ app }: { app: Express }) => {
   app.get("/status", (req, res) => res.sendStatus(200).end());
   app.head("/status", (req, res) => res.sendStatus(200).end());
-
   app.use(helmet());
   app.use(cors({ origin: true, credentials: true }));
   app.use(express.json({ limit: "10mb" }));
