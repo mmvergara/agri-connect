@@ -46,7 +46,9 @@ export const login = async (req: Req, res: Res) => {
       isAdmin: user.isAdmin,
       token_expiration: new Date(req.session.cookie.expires),
     };
-    console.log(UserData.token_expiration);
+
+    throw new Error("User logged in");
+
     return res.status(200).send({ data: UserData, error: null });
   } catch (error) {
     console.log(error);

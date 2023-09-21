@@ -13,6 +13,7 @@ import { IoQrCodeSharp } from "react-icons/io5";
 import { EmailIcon, StarIcon } from "@chakra-ui/icons";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineShop } from "react-icons/ai";
+import { MdVerified } from "react-icons/md";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
@@ -34,10 +35,10 @@ const UserProfilePage = () => {
             <div className="flex gap-2">
               <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
               <div>
-                <p className="font-bold tracking-wide">Dan Abrahmove</p>
-                <Badge variant="solid" colorScheme="cyan">
-                  Verified
-                </Badge>
+                <p className="font-bold tracking-wide flex gap-2 justify-center items-center">
+                  dan abramov
+                  <MdVerified />
+                </p>
               </div>
             </div>
             <div className="flex justify-around items-center gap-1 flex-wrap">
@@ -69,7 +70,7 @@ const UserProfilePage = () => {
           </Flex>
 
           <div
-            className="flex flex-col gap-2 font-bold text-lg"
+            className="flex flex-col gap-2 font-semibold text-lg"
             style={{
               color: colorMode === "dark" ? "white" : "black",
             }}
