@@ -41,7 +41,7 @@ const CreateProduct = () => {
     formData.append("productImage", image);
     const { error } = await createProduct(formData);
     if (error) {
-      return toast({ title: error, status: "error" });
+      return;
     }
     toast({ title: "Product created successfully", status: "success" });
   };
