@@ -4,7 +4,6 @@ import { useColorModeValue } from "@chakra-ui/react";
 
 const ProductCard = () => {
   const borderColor = useColorModeValue("#1c4532", "#c6f6d5");
-
   return (
     <div>
       <Card
