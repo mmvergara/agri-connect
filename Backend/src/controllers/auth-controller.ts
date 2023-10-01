@@ -1,21 +1,26 @@
-import { createUser, validatePassword } from "./auth-services";
+import {
+  checkIfEmailExists,
+  checkIfUsernameExists,
+  createUser,
+  validatePassword,
+} from "./auth-services";
 import {
   ValidateLoginFields,
   ValidateRegisterFields,
 } from "../validators/auth-validators";
-import { getUserByEmail, getUserByUsername } from "./user-services";
 import { Req, Res } from "../types/express-types";
 import { UserData } from "../shared-types";
+import { getUserByEmail } from "./user-services";
 
 export const register = async (req: Req, res: Res) => {
   try {
     const RegisterValues = await ValidateRegisterFields(req.body);
 
-    const existingUser = await getUserByEmail(RegisterValues.email);
-    if (existingUser) throw new Error("User already exists");
+    const existingUser = await checkIfEmailExists(RegisterValues.email);
+    if (existingUser != 0) throw new Error("User already exists");
 
-    const sameUsername = await getUserByUsername(RegisterValues.username);
-    if (sameUsername) throw new Error("Username already exists");
+    const sameUsername = await checkIfUsernameExists(RegisterValues.username);
+    if (sameUsername != 0) throw new Error("Username already exists");
 
     await createUser(RegisterValues);
     return res.status(201).json({ data: null, error: null });
@@ -36,11 +41,11 @@ export const login = async (req: Req, res: Res) => {
 
     // Save user data to session
     req.session.isLoggedIn = true;
-    req.session.user_id = user._id;
+    req.session.user_id = user.userID;
     req.session.isAdmin = user.isAdmin;
 
     const UserData: UserData = {
-      id: user._id,
+      id: user.userID,
       username: user.username,
       avatarUrl: user.avatarUrl,
       isAdmin: user.isAdmin,

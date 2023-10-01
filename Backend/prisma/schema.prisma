@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+model User {
+  userID      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String   @unique
+  password String
+  avatarUrl String @default("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y")
+  username String @unique 
+  verified Boolean @default(false)
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  
+  products Product[]
+  conversations ConversationsToUsers[]
+  ProductEndorsers ProductEndorsers[]
+
+}
+
+
+
+model Product {
+  productID      String   @id @default(auto()) @map("_id") @db.ObjectId
+  productName String
+  productDescription String
+  productPrice Float
+  productPricePer String
+  productImageUrl String
+  productOwner User @relation(fields: [productOwnerId], references: [userID])
+  productOwnerId String @db.ObjectId
+  createdAt DateTime @default(now())
+
+  productEndorsers ProductEndorsers[]
+}
+
+model ProductEndorsers {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  productID String @db.ObjectId
+  userID String @db.ObjectId
+  product Product @relation(fields: [productID], references: [productID])
+  user User @relation(fields: [userID], references: [userID])
+}
+
+
+model Conversations {
+  conversationID     String   @id @default(auto()) @map("_id") @db.ObjectId
+  participants ConversationsToUsers[]
+}
+
+model ConversationsToUsers {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  conversationID String @db.ObjectId
+  userID String @db.ObjectId
+  conversation Conversations @relation(fields: [conversationID], references: [conversationID])
+  user User @relation(fields: [userID], references: [userID])
+}

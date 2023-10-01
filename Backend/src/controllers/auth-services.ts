@@ -1,20 +1,35 @@
 import { RegisterFields } from "../shared-types";
-import { UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
+import { db } from "../lib/db";
 
 export const createUser = async (user: RegisterFields) => {
   try {
-    const { email, password, username } = user;
-    const newUser = await UserModel.create({
-      email,
-      password: await bcrypt.hash(password, 10),
-      username,
+    await db.user.create({
+      data: {
+        ...user,
+        password: await bcrypt.hash(user.password, 10),
+      },
     });
-    await newUser.save();
-    return newUser;
-  } catch (error) {
+  } catch (e) {
+    console.log(e)
     throw new Error("Error creating user");
   }
+};
+
+export const checkIfEmailExists = async (email: string) => {
+  return await db.user.count({
+    where: {
+      email,
+    },
+  });
+};
+
+export const checkIfUsernameExists = async (username: string) => {
+  return await db.user.count({
+    where: {
+      username,
+    },
+  });
 };
 
 export const validatePassword = async (p1: string, p2: string) => {
