@@ -2,6 +2,7 @@ import formidable from "formidable";
 import { productModel } from "../models/product-model";
 import { Req } from "../types/express-types";
 import { Cloudinary } from "../cloudinary/cloudinary";
+import { PrismaClient } from "@prisma/client";
 
 type ProductData = {
   productName: string;
@@ -11,7 +12,7 @@ type ProductData = {
   productImageUrl: string;
   productOwnerID: string;
 };
-
+const db = new PrismaClient();
 export const parserCreateProductReq = async (req: Req) => {
   const form = formidable({ maxFileSize: 8 * 1024 * 1024 });
   const productData = await new Promise<ProductData>((res, rej) => {
@@ -41,6 +42,18 @@ export const saveProductDb = async (ProductData: ProductData) => {
     // We are throwing an error here because we want to handle it in the controller
     throw new Error("Error creating product");
   }
+};
+export const createProduct = async (ProductData: ProductData) => {
+  db.product.create({
+    data: {
+      productDescription: ProductData.productDescription,
+      productImageUrl: ProductData.productImageUrl,
+      productName: ProductData.productName,
+      productPrice: ProductData.productPrice,
+      productPricePer: ProductData.productPricePer,
+      productOwnerId: ProductData.productOwnerID,
+    },
+  });
 };
 
 export const getProducts = async (skipBy: number) => {
