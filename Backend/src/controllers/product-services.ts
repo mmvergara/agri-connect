@@ -23,7 +23,7 @@ export const parserCreateProductReq = async (req: Req) => {
       );
       const productData = {};
       for (let key in fields) productData[key] = fields[key][0];
-      productData["productOwnerID"] = req.session.user_id;
+      productData["productOwner"] = req.session.user_id;
       productData["productImageUrl"] = uploadResponse.secure_url;
       res(productData as ProductData);
     });
@@ -33,7 +33,6 @@ export const parserCreateProductReq = async (req: Req) => {
 
 export const saveProductDb = async (ProductData: ProductData) => {
   try {
-    console.log(ProductData);
     const newProduct = await productModel.create(ProductData);
     const savedProd = await newProduct.save();
     return savedProd;
@@ -59,3 +58,11 @@ export const getProducts = async (skipBy: number) => {
   }
 };
 
+export const getProduct = async (productId: string) => {
+  try {
+    const product = await productModel.findById(productId);
+    return product;
+  } catch (error) {
+    throw new Error("Error fetching product");
+  }
+};

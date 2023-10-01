@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { LoginFields, UserData } from "@/types/shared-types/auth-types";
+import { LoginFields, UserData } from "@/types/shared-types";
 import { Login, Logout } from "@/services/AuthService";
 
 type Props = { children: JSX.Element | JSX.Element[] };

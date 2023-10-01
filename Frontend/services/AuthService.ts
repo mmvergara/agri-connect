@@ -1,8 +1,4 @@
-import {
-  LoginFields,
-  RegisterFields,
-  UserData,
-} from "@/types/shared-types/auth-types";
+import { LoginFields, RegisterFields, UserData } from "@/types/shared-types";
 import { AxiosPost } from "./AxiosInstance";
 
 export const Login = async (userData: LoginFields) => {

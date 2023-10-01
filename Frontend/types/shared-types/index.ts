@@ -16,3 +16,14 @@ export type RegisterFields = {
   email: string;
   password: string;
 };
+
+export type ProductData = {
+  _id: string;
+  productName: string;
+  productDescription: string;
+  productPrice: number;
+  productPricePer: string;
+  productImageUrl: string;
+  productOwner: UserData;
+  productInStock: boolean;
+};

@@ -8,10 +8,11 @@
 
 // delete product
 
-import { createProduct } from "../controllers/product-controller";
+import { createProduct, getProductById } from "../controllers/product-controller";
 import { isAuth } from "../middleware/isAuth";
 import type { Router } from "express";
 
 export default (router: Router) => {
   router.post("/product/create", isAuth, createProduct);
+  router.get("/product/:id", getProductById);
 };

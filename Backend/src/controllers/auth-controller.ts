@@ -5,7 +5,7 @@ import {
 } from "../validators/auth-validators";
 import { getUserByEmail, getUserByUsername } from "./user-services";
 import { Req, Res } from "../types/express-types";
-import { UserData } from "../shared-types/auth-types";
+import { UserData } from "../shared-types";
 
 export const register = async (req: Req, res: Res) => {
   try {

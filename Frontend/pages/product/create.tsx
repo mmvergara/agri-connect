@@ -14,11 +14,13 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState, useRef, FormEvent } from "react";
 import { FaImage } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 
 const CreateProduct = () => {
+  const router = useRouter();
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
   const { toast } = createStandaloneToast();
   const { colorMode } = useColorMode();
@@ -39,11 +41,13 @@ const CreateProduct = () => {
     formData.append("productPrice", inputs.productPrice);
     formData.append("productPricePer", inputs.productPricePer);
     formData.append("productImage", image);
-    const { error } = await createProduct(formData);
+    const { data, error } = await createProduct(formData);
     if (error) {
       return;
     }
+
     toast({ title: "Product created successfully", status: "success" });
+    router.push(`/product/${data._id.toString()}`);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
