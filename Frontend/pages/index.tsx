@@ -33,7 +33,7 @@ export default function Home() {
       </Head>
       <main className="flex items-center gap-8 justify-center">
         {links.map((link) => (
-          <Link href={link.href} className="bg-blue-500 p-2">
+          <Link href={link.href} key={link.href} className="bg-blue-500 p-2">
             {link.label}
           </Link>
         ))}
