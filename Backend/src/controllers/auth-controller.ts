@@ -9,10 +9,15 @@ import {
   ValidateRegisterFields,
 } from "../validators/auth-validators";
 import { Req, Res } from "../types/express-types";
-import { UserData } from "../shared-types";
+import {
+  LoggedInUserData,
+  PostLoginDataResponse,
+  PostLogoutDataResponse,
+  PostRegisterDataResponse,
+} from "../shared-types";
 import { getUserByEmail } from "./user-services";
 
-export const register = async (req: Req, res: Res) => {
+export const postRegister = async (req: Req, res: Res) => {
   try {
     const RegisterValues = await ValidateRegisterFields(req.body);
 
@@ -23,13 +28,14 @@ export const register = async (req: Req, res: Res) => {
     if (sameUsername != 0) throw new Error("Username already exists");
 
     await createUser(RegisterValues);
-    return res.status(201).json({ data: null, error: null });
+    const data: PostRegisterDataResponse = null;
+    return res.status(201).json({ data, error: null });
   } catch (error) {
     return res.status(400).json({ data: null, error: error.message });
   }
 };
 
-export const login = async (req: Req, res: Res) => {
+export const postLogin = async (req: Req, res: Res) => {
   try {
     const values = await ValidateLoginFields(req.body);
     const { email, password } = values;
@@ -44,29 +50,30 @@ export const login = async (req: Req, res: Res) => {
     req.session.user_id = user.userID;
     req.session.isAdmin = user.isAdmin;
 
-    const UserData: UserData = {
+    const LoggedInUserData: LoggedInUserData = {
       id: user.userID,
       username: user.username,
       avatarUrl: user.avatarUrl,
       isAdmin: user.isAdmin,
       token_expiration: new Date(req.session.cookie.expires),
     };
-
-    return res.status(200).send({ data: UserData, error: null });
+    const data: PostLoginDataResponse = LoggedInUserData;
+    return res.status(200).send({ data, error: null });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ error: error.message, data: null });
   }
 };
 
-export const logout = async (req: Req, res: Res) => {
+export const postLogout = async (req: Req, res: Res) => {
   try {
     console.log(req.session);
     req.session.destroy((err) => {
       console.log(err);
       console.log("User logged out");
     });
-    return res.status(200).json({ data: null, error: null });
+    const data: PostLogoutDataResponse = null;
+    return res.status(200).json({ data, error: null });
   } catch (error) {
     return res.status(400).json({ error: error.message, data: null });
   }

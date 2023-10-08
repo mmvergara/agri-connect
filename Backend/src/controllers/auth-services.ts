@@ -11,7 +11,7 @@ export const createUser = async (user: RegisterFields) => {
       },
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     throw new Error("Error creating user");
   }
 };

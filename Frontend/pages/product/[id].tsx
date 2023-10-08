@@ -18,7 +18,6 @@ import { MdLibraryAdd } from "react-icons/md";
 const ProductPreview = () => {
   const router = useRouter();
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
-  const { colorMode } = useColorMode();
 
   const { id } = router.query as { id: string };
   const [product, setProduct] = useState<ProductData | null>(null);

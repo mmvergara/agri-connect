@@ -44,11 +44,11 @@ const CreateProduct = () => {
     const { data, error } = await createProduct(formData);
     if (error) {
       return;
-    }
+    } 
 
     toast({ title: "Product created successfully", status: "success" });
-    router.push(`/product/${data._id.toString()}`);
-  };
+    router.push(`/product/${data.productID.toString()}`);
+  };  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));

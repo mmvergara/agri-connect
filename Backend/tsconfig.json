@@ -10,7 +10,8 @@
     "pretty": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noErrorTruncation": true
   },
   "include": ["./src/**/*", "src/shared-types"],
   "exclude": ["node_modules", "dist"]

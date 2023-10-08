@@ -2,11 +2,9 @@ import {
   Button,
   Flex,
   Avatar,
-  Badge,
   IconButton,
   Text,
   useColorMode,
-  Heading,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -16,11 +14,64 @@ import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineShop } from "react-icons/ai";
 import { MdVerified } from "react-icons/md";
 import ProductCard from "@/components/product-card";
+import { UserProfile } from "@/types/shared-types";
+import { useEffect, useState } from "react";
+import { getUserProfileByUsername } from "@/services/UserService";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
   const { colorMode } = useColorMode();
+  const router = useRouter();
+
   const username = query.username as string;
+
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const fetchUserProfile = async () => {
+    if (!username) return;
+    const { data, error } = await getUserProfileByUsername(username);
+    if (error) {
+      router.push("/");
+      return;
+    }
+    setUserProfile(data);
+  };
+  useEffect(() => {
+    fetchUserProfile();
+  }, [username]);
+  if (!userProfile) <></>;
+
+  // Using userProfile?.createdAt get the time since the user joined
+
+  const timeSinceJoined = (date: Date) => {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+
+    let interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return Math.floor(interval) + " years";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return Math.floor(interval) + " months";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return Math.floor(interval) + " days";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  };
+
+  const timeSinceJoinedString = timeSinceJoined(
+    new Date(userProfile?.createdAt!)
+  );
 
   return (
     <>
@@ -28,22 +79,26 @@ const UserProfilePage = () => {
         <title>{username} | AgriConnect</title>
       </Head>
       <main>
-        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh] text-white bg-opacity-10 bg-gray-400">
-          <Flex
-            boxShadow="2xl"
-            bg="green.900"
-            className="justify-center p-8 rounded-lg border-[1px] border-[#c6f6d5] flex-col gap-y-4"
-          >
+        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh]  bg-opacity-10 bg-gray-700">
+          <Flex className="justify-center p-8 rounded-lg border-[3px] border-gray-500 bg-gray-500 bg-opacity-10 border-opacity-40 flex-col gap-y-4">
             <div className="flex gap-2 items-center">
-              <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+              <Avatar
+                name="Dan Abrahmov"
+                src={
+                  userProfile?.avatarUrl ||
+                  "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                }
+              />
               <div>
                 <p className="font-semibold tracking-wide flex gap-2 justify-center items-center text-lg">
-                  <span className="pb-1">dan abramov</span>
-                  <MdVerified className="text-cyan-300" />
+                  <span className="pb-1">{userProfile?.username}</span>
+                  {userProfile?.verified && (
+                    <MdVerified className="text-cyan-700" />
+                  )}
                 </p>
               </div>
             </div>
-            <div className="flex justify-around items-center gap-1 flex-wrap">
+            <div className="flex justify-around items-center gap-1 flex-wrap  ">
               <Button
                 color="white"
                 bgColor="yellow.600"
@@ -77,19 +132,21 @@ const UserProfilePage = () => {
             }}
           >
             <span className="flex gap-2 items-center">
-              <FiUserCheck /> Joined:<Text>2 months ago</Text>
+              <FiUserCheck /> Joined:<Text>{timeSinceJoinedString} ago</Text>
             </span>
             <span className="flex gap-2 items-center">
-              <AiOutlineShop /> Products:<Text>2</Text>
+              <AiOutlineShop /> Products:
+              <Text>{userProfile?._count.products}</Text>
             </span>
             <span className="flex gap-2 items-center">
-              <StarIcon /> Endorsers:<Text>5</Text>
+              <StarIcon /> Endorsers:
+              <Text>{userProfile?._count.ProductEndorsers}</Text>
             </span>
           </div>
         </section>
         <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh] bg-opacity-10 bg-gray-300">
           <p className="max-w-[1200px] px-16 font-semibold ">
-            <span className="text-lg">Desription</span> <br />
+            <span className="text-lg">Description</span> <br />
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur,
             ipsum nobis! Magnam fugit veniam rem, cum eum corrupti qui adipisci
             eligendi tempore quaerat perferendis ea sunt debitis excepturi
@@ -99,7 +156,7 @@ const UserProfilePage = () => {
             quae laboriosam vitae, temporibus earum facere recusandae!
           </p>
         </section>
-        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh] bg-opacity-10">
+        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh]  bg-gray-700 bg-opacity-10">
           <ProductCard />
           <ProductCard />
           <ProductCard />

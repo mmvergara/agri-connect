@@ -24,36 +24,36 @@ export const parserCreateProductReq = async (req: Req) => {
       );
       const productData = {};
       for (let key in fields) productData[key] = fields[key][0];
-      productData["productOwner"] = req.session.user_id;
+      productData["productOwnerID"] = req.session.user_id;
       productData["productImageUrl"] = uploadResponse.secure_url;
+      productData["productPrice"] = parseInt(productData["productPrice"]);
       res(productData as ProductData);
     });
   });
+  console.log(productData);
   return productData;
 };
-
-export const saveProductDb = async (ProductData: ProductData) => {
+export const createProduct = async (ProductData: ProductData) => {
   try {
-    const newProduct = await productModel.create(ProductData);
-    const savedProd = await newProduct.save();
-    return savedProd;
+    return await db.product.create({
+      data: {
+        productDescription: ProductData.productDescription,
+        productImageUrl: ProductData.productImageUrl,
+        productName: ProductData.productName,
+        productPrice: ProductData.productPrice,
+        productPricePer: ProductData.productPricePer,
+        productOwner: {
+          connect: {
+            userID: ProductData.productOwnerID,
+          },
+        },
+      },
+    });
   } catch (error) {
     console.log(error);
-    // We are throwing an error here because we want to handle it in the controller
+    // We are not handling the error here because we are handling it in the controller
     throw new Error("Error creating product");
   }
-};
-export const createProduct = async (ProductData: ProductData) => {
-  db.product.create({
-    data: {
-      productDescription: ProductData.productDescription,
-      productImageUrl: ProductData.productImageUrl,
-      productName: ProductData.productName,
-      productPrice: ProductData.productPrice,
-      productPricePer: ProductData.productPricePer,
-      productOwnerId: ProductData.productOwnerID,
-    },
-  });
 };
 
 export const getProducts = async (skipBy: number) => {
@@ -71,11 +71,8 @@ export const getProducts = async (skipBy: number) => {
   }
 };
 
-export const getProduct = async (productId: string) => {
-  try {
-    const product = await productModel.findById(productId);
-    return product;
-  } catch (error) {
-    throw new Error("Error fetching product");
-  }
+export const getProduct = async (productID: string) => {
+  return db.product.findUnique({
+    where: { productID },
+  });
 };
