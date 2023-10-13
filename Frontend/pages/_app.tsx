@@ -8,7 +8,7 @@ import "@/styles/globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { createStandaloneToast } from "@chakra-ui/react";
 
-const { ToastContainer, toast } = createStandaloneToast();
+const { ToastContainer } = createStandaloneToast();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

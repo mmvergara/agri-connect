@@ -1,9 +1,10 @@
 # Pages
- - Home
- - Auth
 
- - User/[user_id]:q
- 
+- Home
+- Auth
+
+- User/[user_id]:q
+
 # Startup Name: AgriConnect
 
 - Problem
@@ -72,13 +73,3 @@ Mobile App Compatibility:
 Integration with sustainability practices, such as organic farming and water conservation.
 Carbon footprint calculator for assessing environmental impact.
 Technology Stack:
-
-Front-end: React.js
-Back-end: Node.js with Express.js
-Database: MongoDB for flexibility in handling various types of data
-Authentication: JWT (JSON Web Tokens) for secure user authentication
-
-Payment: Integration with a reliable payment gateway like Stripe
-Cloud Services: AWS or Azure for scalable hosting and storage
-Real-time Communication: WebSockets for instant messaging and notifications
-Remember, while this is a comprehensive idea, the specific features and technologies you choose will depend on the target audience, budget, and your team's expertise. Always conduct thorough market research and engage potential users to refine your idea and create a web app that truly addresses their needs in the agriculture sector.
