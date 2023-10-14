@@ -1,6 +1,7 @@
 import {
+  GetAllProductsDataResponse,
   GetProductByIdDataResponse,
-  GetProductsDataResponse,
+  GetSearchProductsDataResponse,
   PostCreateProductDataResponse,
 } from "@/types/shared-types";
 import { AxiosGet, AxiosPost } from "./AxiosInstance";
@@ -20,5 +21,11 @@ export const getProductById = async (productId: string) => {
 };
 
 export const getProducts = async (page: number) => {
-  return await AxiosGet<GetProductsDataResponse>(`/product/all/${page}`);
+  return await AxiosGet<GetAllProductsDataResponse>(`/product/all/${page}`);
+};
+
+export const searchProducts = async (searchQuery: string) => {
+  return await AxiosGet<GetSearchProductsDataResponse>(
+    `/product/search/${searchQuery}`
+  );
 };

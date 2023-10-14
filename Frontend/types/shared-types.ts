@@ -6,7 +6,8 @@ export type PostLogoutDataResponse = null;
 // Product Controller Responses ===========================================
 export type PostCreateProductDataResponse = ProductData;
 export type GetProductByIdDataResponse = ProductData;
-export type GetProductsDataResponse = ProductData[];
+export type GetAllProductsDataResponse = ProductData[];
+export type GetSearchProductsDataResponse = ProductData[];
 
 // User Controller Responses ==============================================
 export type GetUserProfileDataResponse = UserProfile;
