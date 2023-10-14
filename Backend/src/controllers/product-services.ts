@@ -3,6 +3,7 @@ import { productModel } from "../models/product-model";
 import { Req } from "../types/express-types";
 import { Cloudinary } from "../cloudinary/cloudinary";
 import { PrismaClient } from "@prisma/client";
+import { skip } from "node:test";
 
 type ProductData = {
   productName: string;
@@ -56,15 +57,15 @@ export const createProduct = async (ProductData: ProductData) => {
   }
 };
 
-export const getProducts = async (skipBy: number) => {
+export const getRecentProducts = async (skipBy: number) => {
   try {
-    const products = await productModel
-      .find()
-      .sort({
-        createdAt: -1,
-      })
-      .skip(skipBy)
-      .limit(30);
+    const products = await db.product.findMany({
+      take: 30,
+      skip: skipBy,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     return products;
   } catch (error) {
     throw new Error("Error fetching data");

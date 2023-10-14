@@ -2,7 +2,6 @@ import { AxiosGet } from "@/services/AxiosInstance";
 import { useState } from "react";
 
 const FecthMyData = () => {
-  const [data, setData] = useState("");
   const handleFetch = async () => {
     try {
       const res = await AxiosGet("/auth/data");

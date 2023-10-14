@@ -41,6 +41,13 @@ model Product {
   createdAt DateTime @default(now())
 
   productEndorsers ProductEndorsers[]
+  featuredProducts FeaturedProducts[]
+}
+
+model FeaturedProducts {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  productID String @db.ObjectId
+  product Product @relation(fields: [productID], references: [productID])
 }
 
 model ProductEndorsers {

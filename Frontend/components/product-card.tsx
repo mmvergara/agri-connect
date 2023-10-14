@@ -1,22 +1,29 @@
 import Image from "next/image";
 import { Card, CardFooter, Text, Flex } from "@chakra-ui/react";
+import Link from "next/link";
 import { useColorModeValue } from "@chakra-ui/react";
+import { ProductData } from "@/types/shared-types";
 
-const ProductCard = () => {
+type props = {
+  ProductData: ProductData;
+};
+
+const ProductCard = ({ ProductData }: props) => {
   const borderColor = useColorModeValue("#1c4532", "#c6f6d5");
   return (
-    <div>
+    <Link href={`/product/${ProductData.productID}`}>
       <Card
         maxW="xs"
-        style={{ borderRadius: "4px", padding: 4 }}
+        style={{ borderRadius: "1px", padding: 4 }}
         className="shadow-green-100 hover:shadow-2xl transition duration-300 ease-in-out  cursor-pointer"
       >
         <Image
           objectFit="cover"
-          src="https://source.unsplash.com/random/320x220/?nature,wallpaper"
+          src={ProductData.productImageUrl}
           alt="Chakra UI"
           width="320"
           height="220"
+          className="max-w-[310px] max-h-[220px] overflow-hidden"
         />
 
         <CardFooter
@@ -28,21 +35,22 @@ const ProductCard = () => {
             borderBottom: `2px solid ${borderColor}`,
           }}
         >
-          {/* Display Product name and price */}
           <Text fontSize="xl" fontWeight="semibold">
-            Okra (Lady's Finger)
+            {ProductData.productName}
           </Text>
           <Flex
             justifyContent="space-between"
             className="pt-2 font-semibold"
             style={{ color: borderColor }}
           >
-            <Text fontSize="md">Rs. 100$/kg</Text>
+            <Text fontSize="md">
+              Rs. {ProductData.productPrice}$/{ProductData.productPricePer}
+            </Text>
             <Text fontSize="md"></Text>
           </Flex>
         </CardFooter>
       </Card>
-    </div>
+    </Link>
   );
 };
 

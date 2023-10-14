@@ -1,4 +1,3 @@
-
 // Auth Controller Responses===============================================
 export type PostLoginDataResponse = LoggedInUserData;
 export type PostRegisterDataResponse = null;
@@ -7,6 +6,7 @@ export type PostLogoutDataResponse = null;
 // Product Controller Responses ===========================================
 export type PostCreateProductDataResponse = ProductData;
 export type GetProductByIdDataResponse = ProductData;
+export type GetProductsDataResponse = ProductData[];
 
 // User Controller Responses ==============================================
 export type GetUserProfileDataResponse = UserProfile;

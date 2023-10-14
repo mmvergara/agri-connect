@@ -35,6 +35,8 @@ const UserProfilePage = () => {
     }
     setUserProfile(data);
   };
+
+  console.log(userProfile);
   useEffect(() => {
     fetchUserProfile();
   }, [username]);
@@ -79,7 +81,7 @@ const UserProfilePage = () => {
         <title>{username} | AgriConnect</title>
       </Head>
       <main>
-        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh]  bg-opacity-10 bg-gray-700">
+        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh]  bg-opacity-10 bg-gray-700 shadow-xl">
           <Flex className="justify-center p-8 rounded-lg border-[3px] border-gray-500 bg-gray-500 bg-opacity-10 border-opacity-40 flex-col gap-y-4">
             <div className="flex gap-2 items-center">
               <Avatar
@@ -144,25 +146,11 @@ const UserProfilePage = () => {
             </span>
           </div>
         </section>
-        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh] bg-opacity-10 bg-gray-300">
-          <p className="max-w-[1200px] px-16 font-semibold ">
-            <span className="text-lg">Description</span> <br />
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur,
-            ipsum nobis! Magnam fugit veniam rem, cum eum corrupti qui adipisci
-            eligendi tempore quaerat perferendis ea sunt debitis excepturi
-            doloremque soluta? Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Aspernatur facilis nisi atque harum. Animi,
-            corporis iusto. Culpa assumenda velit eveniet illo saepe quisquam
-            quae laboriosam vitae, temporibus earum facere recusandae!
-          </p>
-        </section>
-        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[5vh]  bg-gray-700 bg-opacity-10">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+
+        <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[10vh] pb-[20vh]  bg-gray-800 bg-opacity-10">
+          {userProfile?.products.map((product) => (
+            <ProductCard ProductData={product} key={product.productID} />
+          ))}
         </section>
       </main>
     </>
