@@ -3,7 +3,6 @@ import { productModel } from "../models/product-model";
 import { Req } from "../types/express-types";
 import { Cloudinary } from "../cloudinary/cloudinary";
 import { PrismaClient } from "@prisma/client";
-import { skip } from "node:test";
 
 type ProductData = {
   productName: string;
@@ -83,6 +82,23 @@ export const getProduct = async (productID: string) => {
       where: { productID },
     });
   } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+
+export const searchProductByQuery = async (search: string) => {
+  console.log("yo")
+  try {
+    return db.product.findMany({
+      where: {
+        productName: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error)
     throw new Error("Error fetching data");
   }
 };

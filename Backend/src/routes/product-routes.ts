@@ -1,6 +1,7 @@
 import {
   getAllProducts,
   getProductById,
+  getSearchProducts,
   postCreateProduct,
 } from "../controllers/product-controller";
 import { isAuth } from "../middleware/isAuth";
@@ -10,4 +11,5 @@ export default (router: Router) => {
   router.post("/product/create", isAuth, postCreateProduct);
   router.get("/product/get/:id", getProductById);
   router.get("/product/all/:page", getAllProducts);
+  router.get("/product/search/:search", getSearchProducts);
 };

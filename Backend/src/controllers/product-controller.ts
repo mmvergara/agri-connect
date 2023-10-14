@@ -1,6 +1,7 @@
 import {
+  GetAllProductsDataResponse,
   GetProductByIdDataResponse,
-  GetProductsDataResponse,
+  GetSearchProductsDataResponse,
   PostCreateProductDataResponse,
 } from "../shared-types";
 import { Req, Res } from "../types/express-types";
@@ -9,6 +10,7 @@ import {
   getProduct,
   createProduct,
   getRecentProducts,
+  searchProductByQuery,
 } from "./product-services";
 
 export const postCreateProduct = async (req: Req, res: Res) => {
@@ -40,8 +42,21 @@ export const getAllProducts = async (req: Req, res: Res) => {
     const page = parseInt(req.params.page as string) || 0;
     const products = await getRecentProducts(page);
     if (products.length === 0) throw new Error("No products found");
-    let data: GetProductsDataResponse = products;
+    let data: GetAllProductsDataResponse = products;
     console.log(data);
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const getSearchProducts = async (req: Req, res: Res) => {
+  try {
+    const query = req.params.search || "";
+    const products = await searchProductByQuery(query);
+    console.log(products);
+    let data: GetSearchProductsDataResponse = products;
     return res.status(200).json({ data, error: null });
   } catch (error) {
     console.log(error);

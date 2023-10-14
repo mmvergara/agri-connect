@@ -62,6 +62,7 @@ model ProductEndorsers {
 model Conversations {
   conversationID     String   @id @default(auto()) @map("_id") @db.ObjectId
   participants ConversationsToUsers[]
+  lastMessageDate DateTime @default(now())
 }
 
 model ConversationsToUsers {
