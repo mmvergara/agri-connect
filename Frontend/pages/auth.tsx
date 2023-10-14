@@ -1,5 +1,3 @@
-import { useAuth } from "@/context/AuthContext";
-import { Register } from "@/services/AuthService";
 import {
   Button,
   FormControl,
@@ -11,6 +9,8 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import { Register } from "@/services/AuthService";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 

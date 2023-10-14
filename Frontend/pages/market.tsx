@@ -10,7 +10,7 @@ const Market = () => {
   const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
 
   const router = useRouter();
-  const page = Number(router.query.page);
+  const page = Number(router.query.page) || 1;
   const [products, setProducts] = useState<ProductData[] | []>([]);
 
   const fetchProducts = async (page: number) => {

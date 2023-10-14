@@ -7,13 +7,24 @@ import {
   Container,
   useColorModeValue,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { IconButton, useDisclosure } from "@chakra-ui/react";
+import { IoQrCodeSharp } from "react-icons/io5";
+import { timeFromNow } from "@/utils/helpers";
 
 const ProductPreview = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
 
@@ -49,8 +60,8 @@ const ProductPreview = () => {
           <Image
             src={product.productImageUrl}
             alt="agri-connect-logo"
-            width={600}
-            height={600}
+            width={320}
+            height={220}
             className="mx-auto mt-8 border-solid border-2 border-spacing-8 borde-[#1c4532] p-2 rounded-md"
           />
           <Text className="underline underline-offset-4 font-bold">
@@ -80,7 +91,30 @@ const ProductPreview = () => {
             >
               Endorse Product
             </Button>
+            <IconButton
+              onClick={onOpen}
+              bgColor="white"
+              color="black"
+              aria-label="QR Code"
+              icon={<IoQrCodeSharp />}
+            />
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalContent>
+                <ModalCloseButton />
+                <ModalHeader>QR Code: {product.productName} </ModalHeader>
+                <ModalBody className="flex justify-center items-center rounded-lg shadow-lg">
+                  <Image
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://agriconnect-ph.vercel.app/product/${product.productID}`}
+                    alt="QR Code"
+                    width="200"
+                    height="200"
+                    className="py-[100px] rounded-md"
+                  />
+                </ModalBody>
+              </ModalContent>
+            </Modal>
           </section>
+          <span>Created: {timeFromNow(product.createdAt)}</span>
         </Container>
       </Container>
     </>

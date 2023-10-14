@@ -5,6 +5,14 @@ import {
   IconButton,
   Text,
   useColorMode,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  useDisclosure,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -17,12 +25,15 @@ import ProductCard from "@/components/product-card";
 import { UserProfile } from "@/types/shared-types";
 import { useEffect, useState } from "react";
 import { getUserProfileByUsername } from "@/services/UserService";
+import { timeFromNow } from "@/utils/helpers";
+import Image from "next/image";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
   const { colorMode } = useColorMode();
   const router = useRouter();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const username = query.username as string;
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -44,36 +55,7 @@ const UserProfilePage = () => {
 
   // Using userProfile?.createdAt get the time since the user joined
 
-  const timeSinceJoined = (date: Date) => {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-
-    let interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + " years";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + " months";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + " days";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + " hours";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
-  };
-
-  const timeSinceJoinedString = timeSinceJoined(
-    new Date(userProfile?.createdAt!)
-  );
+  const timeSinceJoinedString = timeFromNow(new Date(userProfile?.createdAt!));
 
   return (
     <>
@@ -120,6 +102,7 @@ const UserProfilePage = () => {
                 Message
               </Button>
               <IconButton
+                onClick={onOpen}
                 bgColor="white"
                 color="black"
                 aria-label="QR Code"
@@ -134,7 +117,7 @@ const UserProfilePage = () => {
             }}
           >
             <span className="flex gap-2 items-center">
-              <FiUserCheck /> Joined:<Text>{timeSinceJoinedString} ago</Text>
+              <FiUserCheck /> Joined:<Text>{timeSinceJoinedString}</Text>
             </span>
             <span className="flex gap-2 items-center">
               <AiOutlineShop /> Products:
@@ -146,6 +129,22 @@ const UserProfilePage = () => {
             </span>
           </div>
         </section>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalContent>
+            <ModalCloseButton />
+            <ModalHeader>QR Code: {username} </ModalHeader>
+            <ModalBody className="flex justify-center items-center rounded-lg shadow-lg">
+              <Image
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://agriconnect-ph.vercel.app/u/${username}`}
+                alt="QR Code"
+                width="200"
+                height="200"
+                className="py-[100px] rounded-md"
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
 
         <section className="flex justify-center items-center flex-wrap gap-x-16 gap-y-8 py-[10vh] pb-[20vh]  bg-gray-800 bg-opacity-10">
           {userProfile?.products.map((product) => (
