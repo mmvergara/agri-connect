@@ -1,12 +1,17 @@
 import FecthMyData from "@/components/fetchmydata";
+import ProductCard from "@/components/product-card";
 import { useAuth } from "@/context/AuthContext";
-import { Inter } from "next/font/google";
+import { getProducts } from "@/services/ProductService";
+import { ProductData } from "@/types/shared-types";
 import Head from "next/head";
 import Link from "next/link";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Button, useColorModeValue } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
+
+  const [products, setProducts] = useState<ProductData[] | []>([]);
   const user = useAuth();
   const links = [
     {
@@ -26,18 +31,61 @@ export default function Home() {
       label: "My Profile",
     },
   ];
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data, error } = await getProducts(1);
+      if (error) return;
+      setProducts(data);
+    };
+    fetch();
+  }, []);
   return (
     <>
       <Head>
         <title>AgriConnect | Home</title>
       </Head>
-      <main className="flex items-center gap-8 justify-center">
+      <main className="flex items-center gap-8 justify-center flex-col">
         {links.map((link) => (
           <Link href={link.href} key={link.href} className="bg-blue-500 p-2">
             {link.label}
           </Link>
         ))}
         <FecthMyData />
+        <section
+          className="w-full max-w-[1400px] mx-auto p-4 flex gap-4 justify-center flex-wrap "
+          style={{
+            backgroundColor: bgColor,
+          }}
+        >
+          {products.map((product) => {
+            return (
+              <ProductCard key={product.productID} ProductData={product} />
+            );
+          })}
+          {products.map((product) => {
+            return (
+              <ProductCard key={product.productID} ProductData={product} />
+            );
+          })}{" "}
+          {products.map((product) => {
+            return (
+              <ProductCard key={product.productID} ProductData={product} />
+            );
+          })}
+        </section>
+        <Link href="/market?page=1">
+          <Button
+            color="white"
+            bgColor="cyan.600"
+            variant="solid"
+            colorScheme="cyan"
+            rounded={"sm"}
+            my={8}
+          >
+            See More Products
+          </Button>
+        </Link>
       </main>
     </>
   );

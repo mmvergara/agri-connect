@@ -37,13 +37,14 @@ export const getProductById = async (req: Req, res: Res) => {
 
 export const getAllProducts = async (req: Req, res: Res) => {
   try {
-    const skipBy = parseInt(req.query.skipBy as string) || 0;
-
-    const products = await getRecentProducts(skipBy);
+    const page = parseInt(req.params.page as string) || 0;
+    const products = await getRecentProducts(page);
     if (products.length === 0) throw new Error("No products found");
     let data: GetProductsDataResponse = products;
+    console.log(data);
     return res.status(200).json({ data, error: null });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ data: null, error: error.message });
   }
 };

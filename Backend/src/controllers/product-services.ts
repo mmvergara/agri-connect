@@ -57,13 +57,18 @@ export const createProduct = async (ProductData: ProductData) => {
   }
 };
 
-export const getRecentProducts = async (skipBy: number) => {
+export const getRecentProducts = async (pageNumber: number) => {
+  pageNumber -= 1;
+  const take = 20;
   try {
     const products = await db.product.findMany({
-      take: 30,
-      skip: skipBy,
+      skip: pageNumber * take,
+      take,
       orderBy: {
         createdAt: "desc",
+      },
+      include: {
+        productOwner: true,
       },
     });
     return products;
@@ -73,7 +78,11 @@ export const getRecentProducts = async (skipBy: number) => {
 };
 
 export const getProduct = async (productID: string) => {
-  return db.product.findUnique({
-    where: { productID },
-  });
+  try {
+    return db.product.findUnique({
+      where: { productID },
+    });
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
 };

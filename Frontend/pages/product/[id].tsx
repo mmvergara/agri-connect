@@ -7,13 +7,11 @@ import {
   Container,
   useColorModeValue,
   Button,
-  useColorMode,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { MdLibraryAdd } from "react-icons/md";
 
 const ProductPreview = () => {
   const router = useRouter();
