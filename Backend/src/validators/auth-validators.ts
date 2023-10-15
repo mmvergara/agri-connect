@@ -32,3 +32,15 @@ export const ValidateLoginFields = async (body: any) => {
     throw new Error(error.message);
   }
 };
+
+export const ValidateNewPassword = async (body: any) => {
+  try {
+    const { error, value } = Joi.object({
+      newPassword: password,
+    }).validate(body);
+    if (error) throw new Error(error.details[0].message);
+    return value.newPassword as string;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

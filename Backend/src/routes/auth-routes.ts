@@ -1,5 +1,6 @@
 import {
   dataTemp,
+  postChangePassword,
   postLogin,
   postLogout,
   postRegister,
@@ -12,4 +13,5 @@ export default (router: Router) => {
   router.post("/auth/login", postLogin);
   router.post("/auth/logout", postLogout);
   router.get("/auth/data", isAuth, dataTemp);
+  router.post("/auth/change-password", isAuth, postChangePassword);
 };

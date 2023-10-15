@@ -2,6 +2,7 @@
 export type PostLoginDataResponse = LoggedInUserData;
 export type PostRegisterDataResponse = null;
 export type PostLogoutDataResponse = null;
+export type PostChangePasswordResponse = null;
 
 // Product Controller Responses ===========================================
 export type PostCreateProductDataResponse = ProductData;
@@ -22,6 +23,11 @@ export type RegisterFields = {
   username: string;
   email: string;
   password: string;
+};
+
+export type ChangePasswordFields = {
+  oldPassword: string;
+  newPassword: string;
 };
 
 export type LoggedInUserData = {

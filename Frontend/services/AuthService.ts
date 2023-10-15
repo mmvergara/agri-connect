@@ -18,3 +18,13 @@ export const Register = async (userData: RegisterFields) => {
 export const Logout = async () => {
   return await AxiosPost<PostLogoutDataResponse>("/auth/logout", {});
 };
+
+export const changePassword = async (newPass: {
+  oldPassword: string;
+  newPassword: string;
+}) => {
+  return await AxiosPost<PostLogoutDataResponse>(
+    "/auth/change-password",
+    newPass
+  );
+};

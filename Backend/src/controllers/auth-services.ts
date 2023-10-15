@@ -40,3 +40,18 @@ export const validatePassword = async (p1: string, p2: string) => {
     throw new Error("Error Validating password");
   }
 };
+
+export const changePassword = async (userID: string, newPassword: string) => {
+  try {
+    await db.user.update({
+      where: {
+        userID,
+      },
+      data: {
+        password: await bcrypt.hash(newPassword, 10),
+      },
+    });
+  } catch (error) {
+    throw new Error("Error changing password");
+  }
+};

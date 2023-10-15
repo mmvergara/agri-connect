@@ -9,7 +9,8 @@ import {
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoChatbubblesSharp } from "react-icons/io5";
-import { RiLogoutCircleRFill } from "react-icons/ri";
+import { RiLogoutCircleRFill ,RiSettingsFill} from "react-icons/ri";
+
 import { AiFillShop } from "react-icons/ai";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
@@ -30,6 +31,11 @@ const MenuBar = () => {
       name: "Community Chat",
       icon: <Icon as={IoChatbubblesSharp} />,
       link: "/community-chat",
+    },
+    {
+      name: "Settings",
+      icon: <Icon as={RiSettingsFill} />,
+      link: "/u/settings",
     },
   ];
   return (

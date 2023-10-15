@@ -1,4 +1,12 @@
-import { Button, Center, Flex, Spacer, Icon, Heading } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Flex,
+  Spacer,
+  Icon,
+  Heading,
+  Avatar,
+} from "@chakra-ui/react";
 import { useAuth } from "@/context/AuthContext";
 import { FaBell } from "react-icons/fa";
 import dynamic from "next/dynamic";
@@ -44,16 +52,22 @@ const Navbar = () => {
           >
             <Icon as={FaBell} />
           </Button>
+
           {user ? (
-            <LazyLoadedMenuBar />
+            <>
+              <Link href={`/u/${user?.username}`} className="pl-1 pr-4">
+                <Avatar size="sm" src={user?.avatarUrl} />
+              </Link>
+              <LazyLoadedMenuBar />
+            </>
           ) : (
             <Button
               as={Link}
               color="green.100"
               bgColor="green.800"
               colorScheme="whiteAlpha"
-              href="/auth"
               style={{ fontWeight: 400 }}
+              href="/auth"
             >
               Sign In
             </Button>

@@ -51,6 +51,29 @@ export default function Home() {
             {link.label}
           </Link>
         ))}
+        <section className="flex justify-center items-center gap-2 flex-wrap">
+          <Link
+            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            style={{ backgroundColor: bgColor }}
+            href="/market?page=1"
+          >
+            Market
+          </Link>{" "}
+          <Link
+            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            style={{ backgroundColor: bgColor }}
+            href="/product/search"
+          >
+            Search Products
+          </Link>{" "}
+          <Link
+            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            style={{ backgroundColor: bgColor }}
+            href="/market?page=1"
+          >
+            Market
+          </Link>{" "}
+        </section>
         <FecthMyData />
         <section
           className="w-full max-w-[1400px] mx-auto p-4 flex gap-4 justify-center flex-wrap "

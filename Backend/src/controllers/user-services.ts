@@ -41,6 +41,18 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
+export const getUserByID = async (userID: string) => {
+  try {
+    return await db.user.findUnique({
+      where: {
+        userID: userID,
+      },
+    });
+  } catch (error) {
+    throw new Error("Server Error");
+  }
+};
+
 // import formidable from "formidable";
 // import { productModel } from "../models/product-model";
 // import { Req } from "../types/express-types";

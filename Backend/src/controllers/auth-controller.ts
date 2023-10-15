@@ -1,4 +1,5 @@
 import {
+  changePassword,
   checkIfEmailExists,
   checkIfUsernameExists,
   createUser,
@@ -6,16 +7,19 @@ import {
 } from "./auth-services";
 import {
   ValidateLoginFields,
+  ValidateNewPassword,
   ValidateRegisterFields,
 } from "../validators/auth-validators";
 import { Req, Res } from "../types/express-types";
 import {
+  ChangePasswordFields,
   LoggedInUserData,
+  PostChangePasswordResponse,
   PostLoginDataResponse,
   PostLogoutDataResponse,
   PostRegisterDataResponse,
 } from "../shared-types";
-import { getUserByEmail } from "./user-services";
+import { getUserByEmail, getUserByID } from "./user-services";
 
 export const postRegister = async (req: Req, res: Res) => {
   try {
@@ -73,6 +77,28 @@ export const postLogout = async (req: Req, res: Res) => {
       console.log("User logged out");
     });
     const data: PostLogoutDataResponse = null;
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    return res.status(400).json({ error: error.message, data: null });
+  }
+};
+
+export const postChangePassword = async (req: Req, res: Res) => {
+  try {
+    let { oldPassword, newPassword } = req.body as ChangePasswordFields;
+    const user = await getUserByID(req.session.user_id);
+    if (!user) throw new Error("User does not exist");
+
+    // Validate old password
+    await validatePassword(oldPassword, user.password);
+
+    // Validate new password
+    newPassword = await ValidateNewPassword({ newPassword });
+
+    // Change password
+    await changePassword(user.userID, newPassword);
+
+    const data: PostChangePasswordResponse = null;
     return res.status(200).json({ data, error: null });
   } catch (error) {
     return res.status(400).json({ error: error.message, data: null });
