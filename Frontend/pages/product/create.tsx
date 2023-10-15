@@ -44,11 +44,11 @@ const CreateProduct = () => {
     const { data, error } = await createProduct(formData);
     if (error) {
       return;
-    } 
+    }
 
     toast({ title: "Product created successfully", status: "success" });
     router.push(`/product/${data.productID.toString()}`);
-  };  
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -78,7 +78,7 @@ const CreateProduct = () => {
           isRequired
           as="form"
           onSubmit={handleFormSubmit}
-          className="flex flex-col items-start gap-4 max-w-[500px] mx-auto "
+          className="mx-auto flex max-w-[500px] flex-col items-start gap-4 "
         >
           <Image
             src="/agri-connect-logo.png"

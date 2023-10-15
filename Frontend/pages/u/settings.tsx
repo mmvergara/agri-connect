@@ -26,7 +26,7 @@ const SettingsPage = () => {
       newPassword: "",
     });
   const handleChangePasswordInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setChangePasswordFields((prev) => ({
       ...prev,
@@ -57,7 +57,7 @@ const SettingsPage = () => {
         maxW="container.md"
         className="shadow-lg"
       >
-        <div className="flex flex-col items-start gap-4 max-w-[500px] mx-auto ">
+        <div className="mx-auto flex max-w-[500px] flex-col items-start gap-4 ">
           <Heading className="pt-[5vh]">Agriconnect | Settings </Heading>
 
           <Divider />

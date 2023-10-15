@@ -45,29 +45,29 @@ export default function Home() {
       <Head>
         <title>AgriConnect | Home</title>
       </Head>
-      <main className="flex items-center gap-8 justify-center flex-col">
+      <main className="flex flex-col items-center justify-center gap-8">
         {links.map((link) => (
           <Link href={link.href} key={link.href} className="bg-blue-500 p-2">
             {link.label}
           </Link>
         ))}
-        <section className="flex justify-center items-center gap-2 flex-wrap">
+        <section className="flex flex-wrap items-center justify-center gap-2">
           <Link
-            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
             style={{ backgroundColor: bgColor }}
             href="/product/search"
           >
             Search Products
           </Link>{" "}
           <Link
-            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
             style={{ backgroundColor: bgColor }}
             href="/market?page=1"
           >
             Market
           </Link>{" "}
           <Link
-            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
             style={{ backgroundColor: bgColor }}
             href="/product/create"
           >
@@ -76,7 +76,7 @@ export default function Home() {
         </section>
         <FecthMyData />
         <section
-          className="w-full max-w-[1400px] mx-auto p-4 flex gap-4 justify-center flex-wrap "
+          className="mx-auto flex w-full max-w-[1400px] flex-wrap justify-center gap-4 p-4 "
           style={{
             backgroundColor: bgColor,
           }}

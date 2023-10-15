@@ -67,7 +67,7 @@ const Market = () => {
           </Button>
         </div>
         <section
-          className="w-full max-w-[1400px] mx-auto mt-4 p-4 flex gap-4 justify-center flex-wrap "
+          className="mx-auto mt-4 flex w-full max-w-[1400px] flex-wrap justify-center gap-4 p-4 "
           style={{
             backgroundColor: bgColor,
           }}

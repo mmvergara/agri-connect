@@ -56,15 +56,15 @@ const ProductPreview = () => {
         maxW="container.md"
         className="shadow-lg"
       >
-        <Container className="flex flex-col items-start gap-4 max-w-[500px] mx-auto ">
+        <Container className="mx-auto flex max-w-[500px] flex-col items-start gap-4 ">
           <Image
             src={product.productImageUrl}
             alt="agri-connect-logo"
             width={320}
             height={220}
-            className="mx-auto mt-8 border-solid border-2 border-spacing-8 borde-[#1c4532] p-2 rounded-md"
+            className="mx-auto mt-8 border-spacing-8 rounded-md border-2 border-solid p-2"
           />
-          <Text className="underline underline-offset-4 font-bold">
+          <Text className="font-bold underline underline-offset-4">
             ₱{product.productPrice + " per " + product.productPricePer}
           </Text>
           <Heading fontSize={24}>{product.productName}</Heading>
@@ -102,13 +102,13 @@ const ProductPreview = () => {
               <ModalContent>
                 <ModalCloseButton />
                 <ModalHeader>QR Code: {product.productName} </ModalHeader>
-                <ModalBody className="flex justify-center items-center rounded-lg shadow-lg">
+                <ModalBody className="flex items-center justify-center rounded-lg shadow-lg">
                   <Image
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://agriconnect-ph.vercel.app/product/${product.productID}`}
                     alt="QR Code"
                     width="200"
                     height="200"
-                    className="py-[100px] rounded-md"
+                    className="rounded-md py-[100px]"
                   />
                 </ModalBody>
               </ModalContent>

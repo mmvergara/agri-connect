@@ -67,7 +67,7 @@ const SignInPage = () => {
         <FormControl
           as="form"
           onSubmit={handleFormSubmit}
-          className={`max-w-[500px] flex flex-col gap-4 pt-16 mx-auto`}
+          className={`mx-auto flex max-w-[500px] flex-col gap-4 pt-16`}
         >
           <Image
             src="/agri-connect-logo.png"
