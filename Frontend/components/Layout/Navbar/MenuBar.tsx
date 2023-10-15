@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoChatbubblesSharp } from "react-icons/io5";
-import { RiLogoutCircleRFill ,RiSettingsFill} from "react-icons/ri";
+import { RiLogoutCircleRFill, RiSettingsFill } from "react-icons/ri";
 
 import { AiFillShop } from "react-icons/ai";
 import { useAuth } from "@/context/AuthContext";
