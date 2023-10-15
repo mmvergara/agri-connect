@@ -51,7 +51,6 @@ export const createProduct = async (ProductData: ProductData) => {
     });
   } catch (error) {
     console.log(error);
-    // We are not handling the error here because we are handling it in the controller
     throw new Error("Error creating product");
   }
 };

@@ -1,3 +1,4 @@
+import { changePassword } from "@/services/AuthService";
 import { createProduct } from "@/services/ProductService";
 import { ChangePasswordFields } from "@/types/shared-types";
 import {
@@ -35,11 +36,15 @@ const SettingsPage = () => {
 
   const { toast } = createStandaloneToast();
 
+  const handleChangePassword = async (e: FormEvent) => {
+    const { error } = await changePassword(changePasswordFields);
+    if (error) return;
+    toast({ title: "Password changed successfully", status: "success" });
+    setChangePasswordFields({ oldPassword: "", newPassword: "" });
+  };
   const handleDeleteAccount = () => {
     console.log("delete account");
   };
-
-  const handleChangePassword = async (e: FormEvent) => {};
 
   return (
     <>
@@ -80,6 +85,7 @@ const SettingsPage = () => {
             colorScheme="teal"
             variant="outline"
             data-cy="changePasswordButton"
+            onClick={handleChangePassword}
           >
             Change Password
           </Button>

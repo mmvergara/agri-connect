@@ -55,13 +55,6 @@ export default function Home() {
           <Link
             className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
             style={{ backgroundColor: bgColor }}
-            href="/market?page=1"
-          >
-            Market
-          </Link>{" "}
-          <Link
-            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
-            style={{ backgroundColor: bgColor }}
             href="/product/search"
           >
             Search Products
@@ -72,6 +65,13 @@ export default function Home() {
             href="/market?page=1"
           >
             Market
+          </Link>{" "}
+          <Link
+            className="p-6 font-semibold opacity-90 hover:opacity-100 text-lg"
+            style={{ backgroundColor: bgColor }}
+            href="/product/create"
+          >
+            Create Product
           </Link>{" "}
         </section>
         <FecthMyData />

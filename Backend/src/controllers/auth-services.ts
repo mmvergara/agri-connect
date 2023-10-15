@@ -33,12 +33,8 @@ export const checkIfUsernameExists = async (username: string) => {
 };
 
 export const validatePassword = async (p1: string, p2: string) => {
-  try {
-    const res = await bcrypt.compare(p1, p2);
-    if (!res) throw new Error("Invalid Password");
-  } catch (error) {
-    throw new Error("Error Validating password");
-  }
+  const res = await bcrypt.compare(p1, p2);
+  if (!res) throw new Error("Invalid Password");
 };
 
 export const changePassword = async (userID: string, newPassword: string) => {
