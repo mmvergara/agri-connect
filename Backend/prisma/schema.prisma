@@ -22,7 +22,6 @@ model User {
   createdAt DateTime @default(now())
   
   products Product[]
-  conversations ConversationsToUsers[]
   ProductEndorsers ProductEndorsers[]
 
 }
@@ -61,14 +60,15 @@ model ProductEndorsers {
 
 model Conversations {
   conversationID     String   @id @default(auto()) @map("_id") @db.ObjectId
-  participants ConversationsToUsers[]
+  participantFirstID String @db.ObjectId
+  participantSecondID String @db.ObjectId 
   lastMessageDate DateTime @default(now())
 }
 
-model ConversationsToUsers {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+model Messages {
+  messageID     String   @id @default(auto()) @map("_id") @db.ObjectId
   conversationID String @db.ObjectId
-  userID String @db.ObjectId
-  conversation Conversations @relation(fields: [conversationID], references: [conversationID])
-  user User @relation(fields: [userID], references: [userID])
+  senderID String @db.ObjectId
+  messageContent String
+  messageDate DateTime @default(now())
 }

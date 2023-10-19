@@ -1,5 +1,5 @@
-import { GetUserProfileDataResponse, UserProfile } from "../shared-types";
-import { Req, Res } from "../types/express-types";
+import { GetUserProfileDataResponse, UserProfile } from "../../shared-types";
+import { Req, Res } from "../../types/express-types";
 import {
   changeUserAvatarUrl,
   getUserProfileByUsername,

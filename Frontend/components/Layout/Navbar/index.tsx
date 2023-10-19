@@ -55,9 +55,9 @@ const Navbar = () => {
 
           {user ? (
             <>
-              <Link href={`/u/${user?.username}`} className="pl-1 pr-4">
+              {/* <Link href={`/u/${user?.username}`} className="pl-1 pr-4">
                 <Avatar size="sm" src={user?.avatarUrl} />
-              </Link>
+              </Link> */}
               <LazyLoadedMenuBar />
             </>
           ) : (

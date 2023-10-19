@@ -1,7 +1,7 @@
 import formidable from "formidable";
-import { productModel } from "../models/product-model";
-import { Req } from "../types/express-types";
-import { Cloudinary } from "../cloudinary/cloudinary";
+import { productModel } from "../../models/product-model";
+import { Req } from "../../types/express-types";
+import { Cloudinary } from "../../cloudinary/cloudinary";
 import { PrismaClient } from "@prisma/client";
 
 type ProductData = {
@@ -30,7 +30,6 @@ export const parserCreateProductReq = async (req: Req) => {
       res(productData as ProductData);
     });
   });
-  console.log(productData);
   return productData;
 };
 export const createProduct = async (ProductData: ProductData) => {
@@ -86,7 +85,7 @@ export const getProduct = async (productID: string) => {
 };
 
 export const searchProductByQuery = async (search: string) => {
-  console.log("yo")
+  console.log("yo");
   try {
     return db.product.findMany({
       where: {
@@ -97,7 +96,7 @@ export const searchProductByQuery = async (search: string) => {
       },
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw new Error("Error fetching data");
   }
 };

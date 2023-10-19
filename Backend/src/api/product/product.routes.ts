@@ -3,8 +3,8 @@ import {
   getProductById,
   getSearchProducts,
   postCreateProduct,
-} from "../controllers/product-controller";
-import { isAuth } from "../middleware/isAuth";
+} from "./product-controller";
+import { isAuth } from "../../middleware/isAuth";
 import type { Router } from "express";
 
 export default (router: Router) => {

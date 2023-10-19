@@ -1,6 +1,6 @@
-import { RegisterFields } from "../shared-types";
+import { RegisterFields } from "../../shared-types";
 import bcrypt from "bcrypt";
-import { db } from "../lib/db";
+import { db } from "../../lib/db";
 
 export const createUser = async (user: RegisterFields) => {
   try {

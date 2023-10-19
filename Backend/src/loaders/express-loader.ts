@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import session from "express-session";
 import mongoSession from "connect-mongodb-session";
-import router from "../routes/router";
+import router from "../api/router";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";

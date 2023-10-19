@@ -1,7 +1,7 @@
 import formidable from "formidable";
-import { db } from "../lib/db";
-import { Req } from "../types/express-types";
-import { Cloudinary } from "../cloudinary/cloudinary";
+import { db } from "../../lib/db";
+import { Req } from "../../types/express-types";
+import { Cloudinary } from "../../cloudinary/cloudinary";
 
 export const getUserProfileByUsername = async (username: string) => {
   try {

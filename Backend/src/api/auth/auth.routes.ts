@@ -4,9 +4,9 @@ import {
   postLogin,
   postLogout,
   postRegister,
-} from "../controllers/auth-controller";
+} from "./auth-controller";
 import type { Router } from "express";
-import { isAuth } from "../middleware/isAuth";
+import { isAuth } from "../../middleware/isAuth";
 
 export default (router: Router) => {
   router.post("/auth/register", postRegister);

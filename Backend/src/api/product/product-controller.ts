@@ -3,8 +3,8 @@ import {
   GetProductByIdDataResponse,
   GetSearchProductsDataResponse,
   PostCreateProductDataResponse,
-} from "../shared-types";
-import { Req, Res } from "../types/express-types";
+} from "../../shared-types";
+import { Req, Res } from "../../types/express-types";
 import {
   parserCreateProductReq,
   getProduct,
@@ -43,7 +43,6 @@ export const getAllProducts = async (req: Req, res: Res) => {
     const products = await getRecentProducts(page);
     if (products.length === 0) throw new Error("No products found");
     let data: GetAllProductsDataResponse = products;
-    console.log(data);
     return res.status(200).json({ data, error: null });
   } catch (error) {
     console.log(error);
@@ -55,7 +54,6 @@ export const getSearchProducts = async (req: Req, res: Res) => {
   try {
     const query = req.params.search || "";
     const products = await searchProductByQuery(query);
-    console.log(products);
     let data: GetSearchProductsDataResponse = products;
     return res.status(200).json({ data, error: null });
   } catch (error) {

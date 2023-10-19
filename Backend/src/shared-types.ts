@@ -13,6 +13,29 @@ export type GetSearchProductsDataResponse = ProductData[];
 // User Controller Responses ==============================================
 export type GetUserProfileDataResponse = UserProfile;
 
+// Conversation Controller Responses =======================================
+export type GetAllConversationsDataResponse = {
+  user: {
+    userID: string;
+    email: string;
+    password: string;
+    avatarUrl: string;
+    username: string;
+    verified: boolean;
+    isAdmin: boolean;
+    createdAt: Date;
+  };
+  conversationID: string;
+  participantFirstID: string;
+  participantSecondID: string;
+  lastMessageDate: Date;
+}[];
+
+export type GetConversationDataResponse = {
+  messages: MessageData[];
+  conversation: ConversationData;
+};
+
 //  FIELDS ================================================================
 export type LoginFields = {
   email: string;
@@ -59,6 +82,21 @@ export type UserData = {
   verified: boolean;
   isAdmin: boolean;
   createdAt: Date;
+};
+
+export type ConversationData = {
+  conversationID: string;
+  participantFirstID: string;
+  participantSecondID: string;
+  lastMessageDate: Date;
+};
+
+export type MessageData = {
+  messageID: string;
+  conversationID: string;
+  senderID: string;
+  messageContent: string;
+  messageDate: Date;
 };
 
 // Complex Queries ================================================================

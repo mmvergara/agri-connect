@@ -9,8 +9,8 @@ import {
   ValidateLoginFields,
   ValidateNewPassword,
   ValidateRegisterFields,
-} from "../validators/auth-validators";
-import { Req, Res } from "../types/express-types";
+} from "../../validators/auth-validators";
+import { Req, Res } from "../../types/express-types";
 import {
   ChangePasswordFields,
   LoggedInUserData,
@@ -18,8 +18,8 @@ import {
   PostLoginDataResponse,
   PostLogoutDataResponse,
   PostRegisterDataResponse,
-} from "../shared-types";
-import { getUserByEmail, getUserByID } from "./user-services";
+} from "../../shared-types";
+import { getUserByEmail, getUserByID } from "../user/user-services";
 
 export const postRegister = async (req: Req, res: Res) => {
   try {
@@ -71,9 +71,7 @@ export const postLogin = async (req: Req, res: Res) => {
 
 export const postLogout = async (req: Req, res: Res) => {
   try {
-    console.log(req.session);
     req.session.destroy((err) => {
-      console.log(err);
       console.log("User logged out");
     });
     const data: PostLogoutDataResponse = null;

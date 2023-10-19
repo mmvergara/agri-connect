@@ -15,6 +15,10 @@ export default function Home() {
   const user = useAuth();
   const links = [
     {
+      href: "/messages",
+      label: "Messages",
+    },
+    {
       href: "/auth",
       label: "Sign In",
     },
