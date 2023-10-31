@@ -20,6 +20,10 @@ export default function Home() {
       label: "Messages",
     },
     {
+      href: "/messages/list",
+      label: "Messages List",
+    },
+    {
       href: "/auth",
       label: "Sign In",
     },
