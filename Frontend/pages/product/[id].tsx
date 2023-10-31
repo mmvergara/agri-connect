@@ -26,7 +26,6 @@ import { timeFromNow } from "@/utils/helpers";
 const ProductPreview = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
 
   const { id } = router.query as { id: string };
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -51,31 +50,34 @@ const ProductPreview = () => {
         <title>AgriConnect | {product.productName}</title>
       </Head>
       <Container
-        bg={bgColor}
+        bg="white"
         minH="110vh"
         maxW="container.md"
         className="shadow-lg"
       >
         <Container className="mx-auto flex max-w-[500px] flex-col items-start gap-4 ">
+          <p className="mt-[5vh] font-poppins text-3xl font-bold">
+            {product.productName}
+          </p>
           <Image
             src={product.productImageUrl}
             alt="agri-connect-logo"
             width={320}
             height={220}
-            className="mx-auto mt-8 border-spacing-8 rounded-md border-2 border-solid p-2"
+            className="border-spacing-8 rounded-md border-2 border-solid p-2"
           />
-          <Text className="font-bold underline underline-offset-4">
+          <Text className="font-poppins font-bold text-green-900">
             ₱{product.productPrice + " per " + product.productPricePer}
           </Text>
-          <Heading fontSize={24}>{product.productName}</Heading>
-          <Text>{product.productDescription}</Text>
-
+          <p className="font-arial text-lg text-gray-700">
+            {product.productDescription}
+          </p>
           <section className="flex w-full gap-2">
             <Button
               color="white"
-              bgColor="cyan.600"
+              bgColor="green.800"
               variant="solid"
-              colorScheme="cyan"
+              colorScheme="green"
               className="w-full"
               leftIcon={<EmailIcon />}
             >

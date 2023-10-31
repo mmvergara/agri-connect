@@ -1,6 +1,5 @@
 import { createProduct } from "@/services/ProductService";
 import {
-  useColorModeValue,
   FormControl,
   FormLabel,
   Input,
@@ -21,7 +20,6 @@ import { MdLibraryAdd } from "react-icons/md";
 
 const CreateProduct = () => {
   const router = useRouter();
-  const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
   const { toast } = createStandaloneToast();
   const { colorMode } = useColorMode();
   const [inputs, setInputs] = useState({
@@ -69,8 +67,8 @@ const CreateProduct = () => {
         <title>AgriConnect | Create Product</title>
       </Head>
       <Container
-        bg={bgColor}
-        minH="110vh"
+        bg="white"
+        minH="100vh"
         maxW="container.md"
         className="shadow-lg"
       >
@@ -87,7 +85,7 @@ const CreateProduct = () => {
             height={100}
             className="mx-auto pt-8"
           />
-          <Heading>Create New Product</Heading>
+          <Heading className="font-poppins">Create New Product</Heading>
           <Text>
             Fill out the form below to create a new product for your farm. you
             cannot edit the product once it is created. *

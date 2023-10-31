@@ -42,32 +42,32 @@ const Market = () => {
         <title>AgriConnect | Market {page}</title>
       </Head>
       <main>
-        <div className="flex justify-center gap-4 py-6">
+        <div className="mx-auto flex w-full max-w-[1370px] items-center justify-start gap-4 py-6">
+          <span className="font-poppins text-3xl font-bold">Page: {page}</span>
           <Button
             onClick={handlePrevPage}
             disabled={page === 1}
             color="white"
-            bgColor="cyan.600"
+            bgColor="green.900"
             variant="solid"
-            colorScheme="cyan"
+            colorScheme="green"
             rounded={"sm"}
           >
             Prev
           </Button>
-          <span className="text-2xl font-bold">{page}</span>
           <Button
             onClick={handleNextPage}
             color="white"
-            bgColor="cyan.600"
+            bgColor="green.900"
             variant="solid"
-            colorScheme="cyan"
+            colorScheme="green"
             rounded={"sm"}
           >
             Next
           </Button>
         </div>
         <section
-          className="mx-auto mt-4 flex w-full max-w-[1400px] flex-wrap justify-center gap-4 p-4 "
+          className="mx-auto mt-4 flex w-full max-w-[1400px] flex-wrap justify-start gap-4 p-4 "
           style={{
             backgroundColor: bgColor,
           }}

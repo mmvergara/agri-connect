@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { Card, CardFooter, Text, Flex } from "@chakra-ui/react";
+import { Card, CardFooter, Text, Flex, Box } from "@chakra-ui/react";
 import Link from "next/link";
-import { useColorModeValue } from "@chakra-ui/react";
 import { ProductData } from "@/types/shared-types";
 
 type props = {
@@ -9,47 +8,41 @@ type props = {
 };
 
 const ProductCard = ({ ProductData }: props) => {
-  const borderColor = useColorModeValue("#1c4532", "#c6f6d5");
   return (
     <Link href={`/product/${ProductData.productID}`}>
-      <Card
+      <Box
         maxW="xs"
-        style={{ borderRadius: "1px", padding: 4 }}
-        className="shadow-green-100 hover:shadow-2xl transition duration-300 ease-in-out  cursor-pointer"
+        className="cursor-pointer bg-none shadow-green-100 transition duration-300 ease-in-out drop-shadow-md hover:drop-shadow-lg"
       >
         <Image
           objectFit="cover"
           src={ProductData.productImageUrl}
           alt="Chakra UI"
-          width="320"
+          width="300"
           height="220"
-          className="max-w-[310px] max-h-[220px] overflow-hidden"
+          className="max-h-[220px] max-w-[310px] overflow-hidden"
+          style={{
+            borderRadius: "7px 7px 0 0",
+          }}
         />
 
-        <CardFooter
-          justify="space-between"
-          flexDir="column"
-          flexWrap="wrap"
-          padding="2"
+        <Box
+          className="bg-gray-50 p-4"
           style={{
-            borderBottom: `2px solid ${borderColor}`,
+            borderRadius: "0 0 7px 7px",
           }}
         >
-          <Text fontSize="xl" fontWeight="semibold">
+          <Text className="font-poppins font-bold">
             {ProductData.productName}
           </Text>
-          <Flex
-            justifyContent="space-between"
-            className="pt-2 font-semibold"
-            style={{ color: borderColor }}
-          >
-            <Text fontSize="md">
-              Rs. {ProductData.productPrice}$/{ProductData.productPricePer}
-            </Text>
-            <Text fontSize="md"></Text>
-          </Flex>
-        </CardFooter>
-      </Card>
+          <Text className="font-arial text-gray-500">
+            {ProductData.productDescription}
+          </Text>
+          <Text className="pt-4 font-arial font-semibold text-green-800">
+            {ProductData.productPrice}$ per {ProductData.productPricePer}
+          </Text>
+        </Box>
+      </Box>
     </Link>
   );
 };

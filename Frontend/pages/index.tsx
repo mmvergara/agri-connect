@@ -5,12 +5,13 @@ import { getProducts } from "@/services/ProductService";
 import { ProductData } from "@/types/shared-types";
 import Head from "next/head";
 import Link from "next/link";
-import { Button, useColorModeValue } from "@chakra-ui/react";
+import { Button, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { MdCreateNewFolder } from "react-icons/md";
+import { AiOutlineShop, AiFillPlusSquare } from "react-icons/ai";
+import { HiSearch } from "react-icons/hi";
 
 export default function Home() {
-  const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
-
   const [products, setProducts] = useState<ProductData[] | []>([]);
   const user = useAuth();
   const links = [
@@ -55,36 +56,43 @@ export default function Home() {
             {link.label}
           </Link>
         ))}
-        <section className="flex flex-wrap items-center justify-center gap-2">
+        <h2 className="mt-[5vh] font-poppins text-3xl font-bold">
+          Feature Products
+        </h2>
+        <section className="mx-auto flex w-full max-w-[1700px] flex-wrap justify-center gap-8 p-4 ">
+          {products.map((product) => {
+            return (
+              <ProductCard key={product.productID} ProductData={product} />
+            );
+          })}
+        </section>
+        <Divider
+          style={{
+            borderBottomWidth: "4px",
+            borderColor: "hsl(0, 0%, 90%)",
+          }}
+        />
+        <section className="flex w-full max-w-[1680px]  flex-wrap items-center justify-start gap-2">
           <Link
-            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
-            style={{ backgroundColor: bgColor }}
+            className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/product/search"
           >
-            Search Products
+            Search Products <HiSearch />
           </Link>{" "}
           <Link
-            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
-            style={{ backgroundColor: bgColor }}
+            className="flex  items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/market?page=1"
           >
-            Market
+            Browse Market <AiOutlineShop />
           </Link>{" "}
           <Link
-            className="p-6 text-lg font-semibold opacity-90 hover:opacity-100"
-            style={{ backgroundColor: bgColor }}
+            className="flex  items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/product/create"
           >
-            Create Product
+            Create Product <AiFillPlusSquare />
           </Link>{" "}
         </section>
-        <FecthMyData />
-        <section
-          className="mx-auto flex w-full max-w-[1400px] flex-wrap justify-center gap-4 p-4 "
-          style={{
-            backgroundColor: bgColor,
-          }}
-        >
+        <section className="mx-auto flex w-full max-w-[1700px] flex-wrap justify-start gap-8 p-4 ">
           {products.map((product) => {
             return (
               <ProductCard key={product.productID} ProductData={product} />
@@ -101,18 +109,12 @@ export default function Home() {
             );
           })}
         </section>
-        <Link href="/market?page=1">
-          <Button
-            color="white"
-            bgColor="cyan.600"
-            variant="solid"
-            colorScheme="cyan"
-            rounded={"sm"}
-            my={8}
-          >
-            See More Products
-          </Button>
-        </Link>
+        <Link
+          className="mb-8  rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+          href="/market?page=1"
+        >
+          See More Products
+        </Link>{" "}
       </main>
     </>
   );

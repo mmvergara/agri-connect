@@ -13,9 +13,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
-const LazyLoadedToggleColorMode = dynamic(() => import("./ToggleColorMode"), {
-  ssr: false,
-});
 const LazyLoadedMenuBar = dynamic(() => import("./MenuBar"), {
   ssr: false,
 });
@@ -24,7 +21,7 @@ const Navbar = () => {
   const { user } = useAuth();
   return (
     <Flex as="header" boxShadow="lg" bg="green.900">
-      <Flex minH={54} width="100%" maxW="1200px" mx="auto" px="10px">
+      <Flex className="h-[8vh]" width="100%" maxW="1200px" mx="auto" px="10px">
         <Link href="/" className="flex items-center justify-center gap-2">
           <Image
             src="/agri-connect-logo.png"
@@ -37,13 +34,16 @@ const Navbar = () => {
             size="md"
             color="green.100"
             className="tracking-wider"
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: "normal",
+            }}
           >
             AgriConnect {user?.username ? `| ${user.username}` : ""}
           </Heading>
         </Link>
         <Spacer />
         <Center>
-          <LazyLoadedToggleColorMode />
           <Button
             color="green.100"
             bgColor="green.900"

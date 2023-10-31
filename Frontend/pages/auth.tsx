@@ -63,7 +63,14 @@ const SignInPage = () => {
       <Head>
         <title>AgriConnect | {isSignIn ? "Sign In" : "Sign Up"}</title>
       </Head>
-      <Container maxW="container.sm" className="">
+      <Container
+        maxW="container.sm"
+        className="mt-[5vh] rounded-sm pb-48 "
+        // Add drop shadow to the container
+        style={{
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+        }}
+      >
         <FormControl
           as="form"
           onSubmit={handleFormSubmit}
@@ -90,11 +97,13 @@ const SignInPage = () => {
             value={inputs.email}
             onChange={handleInputChange}
             placeholder="Email"
+            borderColor="gray.300"
           />
           {!isSignIn && (
             <Input
               name="username"
               type="text"
+              borderColor="gray.300"
               value={inputs.username}
               onChange={handleInputChange}
               placeholder="Username"
@@ -104,6 +113,7 @@ const SignInPage = () => {
             name="password"
             type="password"
             id="passwordInput"
+            borderColor="gray.300"
             value={inputs.password}
             onChange={handleInputChange}
             placeholder="Password"
