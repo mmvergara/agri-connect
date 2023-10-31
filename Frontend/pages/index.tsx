@@ -69,6 +69,11 @@ export default function Home() {
               <ProductCard key={product.productID} ProductData={product} />
             );
           })}
+          {products.map((product) => {
+            return (
+              <ProductCard key={product.productID} ProductData={product} />
+            );
+          })}
         </section>
         <Divider
           style={{
@@ -76,7 +81,7 @@ export default function Home() {
             borderColor: "hsl(0, 0%, 90%)",
           }}
         />
-        <section className="flex w-full max-w-[1680px]  flex-wrap items-center justify-start gap-2">
+        <section className="flex w-full max-w-[1680px] flex-wrap  items-center justify-start gap-2 px-4">
           <Link
             className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/product/search"
