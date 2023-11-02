@@ -8,11 +8,6 @@ export const fetchAllConversationMessages = async (conversationID: string) => {
   } catch (error) {}
 };
 
-export const sendMessage = async (conversationID: string, message: string) => {
-  try {
-  } catch (error) {}
-};
-
 export const fetchAllConversations = async (userID: string) => {
   try {
     const conversation = await db.conversations.findMany({
@@ -28,6 +23,9 @@ export const fetchAllConversations = async (userID: string) => {
       },
     });
     // find the user with the id of not userID then get the user
+    console.log("****************************************");
+    console.log(conversation);
+    console.log("****************************************");
 
     const conversations = await Promise.all(
       conversation.map(async (conversation) => {
@@ -43,6 +41,9 @@ export const fetchAllConversations = async (userID: string) => {
                   userID: conversation.participantFirstID,
                 },
               });
+        console.log("=============================");
+        console.log(user);
+        console.log("=============================");
         user.password = "";
         user.email = "";
         user.isAdmin = false;

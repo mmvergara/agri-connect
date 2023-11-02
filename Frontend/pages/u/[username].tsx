@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
 import { getUserProfileByUsername } from "@/services/UserService";
 import { timeFromNow } from "@/utils/helpers";
 import Image from "next/image";
-import { getConversation } from "@/services/ConversationService";
+import { getConversationByUserId } from "@/services/ConversationService";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
@@ -49,7 +49,7 @@ const UserProfilePage = () => {
 
   const handleMessageUser = async () => {
     if (!userProfile) return;
-    const { data, error } = await getConversation(userProfile.userID);
+    const { data, error } = await getConversationByUserId(userProfile.userID);
     if (data) {
       router.push(`/messages?id=${data?.conversation.conversationID}`);
     }

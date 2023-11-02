@@ -1,170 +1,45 @@
 import ConversationList from "@/components/Messages/ConversationList";
 import MessageItem from "@/components/Messages/MessageItem";
+import { useAuth } from "@/context/AuthContext";
+import { getConversationById } from "@/services/ConversationService";
 import { MessageItemType } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Conversation = () => {
   const { query } = useRouter();
-  const dummyMessages: MessageItemType[] = [
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content:
-        "Hello qweq weqwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qweqwe qwe qwe qw",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qweqw eqw eqwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: true,
-    },
+  const { user } = useAuth();
 
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content:
-        "Hello qweq weqwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qweqwe qwe qwe qw",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qweqw eqw eqwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: true,
-    },
+  const [messages, setMessages] = useState<MessageItemType[]>([]);
+  const fetchMessages = async (conversationID: string) => {
+    const { data, error } = await getConversationById(conversationID);
+    if (data) {
+      const { messages } = data;
+      const allMessages: MessageItemType[] = [];
+      for (let i = 0; i < messages.length; i++) {
+        let isFirstMessage = true;
+        if (i > 0 && messages[i].senderID === messages[i - 1].senderID)
+          isFirstMessage = false;
 
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content:
-        "Hello qweq weqwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qweqwe qwe qwe qw",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello qweqw eqw eqwe qwe qwe qwe qwe qwe qwe ",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: true,
-    },
-
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: true,
-      isFirstMessage: true,
-    },
-    {
-      userImg: "https://picsum.photos/200/300",
-      content: "Hello",
-      created_at: "2021-10-10T12:00:00.000Z",
-      isMessageOwner: false,
-      isFirstMessage: false,
-    },
-  ];
-
+        const isMessageOwner = messages[i].senderID !== user?.id;
+        const message: MessageItemType = {
+          content: messages[i].messageContent,
+          created_at: new Date(messages[i].messageDate).toUTCString(),
+          isMessageOwner,
+          isFirstMessage,
+        };
+        allMessages.push(message);
+      }
+      setMessages(allMessages);
+    }
+  };
   useEffect(() => {
-    console.log(query);
+    if (query.id) {
+      fetchMessages(query.id as string);
+    } else {
+      setMessages([]);
+    }
   }, [query]);
   return (
     <main className="flex h-[92vh] overflow-hidden">
@@ -204,7 +79,7 @@ const Conversation = () => {
         </div>
         <div className="grow-1 conversation-container flex-1 overflow-y-scroll border-b-2 border-b-[#132f22]">
           {/* Message Container */}
-          {dummyMessages.map((message, index) => (
+          {messages.map((message, index) => (
             <MessageItem key={index} message={message} />
           ))}
           {/* Message Container */}

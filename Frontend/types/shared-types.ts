@@ -14,6 +14,14 @@ export type GetSearchProductsDataResponse = ProductData[];
 export type GetUserProfileDataResponse = UserProfile;
 
 // Conversation Controller Responses =======================================
+export type PostGetConversationByIDDataResponse = {
+  messages: MessageData[];
+  conversation: ConversationData;
+};
+export type PostGetConversationByUserIDataResponse = {
+  messages: MessageData[];
+  conversation: ConversationData;
+};
 export type GetAllConversationsDataResponse = {
   user: {
     userID: string;
@@ -30,11 +38,6 @@ export type GetAllConversationsDataResponse = {
   participantSecondID: string;
   lastMessageDate: Date;
 }[];
-
-export type PostGetConversationDataResponse = {
-  messages: MessageData[];
-  conversation: ConversationData;
-};
 
 //  FIELDS ================================================================
 export type LoginFields = {
