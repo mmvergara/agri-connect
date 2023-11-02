@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import { getUserProfileByUsername } from "@/services/UserService";
 import { timeFromNow } from "@/utils/helpers";
 import Image from "next/image";
+import { getConversation } from "@/services/ConversationService";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
@@ -44,6 +45,14 @@ const UserProfilePage = () => {
       return;
     }
     setUserProfile(data);
+  };
+
+  const handleMessageUser = async () => {
+    if (!userProfile) return;
+    const { data, error } = await getConversation(userProfile.userID);
+    if (data) {
+      router.push(`/messages?id=${data?.conversation.conversationID}`);
+    }
   };
 
   console.log(userProfile);
@@ -88,6 +97,7 @@ const UserProfilePage = () => {
                 variant="solid"
                 colorScheme="green"
                 leftIcon={<EmailIcon />}
+                onClick={handleMessageUser}
               >
                 Message
               </Button>

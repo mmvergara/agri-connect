@@ -1,6 +1,6 @@
 import {
   GetAllConversationsDataResponse,
-  GetConversationDataResponse,
+  PostGetConversationDataResponse,
 } from "../../shared-types";
 import { Req, Res } from "../../types/express-types";
 import {
@@ -18,13 +18,22 @@ export const getAllConversations = async (req: Req, res: Res) => {
     const data: GetAllConversationsDataResponse = await fetchAllConversations(
       userID
     );
+
+    // sort by last message date
+    data.sort((a, b) => {
+      return (
+        new Date(b.lastMessageDate).getTime() -
+        new Date(a.lastMessageDate).getTime()
+      );
+    });
     return res.status(200).json({ data, error: null });
   } catch (error) {
     return res.status(400).json({ data: null, error: error.message });
   }
 };
 
-export const getConversation = async (req: Req, res: Res) => {
+
+export const postGetConversation = async (req: Req, res: Res) => {
   try {
     const { userID2 } = req.body;
     const userID = req.session.user_id;
@@ -40,7 +49,7 @@ export const getConversation = async (req: Req, res: Res) => {
       conversation.conversationID
     );
 
-    const data: GetConversationDataResponse = {
+    const data: PostGetConversationDataResponse = {
       conversation,
       messages,
     };
@@ -53,6 +62,12 @@ export const getConversation = async (req: Req, res: Res) => {
     return res.status(400).json({ data: null, error: error.message });
   }
 };
+
+export const getConversationMessages = async (req: Req, res: Res) => {
+  try{
+    
+  }
+}
 
 export const postSendMessage = async (req: Req, res: Res) => {
   try {

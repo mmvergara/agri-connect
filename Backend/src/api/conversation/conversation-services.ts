@@ -1,5 +1,18 @@
 import { db } from "../../lib/db";
 
+export const fetchAllConversationMessages = async (conversationID: string) => {
+  try {
+    const messages = await db.messages.findMany({
+      where: { conversationID },
+    });
+  } catch (error) {}
+};
+
+export const sendMessage = async (conversationID: string, message: string) => {
+  try {
+  } catch (error) {}
+};
+
 export const fetchAllConversations = async (userID: string) => {
   try {
     const conversation = await db.conversations.findMany({
@@ -47,23 +60,6 @@ export const fetchAllConversations = async (userID: string) => {
   }
 };
 
-export const createConversation = async (userID: string, userID2: string) => {
-  try {
-    console.log();
-    const conversation = await db.conversations.create({
-      data: {
-        participantFirstID: userID,
-        participantSecondID: userID2,
-      },
-    });
-
-    return conversation;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error creating conversation");
-  }
-};
-
 export const isPartOfConversation = async (
   userID: string,
   conversationID: string
@@ -95,21 +91,37 @@ export const isPartOfConversation = async (
   }
 };
 
-export const findConversation = async (userID: string, userID2: string) => {
+export const findConversation = async (userID1: string, userID2: string) => {
   try {
     // use OR to find the conversation
     const conversation = await db.conversations.findFirst({
       where: {
         OR: [
           {
-            participantFirstID: userID,
+            participantFirstID: userID1,
             participantSecondID: userID2,
           },
           {
             participantFirstID: userID2,
-            participantSecondID: userID,
+            participantSecondID: userID1,
           },
         ],
+      },
+    });
+
+    return conversation;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error creating conversation");
+  }
+};
+
+export const createConversation = async (userID: string, userID2: string) => {
+  try {
+    const conversation = await db.conversations.create({
+      data: {
+        participantFirstID: userID,
+        participantSecondID: userID2,
       },
     });
 

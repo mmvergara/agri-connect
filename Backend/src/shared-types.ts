@@ -31,7 +31,7 @@ export type GetAllConversationsDataResponse = {
   lastMessageDate: Date;
 }[];
 
-export type GetConversationDataResponse = {
+export type PostGetConversationDataResponse = {
   messages: MessageData[];
   conversation: ConversationData;
 };

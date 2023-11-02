@@ -1,10 +1,12 @@
 import ConversationList from "@/components/Messages/ConversationList";
 import MessageItem from "@/components/Messages/MessageItem";
 import { MessageItemType } from "@/types";
-import { Input } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Conversation = () => {
+  const { query } = useRouter();
   const dummyMessages: MessageItemType[] = [
     {
       userImg: "https://picsum.photos/200/300",
@@ -160,6 +162,10 @@ const Conversation = () => {
       isFirstMessage: false,
     },
   ];
+
+  useEffect(() => {
+    console.log(query);
+  }, [query]);
   return (
     <main className="flex h-[92vh] overflow-hidden">
       <section className="hidden min-w-[300px] border-[hsl(34,45%,75%)] bg-[hsl(152,42%,13%)] font-poppins text-white sm:block">
