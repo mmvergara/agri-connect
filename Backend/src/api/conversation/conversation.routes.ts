@@ -11,5 +11,5 @@ export default (router: Router) => {
   router.post("/conversation/getByUserId", isAuth, postGetConversationByUserID);
   router.post("/conversation/send", isAuth, postSendMessage);
   router.post("/conversation/getById", isAuth, postGetConversationByUserID);
-  router.post("/conversation/message/send", isAuth, postGetConversationByUserID);
+  router.post("/conversation/message/send", isAuth, postSendMessage);
 };

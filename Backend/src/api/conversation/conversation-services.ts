@@ -23,9 +23,6 @@ export const fetchAllConversations = async (userID: string) => {
       },
     });
     // find the user with the id of not userID then get the user
-    console.log("****************************************");
-    console.log(conversation);
-    console.log("****************************************");
 
     const conversations = await Promise.all(
       conversation.map(async (conversation) => {
@@ -41,9 +38,7 @@ export const fetchAllConversations = async (userID: string) => {
                   userID: conversation.participantFirstID,
                 },
               });
-        console.log("=============================");
-        console.log(user);
-        console.log("=============================");
+
         user.password = "";
         user.email = "";
         user.isAdmin = false;
@@ -119,6 +114,7 @@ export const findConversation = async (userID1: string, userID2: string) => {
 
 export const createConversation = async (userID: string, userID2: string) => {
   try {
+    if (userID === userID2) throw new Error("Cannot message yourself");
     const conversation = await db.conversations.create({
       data: {
         participantFirstID: userID,
@@ -145,7 +141,7 @@ export const getMessagesByConversationID = async (conversationID: string) => {
         messageDate: "asc",
       },
     });
-
+    console.log("====================================");
     return messages;
   } catch (error) {
     console.log(error);
@@ -166,6 +162,8 @@ export const sendMessage = async (
         senderID: userID,
       },
     });
+
+    console.log(newMessage);
 
     return newMessage;
   } catch (error) {

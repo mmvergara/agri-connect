@@ -1,22 +1,49 @@
 import ConversationList from "@/components/Messages/ConversationList";
 import MessageItem from "@/components/Messages/MessageItem";
 import { useAuth } from "@/context/AuthContext";
-import { getConversationById } from "@/services/ConversationService";
+import {
+  getAllConversation,
+  getConversationById,
+  sendMessage,
+} from "@/services/ConversationService";
 import { MessageItemType } from "@/types";
+import { GetAllConversationsDataResponse } from "@/types/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const Conversation = () => {
   const { query } = useRouter();
   const { user } = useAuth();
   const [messageInput, setMessageInput] = useState<string>("");
   const [messages, setMessages] = useState<MessageItemType[]>([]);
-  const handleSubmitMessage = () => {
-    
+
+  const [conversations, setConversations] =
+    useState<GetAllConversationsDataResponse>([]);
+
+  const fetchConversations = async () => {
+    const { data } = await getAllConversation();
+    if (data) setConversations(data);
+  };
+
+  const currentConversationUser = conversations.find(
+    (v) => v.conversationID === query.id,
+  )?.user;
+
+  const handleSubmitMessage = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!messageInput) return;
+    if (!query.id) return;
+    const { data, error } = await sendMessage({
+      conversationID: query.id as string,
+      message: messageInput,
+    });
+    console.log("handleSubmitMessage");
+    console.log(data, error);
+    setMessageInput("");
   };
   const fetchMessages = async (conversationID: string) => {
-    const { data } = await getConversationById(conversationID);
+    const { data } = await getConversationById({ conversationID });
     if (data) {
       const { messages } = data;
       const allMessages: MessageItemType[] = [];
@@ -24,8 +51,7 @@ const Conversation = () => {
         let isFirstMessage = true;
         if (i > 0 && messages[i].senderID === messages[i - 1].senderID)
           isFirstMessage = false;
-
-        const isMessageOwner = messages[i].senderID !== user?.id;
+        const isMessageOwner = messages[i].senderID === user?.id;
         const message: MessageItemType = {
           content: messages[i].messageContent,
           created_at: new Date(messages[i].messageDate).toUTCString(),
@@ -34,9 +60,14 @@ const Conversation = () => {
         };
         allMessages.push(message);
       }
+      console.log("setMessages", allMessages);
       setMessages(allMessages);
     }
   };
+
+  useEffect(() => {
+    fetchConversations();
+  }, []);
   useEffect(() => {
     if (query.id) {
       fetchMessages(query.id as string);
@@ -44,11 +75,12 @@ const Conversation = () => {
       setMessages([]);
     }
   }, [query]);
+
   return (
     <main className="flex h-[92vh] overflow-hidden">
       <section className="hidden min-w-[300px] border-[hsl(34,45%,75%)] bg-[hsl(152,42%,13%)] font-poppins text-white sm:block">
         <div className="conversations-container h-[100%] overflow-y-scroll">
-          <ConversationList />
+          <ConversationList conversations={conversations} />
         </div>
       </section>
 
@@ -57,11 +89,13 @@ const Conversation = () => {
         <div className="drop-shadow-bottom-only flex items-center justify-between bg-[hsl(152,42%,13%)] p-2">
           <div className="flex items-center gap-2">
             <img
-              src="https://picsum.photos/200/300"
+              src={currentConversationUser?.avatarUrl}
               alt="user image"
               className="h-[32px] w-[32px] rounded-full"
             />
-            <p className="font-poppins text-white">Username</p>
+            <p className="font-poppins text-white">
+              {currentConversationUser?.username}
+            </p>
           </div>
           <div className="block sm:hidden">
             <Link
@@ -83,7 +117,14 @@ const Conversation = () => {
         <div className="grow-1 conversation-container flex-1 overflow-y-scroll border-b-2 border-b-[#132f22]">
           {/* Message Container */}
           {messages.map((message, index) => (
-            <MessageItem key={index} message={message} />
+            <MessageItem
+              key={index}
+              message={message}
+              avatarURL={
+                currentConversationUser?.avatarUrl ||
+                "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+              }
+            />
           ))}
           {/* Message Container */}
         </div>
@@ -92,7 +133,7 @@ const Conversation = () => {
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
             type="text"
-            className="w-[80%] rounded-lg bg-[hsl(152,42%,20%)] p-2 placeholder-[hsl(0,0%,79%)] outline-none"
+            className="w-[80%] rounded-lg bg-[hsl(152,42%,20%)] p-2 text-white placeholder-[hsl(0,0%,79%)] outline-none"
             placeholder="Type a message"
             name="messageInput"
             id="messageInput"

@@ -3,24 +3,19 @@ import { GetAllConversationsDataResponse } from "@/types/shared-types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const ConversationList = () => {
-  const [conversations, setConversations] =
-    useState<GetAllConversationsDataResponse>([]);
+type props = {
+  conversations: GetAllConversationsDataResponse;
+};
 
-  const fetchConversations = async () => {
-    const { data, error } = await getAllConversation();
-    if (data) setConversations(data);
-  };
-
-  useEffect(() => {
-    fetchConversations();
-  }, []);
-  console.log(conversations);
+const ConversationList = ({ conversations }: props) => {
   return (
     <>
       {conversations.map((v) => {
         return (
-          <Link href={`/messages?id=${v.conversationID}`}>
+          <Link
+            href={`/messages?id=${v.conversationID}`}
+            key={v.conversationID}
+          >
             <article
               key={v.conversationID}
               className="m-2 flex cursor-pointer items-center gap-4 rounded-lg p-2 hover:bg-[hsl(152,42%,19%)]"

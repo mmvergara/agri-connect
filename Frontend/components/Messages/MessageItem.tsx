@@ -2,9 +2,10 @@ import { MessageItemType } from "@/types";
 
 interface Props {
   message: MessageItemType;
+  avatarURL: string;
 }
 
-const MessageItem: React.FC<Props> = ({ message }) => {
+const MessageItem: React.FC<Props> = ({ message, avatarURL }) => {
   return (
     <article
       className={`mx-4 my-2 flex items-center gap-2 ${
@@ -13,7 +14,7 @@ const MessageItem: React.FC<Props> = ({ message }) => {
     >
       {message.isFirstMessage && !message.isMessageOwner && (
         <img
-          src={message.userImg}
+          src={avatarURL}
           alt="user image"
           width={32}
           height={32}

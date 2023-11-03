@@ -2,9 +2,11 @@ import {
   GetAllConversationsDataResponse,
   PostGetConversationByUserIDataResponse,
   PostGetConversationByIDDataResponse,
+  GetConversationByIdFields,
+  SendMessageFields,
+  GetConversationByUserIdFields,
 } from "@/types/shared-types";
 import { AxiosGet, AxiosPost } from "./AxiosInstance";
-
 
 export const getConversationByUserId = async (
   userID2: GetConversationByUserIdFields,
@@ -30,7 +32,6 @@ export const getConversationById = async (
     { conversationID },
   );
 };
-
 
 export const sendMessage = async (data: SendMessageFields) => {
   return await AxiosPost<PostGetConversationByUserIDataResponse>(
