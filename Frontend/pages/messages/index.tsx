@@ -10,10 +10,13 @@ import { useEffect, useState } from "react";
 const Conversation = () => {
   const { query } = useRouter();
   const { user } = useAuth();
-
+  const [messageInput, setMessageInput] = useState<string>("");
   const [messages, setMessages] = useState<MessageItemType[]>([]);
+  const handleSubmitMessage = () => {
+    
+  };
   const fetchMessages = async (conversationID: string) => {
-    const { data, error } = await getConversationById(conversationID);
+    const { data } = await getConversationById(conversationID);
     if (data) {
       const { messages } = data;
       const allMessages: MessageItemType[] = [];
@@ -84,8 +87,10 @@ const Conversation = () => {
           ))}
           {/* Message Container */}
         </div>
-        <div className="flex bg-[#132f22] p-2">
+        <form className="flex bg-[#132f22] p-2" onSubmit={handleSubmitMessage}>
           <input
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
             type="text"
             className="w-[80%] rounded-lg bg-[hsl(152,42%,20%)] p-2 placeholder-[hsl(0,0%,79%)] outline-none"
             placeholder="Type a message"
@@ -95,6 +100,7 @@ const Conversation = () => {
           />
           <button
             className="mx-2 flex w-[20%] items-center justify-center rounded-lg bg-[hsl(152,42%,15%)] hover:bg-[hsl(152,42%,20%)]"
+            type="submit"
             data-cy="send-message-button"
           >
             <svg
@@ -106,7 +112,7 @@ const Conversation = () => {
               <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986a.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
             </svg>
           </button>
-        </div>
+        </form>
       </section>
     </main>
   );

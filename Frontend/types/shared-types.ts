@@ -40,6 +40,19 @@ export type GetAllConversationsDataResponse = {
 }[];
 
 //  FIELDS ================================================================
+
+export type GetConversationByUserIdFields = {
+  userID2: string;
+};
+export type GetConversationByIdFields = {
+  conversationID: string;
+};
+export type SendMessageFields = {
+  conversationID: string;
+  message: string;
+};
+
+
 export type LoginFields = {
   email: string;
   password: string;
