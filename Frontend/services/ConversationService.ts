@@ -8,9 +8,9 @@ import {
 } from "@/types/shared-types";
 import { AxiosGet, AxiosPost } from "./AxiosInstance";
 
-export const getConversationByUserId = async (
-  userID2: GetConversationByUserIdFields,
-) => {
+export const getConversationByUserId = async ({
+  userID2,
+}: GetConversationByUserIdFields) => {
   console.log("getConversation", userID2);
   return await AxiosPost<PostGetConversationByIDDataResponse>(
     "/conversation/getByUserId",
@@ -23,13 +23,10 @@ export const getAllConversation = async () => {
   return await AxiosGet<GetAllConversationsDataResponse>("conversation/all");
 };
 
-export const getConversationById = async (
-  conversationID: GetConversationByIdFields,
-) => {
-  console.log("getConversationById", conversationID);
+export const getConversationById = async (data: GetConversationByIdFields) => {
   return await AxiosPost<PostGetConversationByUserIDataResponse>(
     "conversation/getById",
-    { conversationID },
+    { conversationID: data.conversationID },
   );
 };
 

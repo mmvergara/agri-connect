@@ -1,5 +1,6 @@
 import ConversationList from "@/components/Messages/ConversationList";
 import MessageItem from "@/components/Messages/MessageItem";
+import { BASE_URL } from "@/config";
 import { useAuth } from "@/context/AuthContext";
 import {
   getAllConversation,
@@ -7,16 +8,31 @@ import {
   sendMessage,
 } from "@/services/ConversationService";
 import { MessageItemType } from "@/types";
-import { GetAllConversationsDataResponse } from "@/types/shared-types";
+import {
+  GetAllConversationsDataResponse,
+  MessageData,
+} from "@/types/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
-
+import { FormEvent, useEffect, useRef, useState } from "react";
+import openSocket from "socket.io-client";
 const Conversation = () => {
   const { query } = useRouter();
   const { user } = useAuth();
+
   const [messageInput, setMessageInput] = useState<string>("");
   const [messages, setMessages] = useState<MessageItemType[]>([]);
+  const conversationID = query.id as string;
+
+  const messageContainerRef = useRef<null | HTMLDivElement>(null!);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      if (!messageContainerRef.current) return;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }, 400);
+  };
 
   const [conversations, setConversations] =
     useState<GetAllConversationsDataResponse>([]);
@@ -27,19 +43,18 @@ const Conversation = () => {
   };
 
   const currentConversationUser = conversations.find(
-    (v) => v.conversationID === query.id,
+    (v) => v.conversationID === conversationID,
   )?.user;
 
   const handleSubmitMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!messageInput) return;
     if (!query.id) return;
-    const { data, error } = await sendMessage({
-      conversationID: query.id as string,
+    const { error } = await sendMessage({
+      conversationID,
       message: messageInput,
     });
-    console.log("handleSubmitMessage");
-    console.log(data, error);
+    if (error) return;
     setMessageInput("");
   };
   const fetchMessages = async (conversationID: string) => {
@@ -53,6 +68,7 @@ const Conversation = () => {
           isFirstMessage = false;
         const isMessageOwner = messages[i].senderID === user?.id;
         const message: MessageItemType = {
+          senderID: messages[i].senderID,
           content: messages[i].messageContent,
           created_at: new Date(messages[i].messageDate).toUTCString(),
           isMessageOwner,
@@ -60,16 +76,37 @@ const Conversation = () => {
         };
         allMessages.push(message);
       }
-      console.log("setMessages", allMessages);
       setMessages(allMessages);
     }
+    scrollToBottom();
   };
 
   useEffect(() => {
+    const socket = openSocket(BASE_URL);
+
+    socket.on("new-message", (data: MessageData) => {
+      if (data.conversationID === conversationID) {
+        const message: MessageItemType = {
+          senderID: data.senderID,
+          content: data.messageContent,
+          created_at: new Date(data.messageDate).toUTCString(),
+          isMessageOwner: data.senderID === user?.id,
+          isFirstMessage: false,
+        };
+        setMessages((prev) => [...prev, message]);
+        scrollToBottom();
+      }
+    });
+
     fetchConversations();
+    return () => {
+      socket.off("new-message");
+    };
   }, []);
+
   useEffect(() => {
     if (query.id) {
+      console.log(query.id);
       fetchMessages(query.id as string);
     } else {
       setMessages([]);
@@ -114,7 +151,11 @@ const Conversation = () => {
             </Link>
           </div>
         </div>
-        <div className="grow-1 conversation-container flex-1 overflow-y-scroll border-b-2 border-b-[#132f22]">
+        <div
+          className="grow-1 conversation-container flex-1 overflow-y-scroll border-b-2 border-b-[#132f22]"
+          id="message-container"
+          ref={messageContainerRef}
+        >
           {/* Message Container */}
           {messages.map((message, index) => (
             <MessageItem

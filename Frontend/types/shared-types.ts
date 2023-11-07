@@ -52,7 +52,6 @@ export type SendMessageFields = {
   message: string;
 };
 
-
 export type LoginFields = {
   email: string;
   password: string;
@@ -123,3 +122,11 @@ export type UserProfile = {
   };
   products: ProductData[];
 } & UserData;
+
+export type SocketData = {
+  action: "send-message" | "delete-message";
+  conversationID: string;
+  content: string;
+  to: string
+  from: string
+};

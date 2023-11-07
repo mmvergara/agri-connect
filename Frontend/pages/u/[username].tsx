@@ -49,7 +49,9 @@ const UserProfilePage = () => {
 
   const handleMessageUser = async () => {
     if (!userProfile) return;
-    const { data, error } = await getConversationByUserId(userProfile.userID);
+    const { data, error } = await getConversationByUserId({
+      userID2: userProfile.userID,
+    });
     if (data) {
       router.push(`/messages?id=${data?.conversation.conversationID}`);
     }

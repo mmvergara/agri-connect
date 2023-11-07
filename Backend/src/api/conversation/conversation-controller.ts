@@ -5,6 +5,7 @@ import {
   SendMessageFields,
 } from "../../shared-types";
 import { Req, Res } from "../../types/express-types";
+import { getSocket } from "../../utilities/socket";
 import {
   createConversation,
   fetchAllConversations,
@@ -37,6 +38,7 @@ export const postGetConversationByID = async (req: Req, res: Res) => {
   try {
     const { conversationID } = req.body;
     const userID = req.session.user_id;
+    console.log(req.body);
     const conversation = await isPartOfConversation(userID, conversationID);
 
     if (!conversation) {
@@ -111,15 +113,16 @@ export const postSendMessage = async (req: Req, res: Res) => {
     const { message, conversationID } = req.body as SendMessageFields;
     const userID = req.session.user_id;
     const conversation = await isPartOfConversation(userID, conversationID);
-    console.log("Message Create4");
 
     if (!conversation) {
       throw new Error("You are not part of this conversation");
     }
 
     const sentMessage = await sendMessage(userID, conversationID, message);
-    console.log("Message Create2");
-    console.log(sentMessage);
+
+    const io = getSocket();
+
+    io.emit("new-message", sentMessage);
 
     return res.status(200).json({ data: sentMessage, error: null });
   } catch (error) {

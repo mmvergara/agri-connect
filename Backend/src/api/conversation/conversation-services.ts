@@ -61,29 +61,24 @@ export const isPartOfConversation = async (
   conversationID: string
 ) => {
   try {
-    const conversation = await db.conversations.findFirst({
+    console.log(userID, conversationID);
+    const conversation = await db.conversations.findUnique({
       where: {
-        AND: [
-          {
-            conversationID,
-          },
-          {
-            OR: [
-              {
-                participantFirstID: userID,
-              },
-              {
-                participantSecondID: userID,
-              },
-            ],
-          },
-        ],
+        conversationID,
       },
     });
-    return conversation;
+    console.log("Found conversations==============");
+    console.log(conversation);
+    if (
+      conversation.participantFirstID === userID ||
+      conversation.participantSecondID === userID
+    ) {
+      return conversation;
+    }
+    throw new Error();
   } catch (error) {
     console.log(error);
-    throw new Error("Error creating conversation");
+    throw new Error("You are not part of this conversation");
   }
 };
 
