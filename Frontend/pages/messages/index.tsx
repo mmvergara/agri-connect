@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { GiTrumpet } from "react-icons/gi";
 import openSocket from "socket.io-client";
 const Conversation = () => {
   const { query } = useRouter();
@@ -56,6 +57,15 @@ const Conversation = () => {
     });
     if (error) return;
     setMessageInput("");
+
+    const message: MessageItemType = {
+      senderID: user?.id as string,
+      content: messageInput,
+      created_at: new Date().toUTCString(),
+      isMessageOwner: true,
+      isFirstMessage: false,
+    };
+    setMessages((prev) => [...prev, message]);
   };
   const fetchMessages = async (conversationID: string) => {
     const { data } = await getConversationById({ conversationID });
