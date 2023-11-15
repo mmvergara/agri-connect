@@ -27,7 +27,7 @@ const ProductCard = ({ ProductData }: props) => {
         />
 
         <Box
-          className="bg-gray-50 p-4"
+          className="bg-gray-100 p-4"
           style={{
             borderRadius: "0 0 7px 7px",
           }}

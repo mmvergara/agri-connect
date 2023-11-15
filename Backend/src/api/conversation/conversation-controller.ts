@@ -122,7 +122,7 @@ export const postSendMessage = async (req: Req, res: Res) => {
 
     const io = getSocket();
 
-    io.emit("new-message", sentMessage);
+    io.emit(`new-message-${conversationID}`, sentMessage);
 
     return res.status(200).json({ data: sentMessage, error: null });
   } catch (error) {

@@ -1,4 +1,5 @@
-import { changePassword } from "@/services/AuthService";
+import { useAuth } from "@/context/AuthContext";
+import { changePassword, deleteAccount } from "@/services/AuthService";
 import { createProduct } from "@/services/ProductService";
 import { ChangePasswordFields } from "@/types/shared-types";
 import {
@@ -17,7 +18,7 @@ import { useRouter } from "next/router";
 import { useState, FormEvent } from "react";
 
 const SettingsPage = () => {
-  const router = useRouter();
+  const user = useAuth();
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
 
   const [changePasswordFields, setChangePasswordFields] =
@@ -25,6 +26,10 @@ const SettingsPage = () => {
       oldPassword: "",
       newPassword: "",
     });
+
+  const [deleteAccountPassword, setDeleteAccountPassword] =
+    useState<string>("");
+
   const handleChangePasswordInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -43,7 +48,8 @@ const SettingsPage = () => {
     setChangePasswordFields({ oldPassword: "", newPassword: "" });
   };
   const handleDeleteAccount = () => {
-    console.log("delete account");
+    deleteAccount(deleteAccountPassword);
+    user.logout();
   };
 
   return (
@@ -92,6 +98,17 @@ const SettingsPage = () => {
           <Divider className="mt-4" />
 
           <FormLabel>Delete Account</FormLabel>
+          <Input
+            name="deleteAccountPassword"
+            data-cy="deleteAccountPasswordField"
+            type="password"
+            value={deleteAccountPassword}
+            onChange={(e) => {
+              setDeleteAccountPassword(e.target.value);
+            }}
+            placeholder="Password"
+            variant="filled"
+          />
           <Text>
             Deleting your account will delete all your data. This action cannot
             be undone.

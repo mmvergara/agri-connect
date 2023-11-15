@@ -25,6 +25,15 @@ export const changePassword = async (newPass: {
 }) => {
   return await AxiosPost<PostLogoutDataResponse>(
     "/auth/change-password",
-    newPass
+    newPass,
   );
+};
+
+export const deleteAccount = async (password: string) => {
+  const res = await AxiosPost("/auth/delete-account", {
+    password,
+  });
+  console.log(res);
+  if (!res.error) localStorage.removeItem("user");
+  return res;
 };

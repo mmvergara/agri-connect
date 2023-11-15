@@ -19,7 +19,11 @@ import {
   PostLogoutDataResponse,
   PostRegisterDataResponse,
 } from "../../shared-types";
-import { getUserByEmail, getUserByID } from "../user/user-services";
+import {
+  deleteUserByID,
+  getUserByEmail,
+  getUserByID,
+} from "../user/user-services";
 
 export const postRegister = async (req: Req, res: Res) => {
   try {
@@ -95,6 +99,29 @@ export const postChangePassword = async (req: Req, res: Res) => {
 
     // Change password
     await changePassword(user.userID, newPassword);
+
+    const data: PostChangePasswordResponse = null;
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    return res.status(400).json({ error: error.message, data: null });
+  }
+};
+
+export const postDeleteAccount = async (req: Req, res: Res) => {
+  try {
+    const user = await getUserByID(req.session.user_id);
+    if (!user) throw new Error("User does not exist");
+
+    // Validate old password
+    await validatePassword(req.body.password, user.password);
+
+    // Delete user
+    deleteUserByID(user.userID);
+
+    // Logout user
+    req.session.destroy((err) => {
+      console.log("User logged out");
+    });
 
     const data: PostChangePasswordResponse = null;
     return res.status(200).json({ data, error: null });

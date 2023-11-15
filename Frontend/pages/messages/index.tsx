@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { GiTrumpet } from "react-icons/gi";
 import openSocket from "socket.io-client";
 const Conversation = () => {
   const { query } = useRouter();
@@ -58,14 +57,14 @@ const Conversation = () => {
     if (error) return;
     setMessageInput("");
 
-    const message: MessageItemType = {
-      senderID: user?.id as string,
-      content: messageInput,
-      created_at: new Date().toUTCString(),
-      isMessageOwner: true,
-      isFirstMessage: false,
-    };
-    setMessages((prev) => [...prev, message]);
+    // const message: MessageItemType = {
+    //   senderID: user?.id as string,
+    //   content: messageInput,
+    //   created_at: new Date().toUTCString(),
+    //   isMessageOwner: true,
+    //   isFirstMessage: false,
+    // };
+    // setMessages((prev) => [...prev, message]);
   };
   const fetchMessages = async (conversationID: string) => {
     const { data } = await getConversationById({ conversationID });
@@ -92,35 +91,35 @@ const Conversation = () => {
   };
 
   useEffect(() => {
-    const socket = openSocket(BASE_URL);
-
-    socket.on("new-message", (data: MessageData) => {
-      if (data.conversationID === conversationID) {
-        const message: MessageItemType = {
-          senderID: data.senderID,
-          content: data.messageContent,
-          created_at: new Date(data.messageDate).toUTCString(),
-          isMessageOwner: data.senderID === user?.id,
-          isFirstMessage: false,
-        };
-        setMessages((prev) => [...prev, message]);
-        scrollToBottom();
-      }
-    });
-
     fetchConversations();
-    return () => {
-      socket.off("new-message");
-    };
   }, []);
 
   useEffect(() => {
-    if (query.id) {
-      console.log(query.id);
+    const socket = openSocket(BASE_URL);
+    const conID = query.id || "";
+    if (conID) {
       fetchMessages(query.id as string);
+      socket.on(`new-message-${conversationID}`, (data: MessageData) => {
+        console.log(`new-message-${conversationID}`, data);
+        if (data.conversationID === conversationID) {
+          const message: MessageItemType = {
+            senderID: data.senderID,
+            content: data.messageContent,
+            created_at: new Date(data.messageDate).toUTCString(),
+            isMessageOwner: data.senderID === user?.id,
+            isFirstMessage: false,
+          };
+          setMessages((prev) => [...prev, message]);
+          scrollToBottom();
+        }
+      });
     } else {
       setMessages([]);
     }
+
+    return () => {
+      socket.off();
+    };
   }, [query]);
 
   return (
