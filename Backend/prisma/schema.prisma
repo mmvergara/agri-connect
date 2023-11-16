@@ -24,6 +24,9 @@ model User {
   products Product[]
   ProductEndorsers ProductEndorsers[]
 
+  posts Posts[]
+  postComments PostComments[]
+  postLikes PostLikes[]
 }
 
 
@@ -71,4 +74,35 @@ model Messages {
   senderID String @db.ObjectId
   messageContent String
   messageDate DateTime @default(now())
+}
+
+model Posts {
+  postID     String   @id @default(auto()) @map("_id") @db.ObjectId
+  postTitle String
+  postContent String
+  postDate DateTime @default(now())
+  postAuthorID String @db.ObjectId
+  postAuthor User @relation(fields: [postAuthorID], references: [userID])
+  postComments PostComments[]
+  postLikes PostLikes[]
+}
+
+
+model PostComments {
+  commentID     String   @id @default(auto()) @map("_id") @db.ObjectId
+  commentContent String
+  commentDate DateTime @default(now())
+  commentAuthorID String @db.ObjectId
+  commentAuthor User @relation(fields: [commentAuthorID], references: [userID])
+  postID String @db.ObjectId
+  post Posts @relation(fields: [postID], references: [postID])
+}
+
+
+model PostLikes {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  postID String @db.ObjectId
+  userID String @db.ObjectId
+  post Posts @relation(fields: [postID], references: [postID])
+  user User @relation(fields: [userID], references: [userID])
 }

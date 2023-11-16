@@ -114,6 +114,14 @@ export type MessageData = {
   messageDate: Date;
 };
 
+export type PostData = {
+  postID: string;
+  postTitle: string;
+  postContent: string;
+  postDate: Date;
+  postAuthorID: string;
+};
+
 // Complex Queries ================================================================
 export type UserProfile = {
   _count: {
@@ -127,6 +135,6 @@ export type SocketData = {
   action: "send-message" | "delete-message";
   conversationID: string;
   content: string;
-  to: string
-  from: string
+  to: string;
+  from: string;
 };
