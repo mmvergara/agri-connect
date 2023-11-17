@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Discussion = () => {
+const DiscussionCard = () => {
   return (
-    <section className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 drop-shadow-md">
+    <Link
+      href="#"
+      className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 drop-shadow-md transition-all hover:drop-shadow-xl"
+    >
       <Image
         src={
           "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
@@ -23,20 +26,18 @@ const Discussion = () => {
           earum explicabo cupiditate!
         </p>
         <div>
-          <Link href={`/thread/${22}`}>
-            <Image
-              src="/assets/reply.svg"
-              alt="heart"
-              width={24}
-              height={24}
-              className="cursor-pointer object-contain"
-            />
-          </Link>
+          <Image
+            src="/assets/reply.svg"
+            alt="heart"
+            width={24}
+            height={24}
+            className="cursor-pointer object-contain"
+          />
           122
         </div>
       </div>
-    </section>
+    </Link>
   );
 };
 
-export default Discussion;
+export default DiscussionCard;
