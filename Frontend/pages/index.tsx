@@ -39,6 +39,10 @@ export default function Home() {
       href: `/u/${user.user?.username}`,
       label: "My Profile",
     },
+    {
+      href: "/discussion",
+      label: "Discussion",
+    },
   ];
 
   useEffect(() => {
