@@ -43,6 +43,10 @@ export default function Home() {
       href: "/discussion",
       label: "Discussion",
     },
+    {
+      href: "/discussion/create",
+      label: "Create Discussion",
+    },
   ];
 
   useEffect(() => {

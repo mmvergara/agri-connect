@@ -1,5 +1,5 @@
 import { db } from "../../lib/db";
-import { PostData } from "../../shared-types";
+import { PostCreateField, PostData } from "../../shared-types";
 
 export const fetchAllPosts = async () => {
   try {
@@ -19,7 +19,7 @@ export const fetchAllPosts = async () => {
   }
 };
 
-export const createPost = async (post: PostData) => {
+export const createPost = async (post: PostCreateField) => {
   try {
     const newPost = await db.posts.create({
       data: {

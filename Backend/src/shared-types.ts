@@ -76,6 +76,12 @@ export type LoggedInUserData = {
   token_expiration: Date;
 };
 
+export type PostCreateField = {
+  postAuthorID: string;
+  postTitle: string;
+  postContent: string;
+};
+
 // Prisma Types ================================================================
 export type ProductData = {
   productID: string;
