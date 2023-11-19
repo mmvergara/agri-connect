@@ -1,14 +1,31 @@
+import { PostDataWithAuthor } from "@/types/shared-types";
+import {
+  ifMoreThanXCharactersAddThreeDots,
+  timeFromNow,
+} from "@/utils/helpers";
+import { Icon } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-
-const DiscussionCard = () => {
+import { FaRegHeart } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa6";
+const DiscussionCard = (props: PostDataWithAuthor) => {
+  const {
+    postAuthor,
+    postContent,
+    postID,
+    postDate,
+    postTitle,
+    postComments,
+    postLikes,
+  } = props;
   return (
     <Link
-      href="#"
+      href={`/discussion/${postID}`}
       className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 drop-shadow-md transition-all hover:drop-shadow-xl"
     >
       <Image
         src={
+          postAuthor.avatarUrl ||
           "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
         }
         alt="Picture of the author"
@@ -17,23 +34,20 @@ const DiscussionCard = () => {
         className="max-h-[48px] rounded-full"
       />
       <div>
-        <p className="font-bold ">Threads title</p>
-        <p className="text-gray-500">Threads Author - a day ago</p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto,
-          atque deserunt iusto ad aut nobis, nostrum quibusdam quo, ducimus
-          incidunt nemo perspiciatis eligendi dignissimos rerum id consequuntur
-          earum explicabo cupiditate!
+        <p className="font-bold ">{postTitle}</p>
+        <p className="text-gray-500">
+          {postAuthor.username} - {timeFromNow(postDate)}
         </p>
-        <div>
-          <Image
-            src="/assets/reply.svg"
-            alt="heart"
-            width={24}
-            height={24}
-            className="cursor-pointer object-contain"
-          />
-          122
+        <p>{ifMoreThanXCharactersAddThreeDots(postContent, 100)}</p>
+        <div className="mt-4 flex gap-4">
+          <article className="flex items-center gap-2">
+            <Icon as={FaRegComment} />
+            {postComments.length}
+          </article>{" "}
+          <article className="flex items-center gap-2">
+            <Icon as={FaRegHeart} />
+            {postLikes.length}
+          </article>
         </div>
       </div>
     </Link>

@@ -17,3 +17,11 @@ export const timeFromNow = (date: Date) => {
     return `${seconds} seconds ago`;
   }
 };
+
+export const ifMoreThanXCharactersAddThreeDots = (text: string, x: number) => {
+  if (text.length > x) {
+    return text.substring(0, x) + "...";
+  } else {
+    return text;
+  }
+};

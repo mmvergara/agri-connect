@@ -1,22 +1,28 @@
 import { useAuth } from "@/context/AuthContext";
+import { createPost } from "@/services/PostService";
 import { Button } from "@chakra-ui/react";
 import Image from "next/image";
 import { useState } from "react";
 
 const CreateDiscussion = () => {
+  const [postTitle, setPostTitle] = useState<string>("");
+  const [postContent, setPostContent] = useState<string>("");
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-
-  const handleSubmitDiscussion = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitDiscussion = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
-    console.log(title, description)
-  }
+    const { data, error } = await createPost({ postTitle, postContent });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(data);
+  };
 
   const user = useAuth();
   return (
-    <main className="mx-auto mt-[6vh] flex  w-full max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 pb-8 drop-shadow-md transition-all hover:drop-shadow-xl">
+    <main className="mx-auto mt-[6vh] flex  w-full max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 pb-8 drop-shadow-md transition-all ">
       <Image
         src={
           user.user?.avatarUrl ||
@@ -35,13 +41,17 @@ const CreateDiscussion = () => {
           type="text"
           className=" font-md mb-4 w-full rounded-md bg-gray-100 p-4"
           placeholder="Title"
+          value={postTitle}
+          onChange={(e) => setPostTitle(e.target.value)}
         />
         <textarea
           className=" font-md w-full rounded-md bg-gray-100 p-4"
           placeholder="Description"
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
         />
 
-        <Button className="mt-4" colorScheme="teal">
+        <Button className="mt-4" colorScheme="teal" type="submit">
           Create Discussion
         </Button>
       </form>
