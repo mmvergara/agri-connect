@@ -1,4 +1,5 @@
 import DiscussionCard from "@/components/Discussion/DiscussionCard";
+import { useLoading } from "@/hooks/useLoadingHook";
 import { getPosts } from "@/services/PostService";
 import { PostData, PostDataWithAuthor } from "@/types/shared-types";
 import { Button } from "@chakra-ui/react";
@@ -8,16 +9,17 @@ import { useEffect, useState } from "react";
 const DiscussionPage = () => {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
+
+  const { isLoading, loadingSpinner, setIsLoading } = useLoading();
   const [posts, setPosts] = useState<PostDataWithAuthor[] | []>([]);
 
   const fetchProducts = async (page: number) => {
+    setIsLoading(true);
     if (page < 1) page = 1;
     const { data, error } = await getPosts(page);
-    if (error) {
-      setPosts([]);
-      return;
-    }
-    setPosts(data);
+    if (error) setPosts([]);
+    else setPosts(data);
+    setIsLoading(false);
   };
 
   const handleNextPage = () => router.push(`/discussion?page=${page + 1}`);
@@ -34,6 +36,7 @@ const DiscussionPage = () => {
   console.log(posts);
   return (
     <main className="flex flex-col items-center justify-center gap-4 py-4">
+      {loadingSpinner}
       {posts.map((post: PostDataWithAuthor) => {
         return <DiscussionCard key={post.postID} {...post} />;
       })}

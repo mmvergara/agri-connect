@@ -1,6 +1,7 @@
 import { PostCreateField } from "../../shared-types";
 import { Req, Res } from "../../types/express-types";
 import {
+  addComment,
   createPost,
   getPostWithCommentsandLikes,
   getRecentPosts,
@@ -16,7 +17,7 @@ export const postCreatePost = async (req: Req, res: Res) => {
       postContent: body.postContent,
     };
     const newPost = await createPost(post);
-    res.status(200).json({ data: newPost, error: null });
+    res.status(201).json({ data: newPost, error: null });
   } catch (error) {
     res.status(500).json({ data: null, error });
   }
@@ -40,6 +41,18 @@ export const getPost = async (req: Req, res: Res) => {
     const post = await getPostWithCommentsandLikes(postID);
     if (!post) throw new Error("No post found");
     return res.status(200).json({ data: post, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+// Comments
+export const createComment = async (req: Req, res: Res) => {
+  try {
+    const { postID, commentContent } = req.body;
+    const data = await addComment(postID, req.session.user_id, commentContent);
+    res.status(201).json({ data: data, error: null });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ data: null, error: error.message });

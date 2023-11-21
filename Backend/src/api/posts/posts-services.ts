@@ -104,3 +104,28 @@ export const getPostWithCommentsandLikes = async (postID: string) => {
     throw new Error("Error fetching data");
   }
 };
+
+export const addComment = async (
+  postID: string,
+  comment: string,
+  userID: string
+) => {
+  try {
+    const newComment = await db.postComments.create({
+      data: {
+        commentContent: comment,
+        commentAuthorID: userID,
+        postID: postID,
+      },
+    });
+
+    console.log("==================================");
+    console.log("addComment", newComment);
+    console.log("==================================");
+
+    return newComment;
+  } catch (error) {
+    throw new Error("Error adding comment");
+  }
+};
+

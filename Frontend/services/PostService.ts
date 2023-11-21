@@ -15,3 +15,14 @@ export const createPost = async (PostData: {
 export const getPost = async (postID: string) => {
   return await AxiosGet<PostDataWithAuthor>(`/posts/${postID}`);
 };
+
+export const createComment = async (commentData: {
+  postID: string;
+  commentContent: string;
+}) => {
+  return await AxiosPost<{ message: string }>(
+    "/posts/comment/create",
+    commentData,
+  );
+};
+

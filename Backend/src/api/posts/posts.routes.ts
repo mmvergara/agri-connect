@@ -6,5 +6,8 @@ export default (router: Router) => {
   router.get("/posts/:postid", getPost);
   router.get("/posts/all/:page", getAllPosts);
 
+
+  router.post("/posts/comment/create")
+
   // router.post("/posts/comment/create", postCreatePost);
 };
