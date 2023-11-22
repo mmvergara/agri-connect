@@ -85,6 +85,7 @@ export const getPostWithCommentsandLikes = async (postID: string) => {
         postComments: {
           include: {
             commentAuthor: true,
+            postCommentsLikes: true,
           },
         },
         postLikes: {
@@ -125,7 +126,139 @@ export const addComment = async (
 
     return newComment;
   } catch (error) {
+    console.log(error);
     throw new Error("Error adding comment");
   }
 };
 
+export const deleteComment = async (commentID: string) => {
+  try {
+    const comment = await db.postComments.delete({
+      where: {
+        commentID: commentID,
+      },
+    });
+
+    console.log("==================================");
+    console.log("deleteComment", comment);
+    console.log("==================================");
+
+    return comment;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error deleting comment");
+  }
+};
+
+export const likeExists = async (commentID: string, userID: string) => {
+  try {
+    const comment = await db.postCommentsLikes.findFirst({
+      where: {
+        id: commentID,
+        AND: {
+          userID: userID,
+        },
+      },
+    });
+
+    console.log("==================================");
+    console.log("likeExists", comment);
+    console.log("==================================");
+
+    return comment;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error checking if like exists");
+  }
+};
+
+export const unlikeComment = async (commentID: string, userID: string) => {
+  try {
+    const comment = await db.postCommentsLikes.delete({
+      where: {
+        id: commentID,
+        AND: {
+          userID: userID,
+        },
+      },
+    });
+
+    console.log("==================================");
+    console.log("unlikeComment", comment);
+    console.log("==================================");
+
+    return comment;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error unliking comment");
+  }
+};
+
+export const likeComment = async (
+  commentID: string,
+  userID: string
+): Promise<{ isLiked: boolean }> => {
+  try {
+    // Check first if like exists then delete it, else create it
+
+    const comment = await db.postCommentsLikes.findFirst({
+      where: {
+        AND: [{ commentID }, { userID }],
+      },
+    });
+
+    if (comment) {
+      await db.postCommentsLikes.delete({
+        where: {
+          id: comment.id,
+        },
+      });
+      return { isLiked: false };
+    } else {
+      await db.postCommentsLikes.create({
+        data: {
+          commentID: commentID,
+          userID: userID,
+        },
+      });
+      return { isLiked: true };
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error liking comment");
+  }
+};
+
+// same as above but for posts
+
+export const likePost = async (postID: string, userID: string) => {
+  try {
+    // Check first if like exists then delete it, else create it
+
+    const post = await db.postLikes.findFirst({
+      where: {
+        AND: [{ postID }, { userID }],
+      },
+    });
+
+    if (post) {
+      await db.postLikes.delete({
+        where: {
+          id: post.id,
+        },
+      });
+      return { isLiked: false };
+    } else {
+      await db.postLikes.create({
+        data: {
+          postID: postID,
+          userID: userID,
+        },
+      });
+      return { isLiked: true };
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error liking post");
+  }
+};

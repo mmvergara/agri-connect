@@ -138,6 +138,18 @@ export type PostDataWithAuthor = {
   postAuthor: UserData;
 };
 
+export type PostCommentType = {
+  commentAuthor: UserData;
+  commentAuthorID: string;
+  commentContent: string;
+  commentDate: string;
+  commentID: string;
+  postID: string;
+  postCommentsLikes: {
+    userID: string;
+  }[];
+};
+
 // Complex Queries ================================================================
 export type UserProfile = {
   _count: {

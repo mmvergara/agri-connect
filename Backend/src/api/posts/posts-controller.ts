@@ -5,6 +5,11 @@ import {
   createPost,
   getPostWithCommentsandLikes,
   getRecentPosts,
+  likeComment,
+  deleteComment,
+  likeExists,
+  unlikeComment,
+  likePost,
 } from "./posts-services";
 
 export const postCreatePost = async (req: Req, res: Res) => {
@@ -47,11 +52,47 @@ export const getPost = async (req: Req, res: Res) => {
   }
 };
 
+export const postLikePost = async (req: Req, res: Res) => {
+  try {
+    const { postID } = req.body;
+    const userID = req.session.user_id;
+    const data = await likePost(postID, userID);
+    res.status(201).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
 // Comments
-export const createComment = async (req: Req, res: Res) => {
+export const postCreateComment = async (req: Req, res: Res) => {
   try {
     const { postID, commentContent } = req.body;
-    const data = await addComment(postID, req.session.user_id, commentContent);
+    const data = await addComment(postID, commentContent, req.session.user_id);
+    res.status(201).json({ data: data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postLikeComment = async (req: Req, res: Res) => {
+  try {
+    const { commentID } = req.body;
+    const userID = req.session.user_id;
+    const data = await likeComment(commentID, userID);
+    res.status(201).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postDeleteComment = async (req: Req, res: Res) => {
+  try {
+    const { commentID } = req.body;
+    console.log(req.body);
+    const data = await deleteComment(commentID);
     res.status(201).json({ data: data, error: null });
   } catch (error) {
     console.log(error);
