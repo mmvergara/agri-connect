@@ -69,6 +69,52 @@ export const getRecentPosts = async (pageNumber: number) => {
   }
 };
 
+export const getPostsByTitle = async (query: string) => {
+  try {
+    const posts = await db.posts.findMany({
+      where: {
+        postTitle: {
+          contains: query,
+          mode: "insensitive",
+        },
+      },
+      include: {
+        postAuthor: {
+          select: {
+            username: true,
+            avatarUrl: true,
+          },
+        },
+        postComments: true,
+        postLikes: true,
+      },
+    });
+
+    console.log("==================================");
+    console.log("getPostsByTitle", posts);
+    console.log("==================================");
+
+    return posts;
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+
+export const deletePost = async (postID: string, userID: string) => {
+  try {
+    const post = await db.posts.delete({
+      where: {
+        postID: postID,
+        postAuthorID: userID,
+      },
+    });
+
+    return post;
+  } catch (error) {
+    throw new Error("Error deleting post");
+  }
+};
+
 export const getPostWithCommentsandLikes = async (postID: string) => {
   try {
     const post = await db.posts.findUnique({
@@ -80,6 +126,7 @@ export const getPostWithCommentsandLikes = async (postID: string) => {
           select: {
             username: true,
             avatarUrl: true,
+            userID: true,
           },
         },
         postComments: {

@@ -40,7 +40,7 @@ model Product {
   productPrice Float
   productPricePer String
   productImageUrl String
-  productOwner User @relation(fields: [productOwnerId], references: [userID])
+  productOwner User @relation(fields: [productOwnerId], references: [userID],onDelete: Cascade)
   productOwnerId String @db.ObjectId
   createdAt DateTime @default(now())
 
@@ -51,15 +51,15 @@ model Product {
 model FeaturedProducts {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   productID String @db.ObjectId
-  product Product @relation(fields: [productID], references: [productID])
+  product Product @relation(fields: [productID], references: [productID],onDelete: Cascade)
 }
 
 model ProductEndorsers {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   productID String @db.ObjectId
   userID String @db.ObjectId
-  product Product @relation(fields: [productID], references: [productID])
-  user User @relation(fields: [userID], references: [userID])
+  product Product @relation(fields: [productID], references: [productID],onDelete: Cascade)
+  user User @relation(fields: [userID], references: [userID],onDelete: Cascade)
 }
 
 
@@ -84,7 +84,8 @@ model Posts {
   postContent String
   postDate DateTime @default(now())
   postAuthorID String @db.ObjectId
-  postAuthor User @relation(fields: [postAuthorID], references: [userID])
+  postAuthor User @relation(fields: [postAuthorID], references: [userID],onDelete: Cascade)
+
   postComments PostComments[]
   postLikes PostLikes[]
 }
@@ -95,9 +96,9 @@ model PostComments {
   commentContent String
   commentDate DateTime @default(now())
   commentAuthorID String @db.ObjectId
-  commentAuthor User @relation(fields: [commentAuthorID], references: [userID])
+  commentAuthor User @relation(fields: [commentAuthorID], references: [userID],onDelete: Cascade)
   postID String @db.ObjectId
-  post Posts @relation(fields: [postID], references: [postID])
+  post Posts @relation(fields: [postID], references: [postID],onDelete: Cascade)
 
   postCommentsLikes PostCommentsLikes[]
 }
@@ -107,14 +108,16 @@ model PostLikes {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   postID String @db.ObjectId
   userID String @db.ObjectId
-  post Posts @relation(fields: [postID], references: [postID])
-  user User @relation(fields: [userID], references: [userID])
+
+  post Posts @relation(fields: [postID], references: [postID],onDelete: Cascade)
+  user User @relation(fields: [userID], references: [userID],onDelete: Cascade)
 }
 
 model PostCommentsLikes {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   commentID String @db.ObjectId
   userID String @db.ObjectId
-  comment PostComments @relation(fields: [commentID], references: [commentID])
-  user User @relation(fields: [userID], references: [userID])
+
+  comment PostComments @relation(fields: [commentID], references: [commentID],onDelete: Cascade)
+  user User @relation(fields: [userID], references: [userID],onDelete: Cascade)
 }

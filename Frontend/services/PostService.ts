@@ -5,6 +5,14 @@ export const getPosts = async (pageNumber: number) => {
   return await AxiosGet<PostDataWithAuthor[]>(`/posts/all/${pageNumber}`);
 };
 
+export const searchPosts = async (query: string) => {
+  return await AxiosPost<PostDataWithAuthor[]>(`/posts/search`, { query });
+};
+
+export const deletePost = async (postID: string) => {
+  return await AxiosPost(`/posts/delete`, { postID });
+};
+
 export const createPost = async (PostData: {
   postTitle: string;
   postContent: string;

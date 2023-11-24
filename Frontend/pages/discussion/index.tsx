@@ -1,16 +1,18 @@
-import DiscussionCard from "@/components/Discussion/DiscussionCard";
-import { useLoading } from "@/hooks/useLoadingHook";
-import { getPosts } from "@/services/PostService";
-import { PostData, PostDataWithAuthor } from "@/types/shared-types";
-import { Button } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { PostDataWithAuthor } from "@/types/shared-types";
 import { useEffect, useState } from "react";
+import { useLoading } from "@/hooks/useLoadingHook";
+import { useRouter } from "next/router";
+import { getPosts } from "@/services/PostService";
+import { HiSearch } from "react-icons/hi";
+import { Button } from "@chakra-ui/react";
+import DiscussionCard from "@/components/Discussion/DiscussionCard";
+import Link from "next/link";
 
 const DiscussionPage = () => {
   const router = useRouter();
   const page = Number(router.query.page) || 1;
 
-  const { isLoading, loadingSpinner, setIsLoading } = useLoading();
+  const { loadingSpinner, setIsLoading } = useLoading();
   const [posts, setPosts] = useState<PostDataWithAuthor[] | []>([]);
 
   const fetchProducts = async (page: number) => {
@@ -36,6 +38,12 @@ const DiscussionPage = () => {
   console.log(posts);
   return (
     <main className="flex flex-col items-center justify-center gap-4 py-4">
+      <Link
+        className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+        href="/discussion/search"
+      >
+        Search Discussion <HiSearch />
+      </Link>{" "}
       {loadingSpinner}
       {posts.map((post: PostDataWithAuthor) => {
         return <DiscussionCard key={post.postID} {...post} />;

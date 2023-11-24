@@ -10,6 +10,8 @@ import {
   likeExists,
   unlikeComment,
   likePost,
+  getPostsByTitle,
+  deletePost,
 } from "./posts-services";
 
 export const postCreatePost = async (req: Req, res: Res) => {
@@ -52,11 +54,35 @@ export const getPost = async (req: Req, res: Res) => {
   }
 };
 
+export const postSearchPosts = async (req: Req, res: Res) => {
+  try {
+    const { query } = req.body;
+    const posts = await getPostsByTitle(query);
+    if (posts.length === 0) throw new Error("No posts found");
+    return res.status(200).json({ data: posts, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
 export const postLikePost = async (req: Req, res: Res) => {
   try {
     const { postID } = req.body;
     const userID = req.session.user_id;
     const data = await likePost(postID, userID);
+    res.status(201).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postDeletePost = async (req: Req, res: Res) => {
+  try {
+    const { postID } = req.body;
+    const userID = req.session.user_id;
+    const data = await deletePost(postID, userID);
     res.status(201).json({ data, error: null });
   } catch (error) {
     console.log(error);

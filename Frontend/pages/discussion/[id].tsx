@@ -1,19 +1,25 @@
 import PostComment from "@/components/Discussion/Comment";
 import CreateComment from "@/components/Discussion/CreateComment";
 import { useAuth } from "@/context/AuthContext";
-import { deleteComment, getPost, likePost } from "@/services/PostService";
+import {
+  deleteComment,
+  deletePost,
+  getPost,
+  likePost,
+} from "@/services/PostService";
 import type { PostCommentType, PostDataWithAuthor } from "@/types/shared-types";
 import {
   ifMoreThanXCharactersAddThreeDots,
   timeFromNow,
 } from "@/utils/helpers";
-import { Button, Divider, Icon, Toast, useToast } from "@chakra-ui/react";
+import { Button, Divider, Icon, useToast } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa6";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Discussion = () => {
   const auth = useAuth();
@@ -77,13 +83,24 @@ const Discussion = () => {
       status: "success",
     });
   };
+
+  const handleDeletePost = async () => {
+    if (!post) return;
+    const { error } = await deletePost(post?.postID);
+    if (error) return;
+    toast({
+      title: "Post Deleted.",
+      isClosable: true,
+      status: "success",
+    });
+    router.push("/discussion");
+  };
   useEffect(() => {
     if (!id) return;
     fetchProduct(id);
   }, [id]);
 
   if (!post) return <></>;
-  console.log(post);
 
   return (
     <main className="mx-auto mt-[4vh] flex w-full max-w-[800px]  flex-col gap-4">
@@ -98,6 +115,7 @@ const Discussion = () => {
           height={48}
           className="max-h-[48px] rounded-full"
         />
+
         <div>
           <p className="font-bold ">{post.postTitle}</p>
           <p className="text-gray-500">
@@ -119,6 +137,13 @@ const Discussion = () => {
             </Button>
           </div>
         </div>
+        {post.postAuthor.userID === auth.user?.id && (
+          <Icon
+            onClick={handleDeletePost}
+            as={RiDeleteBin6Line}
+            className=" ml-auto inline-block cursor-pointer hover:text-red-500"
+          />
+        )}
       </div>
       {auth.user && (
         <CreateComment onAddComment={handleAddComment} postID={post.postID} />
