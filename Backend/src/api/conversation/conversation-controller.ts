@@ -18,9 +18,7 @@ import {
 export const getAllConversations = async (req: Req, res: Res) => {
   try {
     const userID = req.session.user_id;
-    const data: GetAllConversationsDataResponse = await fetchAllConversations(
-      userID
-    );
+    const data = await fetchAllConversations(userID);
 
     // sort by last message date
     data.sort((a, b) => {

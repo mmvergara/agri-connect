@@ -29,25 +29,35 @@ export const fetchAllConversations = async (userID: string) => {
         const user =
           conversation.participantFirstID === userID
             ? await db.user.findUnique({
+                select: {
+                  avatarUrl: true,
+                  username: true,
+                  userID: true,
+                },
                 where: {
                   userID: conversation.participantSecondID,
                 },
               })
             : await db.user.findUnique({
+                select: {
+                  avatarUrl: true,
+                  username: true,
+                  userID: true,
+                },
                 where: {
                   userID: conversation.participantFirstID,
                 },
               });
-
-        user.password = "";
-        user.email = "";
-        user.isAdmin = false;
+        console.log(user);
         return {
           ...conversation,
           user,
         };
       })
     );
+    console.log("====================================");
+    console.log(conversations);
+    console.log("====================================");
 
     return conversations;
   } catch (error) {
