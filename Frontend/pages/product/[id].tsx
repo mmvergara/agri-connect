@@ -1,4 +1,4 @@
-import { getProductById } from "@/services/ProductService";
+import { endorseProduct, getProductById } from "@/services/ProductService";
 import { ProductData } from "@/types/shared-types";
 import { EmailIcon, StarIcon } from "@chakra-ui/icons";
 import {
@@ -22,19 +22,42 @@ import { useEffect, useState } from "react";
 import { IconButton, useDisclosure } from "@chakra-ui/react";
 import { IoQrCodeSharp } from "react-icons/io5";
 import { timeFromNow } from "@/utils/helpers";
+import { useAuth } from "@/context/AuthContext";
 
 const ProductPreview = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
+  const auth = useAuth();
+
   const { id } = router.query as { id: string };
   const [product, setProduct] = useState<ProductData | null>(null);
+  const [isEndorsed, setIsEndorsed] = useState<boolean>(false);
+  const [endorsersCount, setEndorsersCount] = useState<number>(0);
+
+  const handleEndorseProduct = async () => {
+    if (!product) return;
+    const { data, error } = await endorseProduct(product?.productID);
+    if (error || !data) return;
+
+    setIsEndorsed(data.isEndorsed);
+    if (data.isEndorsed) setEndorsersCount((prev) => prev + 1);
+    else setEndorsersCount((prev) => prev - 1);
+  };
+
   const fetchProduct = async (id: string) => {
     const { data, error } = await getProductById(id);
     if (error) {
       return;
     }
     console.log(data);
+    setIsEndorsed(
+      data.productEndorsers.find((endorser) => endorser === auth.user?.id)
+        ? true
+        : false,
+    );
+
+    setEndorsersCount(data.productEndorsers.length);
     setProduct(data);
   };
   useEffect(() => {
@@ -72,6 +95,7 @@ const ProductPreview = () => {
           <p className="font-arial text-lg text-gray-700">
             {product.productDescription}
           </p>
+
           <section className="flex w-full gap-2">
             <Button
               color="white"
@@ -84,14 +108,13 @@ const ProductPreview = () => {
               Message Seller
             </Button>
             <Button
-              color="white"
-              bgColor="yellow.600"
               colorScheme="yellow"
-              variant="solid"
-              className="w-full"
+              variant={isEndorsed ? "solid" : "outline"}
+              className="w-full text-white"
               leftIcon={<StarIcon />}
+              onClick={handleEndorseProduct}
             >
-              Endorse Product
+              {isEndorsed ? "Endorsed" : "Endorse Product"}
             </Button>
             <IconButton
               onClick={onOpen}
@@ -116,6 +139,7 @@ const ProductPreview = () => {
               </ModalContent>
             </Modal>
           </section>
+          <p className="font-bold">Endorsers : {endorsersCount}</p>
           <span>Created: {timeFromNow(product.createdAt)}</span>
         </Container>
       </Container>

@@ -2,6 +2,7 @@ import { GetUserProfileDataResponse, UserProfile } from "../../shared-types";
 import { Req, Res } from "../../types/express-types";
 import {
   changeUserAvatarUrl,
+  endorseUser,
   getUserProfileByUsername,
   parseChangeAvatarReq,
 } from "./user-services";
@@ -16,6 +17,17 @@ export const getUserProfile = async (req: Req, res: Res) => {
     if (!data) throw new Error("User not found");
     data.password = "";
     data.isAdmin = false;
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postEndorseUser = async (req: Req, res: Res) => {
+  try {
+    const { userBeingEndorsedID } = req.body;
+    const userID = req.session.user_id as string;
+    const data = await endorseUser(userBeingEndorsedID, userID);
     return res.status(200).json({ data, error: null });
   } catch (error) {
     return res.status(400).json({ data: null, error: error.message });

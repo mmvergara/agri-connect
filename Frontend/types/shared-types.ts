@@ -105,6 +105,12 @@ export type UserData = {
   createdAt: Date;
 };
 
+export type UserEndorsersData = {
+  userID: string;
+  productID: string;
+  createdAt: Date;
+};
+
 export type ConversationData = {
   conversationID: string;
   participantFirstID: string;
@@ -154,9 +160,13 @@ export type PostCommentType = {
 export type UserProfile = {
   _count: {
     products: number;
-    ProductEndorsers: number;
   };
   products: ProductData[];
+  ProductEndorsers: {
+    id: string;
+    productID: string;
+    userID: string;
+  }[];
 } & UserData;
 
 export type SocketData = {

@@ -65,6 +65,7 @@ export const getRecentProducts = async (pageNumber: number) => {
         createdAt: "desc",
       },
       include: {
+        productEndorsers: true,
         productOwner: true,
       },
     });
@@ -78,6 +79,9 @@ export const getProduct = async (productID: string) => {
   try {
     return db.product.findUnique({
       where: { productID },
+      include: {
+        productEndorsers: true,
+      },
     });
   } catch (error) {
     throw new Error("Error fetching data");
@@ -98,5 +102,75 @@ export const searchProductByQuery = async (search: string) => {
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching data");
+  }
+};
+
+// export const likeComment = async (
+//   commentID: string,
+//   userID: string
+// ): Promise<{ isLiked: boolean }> => {
+//   try {
+//     // Check first if like exists then delete it, else create it
+
+//     const comment = await db.postCommentsLikes.findFirst({
+//       where: {
+//         AND: [{ commentID }, { userID }],
+//       },
+//     });
+
+//     if (comment) {
+//       await db.postCommentsLikes.delete({
+//         where: {
+//           id: comment.id,
+//         },
+//       });
+//       return { isLiked: false };
+//     } else {
+//       await db.postCommentsLikes.create({
+//         data: {
+//           commentID: commentID,
+//           userID: userID,
+//         },
+//       });
+//       return { isLiked: true };
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     throw new Error("Error liking comment");
+//   }
+// };
+
+export const endorseProduct = async (
+  productID: string,
+  userID: string
+): Promise<{ isEndorsed: boolean }> => {
+  try {
+    // Check first if like exists then delete it, else create it
+
+    const product = await db.productEndorsers.findFirst({
+      where: {
+        AND: [{ productID }, { userID }],
+      },
+    });
+
+    if (product) {
+      await db.productEndorsers.delete({
+        where: {
+          id: product.id,
+        },
+      });
+      return { isEndorsed: false };
+    } else {
+      await db.productEndorsers.create({
+        data: {
+          productID: productID,
+          userID: userID,
+        },
+      });
+      return { isEndorsed: true };
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error endorsing product");
   }
 };

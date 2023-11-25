@@ -13,13 +13,13 @@ import {
   timeFromNow,
 } from "@/utils/helpers";
 import { Button, Divider, Icon, useToast } from "@chakra-ui/react";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegComment } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegComment } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { FaHeart } from "react-icons/fa";
+import Image from "next/image";
 
 const Discussion = () => {
   const auth = useAuth();

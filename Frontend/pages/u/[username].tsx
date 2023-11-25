@@ -24,19 +24,23 @@ import { MdVerified } from "react-icons/md";
 import ProductCard from "@/components/product-card";
 import { UserProfile } from "@/types/shared-types";
 import { useEffect, useState } from "react";
-import { getUserProfileByUsername } from "@/services/UserService";
+import { endorseUser, getUserProfileByUsername } from "@/services/UserService";
 import { timeFromNow } from "@/utils/helpers";
 import Image from "next/image";
 import { getConversationByUserId } from "@/services/ConversationService";
+import { useAuth } from "@/context/AuthContext";
 
 const UserProfilePage = () => {
   const { query } = useRouter();
   const router = useRouter();
+  const auth = useAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const username = query.username as string;
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [endorsersCount, setEndorsersCount] = useState<number>(0);
+  const [isEndorsed, setIsEndorsed] = useState<boolean>(false);
   const fetchUserProfile = async () => {
     if (!username) return;
     const { data, error } = await getUserProfileByUsername(username);
@@ -45,6 +49,14 @@ const UserProfilePage = () => {
       return;
     }
     setUserProfile(data);
+    setEndorsersCount(data.ProductEndorsers.length);
+    setIsEndorsed(
+      data.ProductEndorsers.find(
+        (endorser) => endorser.userID === auth.user?.id,
+      )
+        ? true
+        : false,
+    );
   };
 
   const handleMessageUser = async () => {
@@ -52,16 +64,29 @@ const UserProfilePage = () => {
     const { data, error } = await getConversationByUserId({
       userID2: userProfile.userID,
     });
+    if (error) return;
     if (data) {
       router.push(`/messages?id=${data?.conversation.conversationID}`);
     }
   };
 
-  console.log(userProfile);
   useEffect(() => {
     fetchUserProfile();
   }, [username]);
   if (!userProfile) <></>;
+
+  const handleEndorseUser = async () => {
+    const { data, error } = await endorseUser(userProfile?.userID!);
+    if (error) return;
+    console.log(data)
+    if (data.isEndorsed) {
+      setIsEndorsed(true);
+      setEndorsersCount((prev) => prev + 1);
+    } else {
+      setIsEndorsed(false);
+      setEndorsersCount((prev) => prev - 1);
+    }
+  };
 
   // Using userProfile?.createdAt get the time since the user joined
 
@@ -104,13 +129,13 @@ const UserProfilePage = () => {
                 Message
               </Button>
               <Button
-                color="white"
-                bgColor="yellow.600"
-                colorScheme="yellow"
-                variant="solid"
+                colorScheme={isEndorsed ? "green" : "gray"}
+                variant={isEndorsed ? "solid" : "outline"}
+                className=" text-white"
                 leftIcon={<StarIcon />}
+                onClick={handleEndorseUser}
               >
-                Endorse
+                {isEndorsed ? "Endorsed" : "Endorse User"}
               </Button>
               <IconButton
                 onClick={onOpen}
@@ -131,7 +156,7 @@ const UserProfilePage = () => {
             </span>
             <span className="flex items-center gap-2">
               <StarIcon /> Endorsers:
-              <Text>{userProfile?._count.ProductEndorsers}</Text>
+              <Text>{endorsersCount}</Text>
             </span>
           </div>
         </section>

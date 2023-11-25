@@ -10,14 +10,20 @@ export const createProduct = async (productData: FormData) => {
   return await AxiosPost<PostCreateProductDataResponse>(
     "/product/create",
     productData,
-    true
+    true,
   );
 };
 
 export const getProductById = async (productId: string) => {
   return await AxiosGet<GetProductByIdDataResponse>(
-    `/product/get/${productId}`
+    `/product/get/${productId}`,
   );
+};
+
+export const endorseProduct = async (productID: string) => {
+  return await AxiosPost<{ isEndorsed: boolean }>(`/product/endorse/`, {
+    productID,
+  });
 };
 
 export const getProducts = async (page: number) => {
@@ -26,6 +32,6 @@ export const getProducts = async (page: number) => {
 
 export const searchProducts = async (searchQuery: string) => {
   return await AxiosGet<GetSearchProductsDataResponse>(
-    `/product/search/${searchQuery}`
+    `/product/search/${searchQuery}`,
   );
 };

@@ -21,6 +21,8 @@ model User {
   isAdmin Boolean @default(false)
   createdAt DateTime @default(now())
   
+  userEndorsers UserEndorsers[]
+
   products Product[]
   ProductEndorsers ProductEndorsers[]
 
@@ -29,6 +31,15 @@ model User {
   
   postComments PostComments[]
   postCommentsLikes PostCommentsLikes[]
+}
+
+model UserEndorsers {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userBeingEndorsedID String @db.ObjectId
+  userBeingEndorsed User @relation(fields: [userBeingEndorsedID], references: [userID],onDelete: Cascade)
+
+  userID String @db.ObjectId
 }
 
 
