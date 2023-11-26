@@ -47,6 +47,10 @@ export default function Home() {
       href: "/discussion/create",
       label: "Create Discussion",
     },
+    {
+      href: "/product/myproducts",
+      label: "My Products",
+    },
   ];
 
   useEffect(() => {

@@ -91,10 +91,13 @@ export type ProductData = {
   productPricePer: string;
   productImageUrl: string;
   productOwnerId: string;
+  productEndorsers: any;
+  productOwner: UserData;
   createdAt: Date;
 };
 
 export type UserData = {
+  userEndorsers: any;
   userID: string;
   email: string;
   password: string;

@@ -81,6 +81,12 @@ export const getProduct = async (productID: string) => {
       where: { productID },
       include: {
         productEndorsers: true,
+        productOwner: {
+          select: {
+            username: true,
+            userEndorsers: true,
+          },
+        },
       },
     });
   } catch (error) {

@@ -23,6 +23,7 @@ import { IconButton, useDisclosure } from "@chakra-ui/react";
 import { IoQrCodeSharp } from "react-icons/io5";
 import { timeFromNow } from "@/utils/helpers";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const ProductPreview = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,7 +53,7 @@ const ProductPreview = () => {
     }
     console.log(data);
     setIsEndorsed(
-      data.productEndorsers.find((endorser) => endorser === auth.user?.id)
+      data.productEndorsers.find((endorser: any) => endorser.userID === auth.user?.id)
         ? true
         : false,
     );
@@ -139,7 +140,14 @@ const ProductPreview = () => {
               </ModalContent>
             </Modal>
           </section>
-          <p className="font-bold">Endorsers : {endorsersCount}</p>
+          <Link href={`/u/${product.productOwner.username}`} className="font-bold hover:underline">
+            Seller : {product.productOwner.username}
+          </Link>
+          <p className="font-semibold">
+            Seller Endorsers : {product.productOwner.userEndorsers.length}
+          </p>
+          {/* <p>Seller Endorsers: {}</p> */}
+          <p className="font-semibold">Product Endorsers : {endorsersCount}</p>
           <span>Created: {timeFromNow(product.createdAt)}</span>
         </Container>
       </Container>
