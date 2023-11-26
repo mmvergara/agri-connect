@@ -12,6 +12,9 @@ import {
   getRecentProducts,
   searchProductByQuery,
   endorseProduct,
+  fetchProductsByUserId,
+  deleteProduct,
+  updateProductPrice,
 } from "./product-services";
 
 export const postCreateProduct = async (req: Req, res: Res) => {
@@ -70,6 +73,40 @@ export const getSearchProducts = async (req: Req, res: Res) => {
     return res.status(200).json({ data, error: null });
   } catch (error) {
     console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postFetchProductsByUserId = async (req: Req, res: Res) => {
+  try {
+    const userID = req.session.user_id;
+    const data = await fetchProductsByUserId(userID);
+    console.log(data);
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postDeleteProduct = async (req: Req, res: Res) => {
+  try {
+    const { productID } = req.body;
+    const userID = req.session.user_id;
+    const data = await deleteProduct(productID, userID);
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postUpdateProductPrice = async (req: Req, res: Res) => {
+  try {
+    const { productID, newPrice } = req.body;
+    const userID = req.session.user_id;
+    const data = await updateProductPrice(productID, userID, newPrice);
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
     return res.status(400).json({ data: null, error: error.message });
   }
 };

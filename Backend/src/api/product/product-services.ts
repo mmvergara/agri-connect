@@ -111,40 +111,50 @@ export const searchProductByQuery = async (search: string) => {
   }
 };
 
-// export const likeComment = async (
-//   commentID: string,
-//   userID: string
-// ): Promise<{ isLiked: boolean }> => {
-//   try {
-//     // Check first if like exists then delete it, else create it
+export const fetchProductsByUserId = async (userID: string) => {
+  try {
+    return db.product.findMany({
+      where: {
+        productOwnerId: userID,
+      },
+    });
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
 
-//     const comment = await db.postCommentsLikes.findFirst({
-//       where: {
-//         AND: [{ commentID }, { userID }],
-//       },
-//     });
+export const deleteProduct = async (productID: string, userID) => {
+  try {
+    return db.product.delete({
+      where: {
+        productID,
+        productOwnerId: userID,
+      },
+    });
+  } catch (error) {
+    throw new Error("Error deleting product");
+  }
+};
 
-//     if (comment) {
-//       await db.postCommentsLikes.delete({
-//         where: {
-//           id: comment.id,
-//         },
-//       });
-//       return { isLiked: false };
-//     } else {
-//       await db.postCommentsLikes.create({
-//         data: {
-//           commentID: commentID,
-//           userID: userID,
-//         },
-//       });
-//       return { isLiked: true };
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error("Error liking comment");
-//   }
-// };
+export const updateProductPrice = async (
+  productID: string,
+  userID: string,
+  productPrice: number
+) => {
+  try {
+    return db.product.update({
+      where: {
+        productID,
+        productOwnerId: userID,
+      },
+      data: {
+        productPrice,
+      },
+    });
+  } catch (error) {
+    throw new Error("Error updating product price");
+  }
+};
 
 export const endorseProduct = async (
   productID: string,

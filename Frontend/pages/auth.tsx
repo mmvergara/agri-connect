@@ -12,7 +12,7 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { Register } from "@/services/AuthService";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const SignInPage = () => {
   const { login, user } = useAuth();
@@ -58,6 +58,14 @@ const SignInPage = () => {
       handleSignUp();
     }
   };
+
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
+
   return (
     <>
       <Head>

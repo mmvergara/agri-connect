@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import { createProduct } from "@/services/ProductService";
 import {
   FormControl,
@@ -14,11 +15,12 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState, useRef, FormEvent } from "react";
+import { useState, useRef, FormEvent, useEffect } from "react";
 import { FaImage } from "react-icons/fa";
 import { MdLibraryAdd } from "react-icons/md";
 
 const CreateProduct = () => {
+  const auth = useAuth();
   const router = useRouter();
   const { toast } = createStandaloneToast();
   const { colorMode } = useColorMode();
@@ -60,6 +62,12 @@ const CreateProduct = () => {
       setImage(selectedImage);
     }
   };
+
+  useEffect(() => {
+    if (!auth.user) {
+      router.push("/auth");
+    }
+  }, [auth.user]);
 
   return (
     <>

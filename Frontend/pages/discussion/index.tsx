@@ -7,6 +7,7 @@ import { HiSearch } from "react-icons/hi";
 import { Button } from "@chakra-ui/react";
 import DiscussionCard from "@/components/Discussion/DiscussionCard";
 import Link from "next/link";
+import Head from "next/head";
 
 const DiscussionPage = () => {
   const router = useRouter();
@@ -37,43 +38,48 @@ const DiscussionPage = () => {
   }, [page]);
   console.log(posts);
   return (
-    <main className="flex flex-col items-center justify-center gap-4 py-4">
-      <Link
-        className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
-        href="/discussion/search"
-      >
-        Search Discussion <HiSearch />
-      </Link>{" "}
-      {loadingSpinner}
-      {posts.map((post: PostDataWithAuthor) => {
-        return <DiscussionCard key={post.postID} {...post} />;
-      })}
-      {posts.length === 0 && <p>No posts found</p>}
-      <div className="mx-auto flex  items-center justify-start gap-4 py-6">
-        <Button
-          onClick={handlePrevPage}
-          disabled={page === 1}
-          color="white"
-          bgColor="green.900"
-          variant="solid"
-          colorScheme="green"
-          rounded={"sm"}
+    <>
+      <Head>
+        <title>AgriConnect - Discussion</title>
+      </Head>
+      <main className="flex flex-col items-center justify-center gap-4 py-4">
+        <Link
+          className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+          href="/discussion/search"
         >
-          Prev
-        </Button>
-        <span className="font-poppins text-3xl font-bold"> {page}</span>
-        <Button
-          onClick={handleNextPage}
-          color="white"
-          bgColor="green.900"
-          variant="solid"
-          colorScheme="green"
-          rounded={"sm"}
-        >
-          Next
-        </Button>
-      </div>
-    </main>
+          Search Discussion <HiSearch />
+        </Link>{" "}
+        {loadingSpinner}
+        {posts.map((post: PostDataWithAuthor) => {
+          return <DiscussionCard key={post.postID} {...post} />;
+        })}
+        {posts.length === 0 && <p>No posts found</p>}
+        <div className="mx-auto flex  items-center justify-start gap-4 py-6">
+          <Button
+            onClick={handlePrevPage}
+            disabled={page === 1}
+            color="white"
+            bgColor="green.900"
+            variant="solid"
+            colorScheme="green"
+            rounded={"sm"}
+          >
+            Prev
+          </Button>
+          <span className="font-poppins text-3xl font-bold"> {page}</span>
+          <Button
+            onClick={handleNextPage}
+            color="white"
+            bgColor="green.900"
+            variant="solid"
+            colorScheme="green"
+            rounded={"sm"}
+          >
+            Next
+          </Button>
+        </div>
+      </main>
+    </>
   );
 };
 

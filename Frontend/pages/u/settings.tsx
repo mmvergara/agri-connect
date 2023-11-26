@@ -15,10 +15,12 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 
 const SettingsPage = () => {
   const user = useAuth();
+  const auth = user;
+  const router = useRouter();
   const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
 
   const [changePasswordFields, setChangePasswordFields] =
@@ -51,6 +53,12 @@ const SettingsPage = () => {
     deleteAccount(deleteAccountPassword);
     user.logout();
   };
+
+  useEffect(() => {
+    if (!auth.user) {
+      router.push("/auth");
+    }
+  }, [auth.user]);
 
   return (
     <>

@@ -20,6 +20,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { FaHeart } from "react-icons/fa";
 import Image from "next/image";
+import Head from "next/head";
 
 const Discussion = () => {
   const auth = useAuth();
@@ -103,67 +104,72 @@ const Discussion = () => {
   if (!post) return <></>;
 
   return (
-    <main className="mx-auto mt-[4vh] flex w-full max-w-[800px]  flex-col gap-4">
-      <div className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4  drop-shadow-md transition-all hover:drop-shadow-xl">
-        <Image
-          src={
-            post.postAuthor.avatarUrl ||
-            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
-          }
-          alt="Picture of the author"
-          width={48}
-          height={48}
-          className="max-h-[48px] rounded-full"
-        />
+    <>
+      <Head>
+        <title>AgriConnect - Discussion</title>
+      </Head>
+      <main className="mx-auto mt-[4vh] flex w-full max-w-[800px]  flex-col gap-4">
+        <div className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4  drop-shadow-md transition-all hover:drop-shadow-xl">
+          <Image
+            src={
+              post.postAuthor.avatarUrl ||
+              "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+            }
+            alt="Picture of the author"
+            width={48}
+            height={48}
+            className="max-h-[48px] rounded-full"
+          />
 
-        <div>
-          <p className="font-bold ">{post.postTitle}</p>
-          <p className="text-gray-500">
-            {post.postAuthor.username} - {timeFromNow(post.postDate)}
-          </p>
-          <p>{ifMoreThanXCharactersAddThreeDots(post.postContent, 100)}</p>
-          <div className="mt-4 flex gap-4">
-            <Button
-              onClick={handleLikePost}
-              className="flex items-center gap-2"
-            >
-              {liked ? (
-                <Icon as={FaHeart} color="red" />
-              ) : (
-                <Icon as={FaRegHeart} />
-              )}
+          <div>
+            <p className="font-bold ">{post.postTitle}</p>
+            <p className="text-gray-500">
+              {post.postAuthor.username} - {timeFromNow(post.postDate)}
+            </p>
+            <p>{ifMoreThanXCharactersAddThreeDots(post.postContent, 100)}</p>
+            <div className="mt-4 flex gap-4">
+              <Button
+                onClick={handleLikePost}
+                className="flex items-center gap-2"
+              >
+                {liked ? (
+                  <Icon as={FaHeart} color="red" />
+                ) : (
+                  <Icon as={FaRegHeart} />
+                )}
 
-              {likeCount}
-            </Button>
+                {likeCount}
+              </Button>
+            </div>
           </div>
+          {post.postAuthor.userID === auth.user?.id && (
+            <Icon
+              onClick={handleDeletePost}
+              as={RiDeleteBin6Line}
+              className=" ml-auto inline-block cursor-pointer hover:text-red-500"
+            />
+          )}
         </div>
-        {post.postAuthor.userID === auth.user?.id && (
-          <Icon
-            onClick={handleDeletePost}
-            as={RiDeleteBin6Line}
-            className=" ml-auto inline-block cursor-pointer hover:text-red-500"
-          />
+        {auth.user && (
+          <CreateComment onAddComment={handleAddComment} postID={post.postID} />
         )}
-      </div>
-      {auth.user && (
-        <CreateComment onAddComment={handleAddComment} postID={post.postID} />
-      )}
-      <Divider />
-      <article className="flex items-center gap-2">
-        <Icon as={FaRegComment} />
-        {post.postComments.length} Comments
-      </article>{" "}
-      <Divider />
-      {comments.map((comment) => {
-        return (
-          <PostComment
-            onCommentDelete={handleCommentDelete}
-            key={comment.commentID}
-            commentData={comment}
-          />
-        );
-      })}
-    </main>
+        <Divider />
+        <article className="flex items-center gap-2">
+          <Icon as={FaRegComment} />
+          {post.postComments.length} Comments
+        </article>{" "}
+        <Divider />
+        {comments.map((comment) => {
+          return (
+            <PostComment
+              onCommentDelete={handleCommentDelete}
+              key={comment.commentID}
+              commentData={comment}
+            />
+          );
+        })}
+      </main>
+    </>
   );
 };
 

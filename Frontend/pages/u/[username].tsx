@@ -78,7 +78,7 @@ const UserProfilePage = () => {
   const handleEndorseUser = async () => {
     const { data, error } = await endorseUser(userProfile?.userID!);
     if (error) return;
-    console.log(data)
+    console.log(data);
     if (data.isEndorsed) {
       setIsEndorsed(true);
       setEndorsersCount((prev) => prev + 1);
@@ -91,11 +91,16 @@ const UserProfilePage = () => {
   // Using userProfile?.createdAt get the time since the user joined
 
   const timeSinceJoinedString = timeFromNow(new Date(userProfile?.createdAt!));
+  useEffect(() => {
+    if (!auth.user) {
+      router.push("/auth");
+    }
+  }, [auth.user]);
 
   return (
     <>
       <Head>
-        <title>{username} | AgriConnect</title>
+        <title>AgriConnect | {username} </title>
       </Head>
       <main>
         <section className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8 bg-gray-700  bg-opacity-10 py-[5vh] shadow-xl">

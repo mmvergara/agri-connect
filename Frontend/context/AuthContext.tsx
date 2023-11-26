@@ -19,6 +19,7 @@ const AuthContext = createContext<AuthContextType>(initialAuthContextValue);
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<LoggedInUserData | null>(null);
   const login = async (userData: LoginFields) => {
     const { data, error } = await Login(userData);
@@ -55,11 +56,17 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       console.log("Session Expired");
       return;
     }
-
     if (user) setUser(userData);
+    setLoading(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <>
+      {!loading && (
+        <AuthContext.Provider value={contextValue}>
+          {children}
+        </AuthContext.Provider>
+      )}
+    </>
   );
 };
