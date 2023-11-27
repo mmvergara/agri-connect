@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
   getAllPosts,
+  getMostDiscussedPosts,
+  getMostLikedPosts,
   getPost,
   postCreateComment,
   postCreatePost,
@@ -15,6 +17,9 @@ import { isAuth } from "../../middleware/isAuth";
 export default (router: Router) => {
   router.get("/posts/:postid", getPost);
   router.get("/posts/all/:page", getAllPosts);
+  router.get("/posts/all/most-liked/:page", getMostLikedPosts);
+  router.get("/posts/all/most-discussed/:page", getMostDiscussedPosts);
+
   router.post("/posts/search", postSearchPosts);
   router.post("/posts/create", isAuth, postCreatePost);
   router.post("/posts/like", isAuth, postLikePost);

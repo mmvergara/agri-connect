@@ -2,7 +2,7 @@ import { PostDataWithAuthor } from "@/types/shared-types";
 import { useEffect, useState } from "react";
 import { useLoading } from "@/hooks/useLoadingHook";
 import { useRouter } from "next/router";
-import { getPosts } from "@/services/PostService";
+import { getMostDiscussedPosts } from "@/services/PostService";
 import { HiSearch } from "react-icons/hi";
 import { Button } from "@chakra-ui/react";
 import DiscussionCard from "@/components/Discussion/DiscussionCard";
@@ -21,7 +21,7 @@ const DiscussionPage = () => {
   const fetchProducts = async (page: number) => {
     setIsLoading(true);
     if (page < 1) page = 1;
-    const { data, error } = await getPosts(page);
+    const { data, error } = await getMostDiscussedPosts(page);
     if (error) setPosts([]);
     else setPosts(data);
     setIsLoading(false);
@@ -42,7 +42,7 @@ const DiscussionPage = () => {
   return (
     <>
       <Head>
-        <title>AgriConnect - Discussion</title>
+        <title>AgriConnect - Most Discussed</title>
       </Head>
       <main className="flex flex-col items-center justify-center gap-4 py-4">
         <section className="flex flex-wrap gap-2">
@@ -52,12 +52,6 @@ const DiscussionPage = () => {
           >
             Search Discussion <HiSearch />
           </Link>{" "}
-          <Link
-            className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
-            href="/discussion/most-discussed"
-          >
-            Most Discussed <FaRegComment />
-          </Link>
           <Link
             className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/discussion/most-liked"

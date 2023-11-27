@@ -36,6 +36,11 @@ export const getProductByUserId = async (userID: string) => {
 export const getProducts = async (page: number) => {
   return await AxiosGet<GetAllProductsDataResponse>(`/product/all/${page}`);
 };
+export const getMostEndorsedProducts = async (page: number) => {
+  return await AxiosGet<GetAllProductsDataResponse>(
+    `/product/most-endorsed/${page}`,
+  );
+}
 
 export const deleteProductByID = async (productID: string) => {
   return await AxiosPost(`/product/delete/`, {

@@ -176,3 +176,16 @@ export type SocketData = {
   to: string;
   from: string;
 };
+
+export type CommunityChatMessage = {
+  chatAuthor: {
+    userID: string;
+    username: string;
+    avatarUrl: string;
+  };
+} & {
+  chatID: string;
+  chatContent: string;
+  chatDate: Date;
+  chatAuthorID: string;
+};

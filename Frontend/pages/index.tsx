@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { MdCreateNewFolder } from "react-icons/md";
 import { AiOutlineShop, AiFillPlusSquare } from "react-icons/ai";
 import { HiSearch } from "react-icons/hi";
+import { RiDiscussFill } from "react-icons/ri";
 
 export default function Home() {
   const [products, setProducts] = useState<ProductData[] | []>([]);
@@ -51,6 +52,10 @@ export default function Home() {
       href: "/product/myproducts",
       label: "My Products",
     },
+    {
+      href: "/product/most-endorsed",
+      label: "Most Endorsed",
+    },
   ];
 
   useEffect(() => {
@@ -66,34 +71,21 @@ export default function Home() {
       <Head>
         <title>AgriConnect | Home</title>
       </Head>
-      <main className="flex flex-col items-center justify-center gap-8">
-        {links.map((link) => (
-          <Link href={link.href} key={link.href} className="bg-blue-500 p-2">
-            {link.label}
-          </Link>
-        ))}
-        <h2 className="mt-[5vh] font-poppins text-3xl font-bold">
-          Feature Products
+      <main className="mt-[2vh] flex flex-col items-center justify-center gap-2">
+        <h2
+          className="rounded-md bg-gray-300 p-6 px-20 text-center font-poppins text-xl font-semibold text-[#1c4532]
+underline"
+        >
+          <span className="text-3xl font-bold">AgriConnect</span> <br /> Grow,
+          Share, Thrive, Your Direct Link to Agriculture.
         </h2>
-        <section className="mx-auto flex w-full max-w-[1700px] flex-wrap justify-center gap-8 p-4 ">
-          {products.map((product) => {
-            return (
-              <ProductCard key={product.productID} ProductData={product} />
-            );
-          })}
-          {products.map((product) => {
-            return (
-              <ProductCard key={product.productID} ProductData={product} />
-            );
-          })}
-        </section>
         <Divider
           style={{
             borderBottomWidth: "4px",
             borderColor: "hsl(0, 0%, 90%)",
           }}
         />
-        <section className="flex w-full max-w-[1680px] flex-wrap  items-center justify-start gap-2 px-4">
+        <section className="mt-2 flex w-full max-w-[1680px] flex-wrap  items-center justify-start gap-2 px-4">
           <Link
             className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/product/search"
@@ -108,22 +100,18 @@ export default function Home() {
           </Link>{" "}
           <Link
             className="flex  items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+            href="/discussion"
+          >
+            Discussions <RiDiscussFill />
+          </Link>{" "}
+          <Link
+            className="flex  items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/product/create"
           >
             Create Product <AiFillPlusSquare />
           </Link>{" "}
         </section>
         <section className="mx-auto flex w-full max-w-[1700px] flex-wrap justify-start gap-8 p-4 ">
-          {products.map((product) => {
-            return (
-              <ProductCard key={product.productID} ProductData={product} />
-            );
-          })}
-          {products.map((product) => {
-            return (
-              <ProductCard key={product.productID} ProductData={product} />
-            );
-          })}{" "}
           {products.map((product) => {
             return (
               <ProductCard key={product.productID} ProductData={product} />

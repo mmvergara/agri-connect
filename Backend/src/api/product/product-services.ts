@@ -75,6 +75,27 @@ export const getRecentProducts = async (pageNumber: number) => {
   }
 };
 
+export const getMostEndorsedProducts = async (pageNumber: number) => {
+  pageNumber -= 1;
+  const take = 20;
+  try {
+    const products = await db.product.findMany({
+      skip: pageNumber * take,
+      take,
+      orderBy: {
+        productEndorsers: { _count: "desc" },
+      },
+      include: {
+        productEndorsers: true,
+        productOwner: true,
+      },
+    });
+    return products;
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+
 export const getProduct = async (productID: string) => {
   try {
     return db.product.findUnique({

@@ -39,7 +39,7 @@ const ProductCard = ({ ProductData }: props) => {
             {ProductData.productDescription}
           </Text>
           <Text className="pt-4 font-arial font-semibold text-green-800">
-            {ProductData.productPrice}$ per {ProductData.productPricePer}
+          ₱{ProductData.productPrice} - per {ProductData.productPricePer}
           </Text>
         </Box>
       </Box>

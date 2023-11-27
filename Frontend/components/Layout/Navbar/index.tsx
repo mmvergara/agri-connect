@@ -12,6 +12,7 @@ import { FaBell } from "react-icons/fa";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { MdMessage } from "react-icons/md";
 
 const LazyLoadedMenuBar = dynamic(() => import("./MenuBar"), {
   ssr: false,
@@ -45,12 +46,14 @@ const Navbar = () => {
         <Spacer />
         <Center>
           <Button
+            as={Link}
+            href={`/messages`}
             color="green.100"
             bgColor="green.900"
             colorScheme="blackAlpha"
             p={1}
           >
-            <Icon as={FaBell} />
+            <Icon as={MdMessage} />
           </Button>
 
           {user ? (

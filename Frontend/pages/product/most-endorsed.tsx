@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useColorModeValue, Button } from "@chakra-ui/react";
-import { getProducts } from "@/services/ProductService";
+import { getMostEndorsedProducts } from "@/services/ProductService";
 
 const Market = () => {
   const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
@@ -15,7 +15,7 @@ const Market = () => {
 
   const fetchProducts = async (page: number) => {
     if (page < 1) page = 1;
-    const { data, error } = await getProducts(page);
+    const { data, error } = await getMostEndorsedProducts(page);
     if (error) {
       setProducts([]);
       return;
@@ -31,14 +31,18 @@ const Market = () => {
 
   useEffect(() => {
     if (page) {
+      console.log(page);
       fetchProducts(page);
+    } else {
+      console.log("page not found");
+      router.push("/market?page=1");
     }
   }, [page]);
 
   return (
     <>
       <Head>
-        <title>AgriConnect | Market {page}</title>
+        <title>AgriConnect | Most Endorsed {page}</title>
       </Head>
       <main>
         <div className="mx-auto flex w-full max-w-[1370px] items-center justify-start gap-4 py-6">

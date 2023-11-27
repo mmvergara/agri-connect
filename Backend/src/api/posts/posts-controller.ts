@@ -12,6 +12,8 @@ import {
   likePost,
   getPostsByTitle,
   deletePost,
+  fetchMostDiscussedPosts,
+  fetchMostLikedPosts,
 } from "./posts-services";
 
 export const postCreatePost = async (req: Req, res: Res) => {
@@ -34,6 +36,30 @@ export const getAllPosts = async (req: Req, res: Res) => {
   try {
     const page = parseInt(req.params.page as string) || 0;
     const posts = await getRecentPosts(page);
+    if (posts.length === 0) throw new Error("No posts found");
+    return res.status(200).json({ data: posts, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const getMostDiscussedPosts = async (req: Req, res: Res) => {
+  try {
+    const page = parseInt(req.params.page as string) || 0;
+    const posts = await fetchMostDiscussedPosts(page);
+    if (posts.length === 0) throw new Error("No posts found");
+    return res.status(200).json({ data: posts, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const getMostLikedPosts = async (req: Req, res: Res) => {
+  try {
+    const page = parseInt(req.params.page as string) || 0;
+    const posts = await fetchMostLikedPosts(page);
     if (posts.length === 0) throw new Error("No posts found");
     return res.status(200).json({ data: posts, error: null });
   } catch (error) {

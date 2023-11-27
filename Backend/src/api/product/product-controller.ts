@@ -15,6 +15,7 @@ import {
   fetchProductsByUserId,
   deleteProduct,
   updateProductPrice,
+  getMostEndorsedProducts,
 } from "./product-services";
 
 export const postCreateProduct = async (req: Req, res: Res) => {
@@ -65,6 +66,21 @@ export const getAllProducts = async (req: Req, res: Res) => {
   }
 };
 
+
+export const getAllMostEndorsedProducts = async (req: Req, res: Res) => {
+  try {
+    const page = parseInt(req.params.page as string) || 0;
+    const products = await getMostEndorsedProducts(page);
+    if (products.length === 0) throw new Error("No products found");
+    let data: GetAllProductsDataResponse = products;
+    return res.status(200).json({ data, error: null });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+
 export const getSearchProducts = async (req: Req, res: Res) => {
   try {
     const query = req.params.search || "";
@@ -110,3 +126,4 @@ export const postUpdateProductPrice = async (req: Req, res: Res) => {
     return res.status(400).json({ data: null, error: error.message });
   }
 };
+

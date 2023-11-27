@@ -176,3 +176,62 @@ export const sendMessage = async (
     throw new Error("Error sending message");
   }
 };
+
+export const sendCommunityChatMessage = async (
+  userID: string,
+  message: string
+) => {
+  // db.communityChat
+
+  try {
+    const newMessage = await db.communityChat.create({
+      data: {
+        chatContent: message,
+        chatAuthorID: userID,
+      },
+      include: {
+        chatAuthor: {
+          select: {
+            userID: true,
+            avatarUrl: true,
+            username: true,
+          },
+        },
+      },
+    });
+
+    console.log(newMessage);
+
+    return newMessage;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error sending message");
+  }
+};
+
+export const fetchCommunityChatMessages = async () => {
+  try {
+    const messages = await db.communityChat.findMany({
+      orderBy: {
+        chatDate: "asc",
+      },
+      take: 30,
+      include: {
+        chatAuthor: {
+          select: {
+            userID: true,
+            avatarUrl: true,
+            username: true,
+          },
+        },
+      },
+    });
+
+    console.log(messages);
+
+    return messages;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching messages");
+  }
+};

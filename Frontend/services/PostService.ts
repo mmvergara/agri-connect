@@ -5,6 +5,14 @@ export const getPosts = async (pageNumber: number) => {
   return await AxiosGet<PostDataWithAuthor[]>(`/posts/all/${pageNumber}`);
 };
 
+export const getMostLikedPosts = async (pageNumber: number) => {
+  return await AxiosGet<PostDataWithAuthor[]>(`/posts/all/most-liked/${pageNumber}`);
+}
+
+export const getMostDiscussedPosts = async (pageNumber: number) => {
+  return await AxiosGet<PostDataWithAuthor[]>(`/posts/all/most-discussed/${pageNumber}`);
+}
+
 export const searchPosts = async (query: string) => {
   return await AxiosPost<PostDataWithAuthor[]>(`/posts/search`, { query });
 };

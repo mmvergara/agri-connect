@@ -69,6 +69,70 @@ export const getRecentPosts = async (pageNumber: number) => {
   }
 };
 
+export const fetchMostDiscussedPosts = async (pageNumber: number) => {
+  pageNumber -= 1;
+  const take = 20;
+  try {
+    const posts = await db.posts.findMany({
+      skip: pageNumber * take,
+      take,
+      orderBy: {
+        postComments: { _count: "desc" },
+      },
+      include: {
+        postAuthor: {
+          select: {
+            username: true,
+            avatarUrl: true,
+          },
+        },
+        postComments: true,
+        postLikes: true,
+      },
+    });
+
+    console.log("==================================");
+    console.log("getMostDiscussedPosts", posts);
+    console.log("==================================");
+
+    return posts;
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+
+export const fetchMostLikedPosts = async (pageNumber: number) => {
+  pageNumber -= 1;
+  const take = 20;
+  try {
+    const posts = await db.posts.findMany({
+      skip: pageNumber * take,
+      take,
+      orderBy: {
+        postLikes: { _count: "desc" },
+      },
+      include: {
+        postAuthor: {
+          select: {
+            username: true,
+            avatarUrl: true,
+          },
+        },
+        postComments: true,
+        postLikes: true,
+      },
+    });
+
+    console.log("==================================");
+    console.log("getMostLikedPosts", posts);
+    console.log("==================================");
+
+    return posts;
+  } catch (error) {
+    throw new Error("Error fetching data");
+  }
+};
+
 export const getPostsByTitle = async (query: string) => {
   try {
     const posts = await db.posts.findMany({

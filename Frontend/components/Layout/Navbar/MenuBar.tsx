@@ -23,14 +23,19 @@ const MenuBar = () => {
   };
   const MenuItems = [
     {
-      name: "Marketplace",
+      name: "My Products",
       icon: <Icon as={AiFillShop} />,
-      link: "/market",
+      link: "/product/myproducts",
     },
     {
       name: "Community Chat",
       icon: <Icon as={IoChatbubblesSharp} />,
-      link: "/community-chat",
+      link: "/messages/community",
+    },
+    {
+      name: "Marketplace",
+      icon: <Icon as={AiFillShop} />,
+      link: "/market",
     },
     {
       name: "Settings",
@@ -51,7 +56,7 @@ const MenuBar = () => {
       <MenuList
         bg="green.900"
         color="white"
-        className="rounded-sm transition-none p-0 gap-0 py-0 border-none"
+        className="gap-0 rounded-sm border-none p-0 py-0 transition-none"
         style={{ padding: 1 }}
       >
         {MenuItems.map(({ icon, link, name }) => (
@@ -60,7 +65,7 @@ const MenuBar = () => {
             key={name}
             icon={icon}
             bg="green.900"
-            className="hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold"
+            className="flex min-h-[40px] grow items-center justify-center gap-2 font-semibold hover:bg-green-950"
             href={link}
           >
             <span>{name}</span>
@@ -69,7 +74,7 @@ const MenuBar = () => {
         <MenuItem
           icon={<Icon as={RiLogoutCircleRFill} />}
           bg="green.900"
-          className="hover:bg-green-950 grow min-h-[40px] flex items-center justify-center gap-2 font-semibold"
+          className="flex min-h-[40px] grow items-center justify-center gap-2 font-semibold hover:bg-green-950"
           onClick={handleSignOut}
         >
           <span>Sign Out</span>

@@ -58,11 +58,16 @@ const ProductRow = (props: Props) => {
   return (
     <Tr className="font-semibold">
       <Td>
-        <Link href={`/product/${product.productID}`}>
+        <Link
+          className="bg-gray-100 hover:underline p-2 rounded-md"
+          href={`/product/${product.productID}`}
+        >
           {product.productName}
         </Link>
       </Td>
-      <Td>₱ {product.productPrice}</Td>
+      <Td>
+        ₱{product.productPrice} - per {product.productPricePer}
+      </Td>
       <Td className="flex flex-col gap-2">
         <Input
           type="number"

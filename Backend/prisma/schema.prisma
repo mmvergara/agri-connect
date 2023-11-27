@@ -31,6 +31,8 @@ model User {
   
   postComments PostComments[]
   postCommentsLikes PostCommentsLikes[]
+
+  ChatAuthor CommunityChat[]
 }
 
 model UserEndorsers {
@@ -56,14 +58,8 @@ model Product {
   createdAt DateTime @default(now())
 
   productEndorsers ProductEndorsers[]
-  featuredProducts FeaturedProducts[]
 }
 
-model FeaturedProducts {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  productID String @db.ObjectId
-  product Product @relation(fields: [productID], references: [productID],onDelete: Cascade)
-}
 
 model ProductEndorsers {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -79,6 +75,14 @@ model Conversations {
   participantFirstID String @db.ObjectId
   participantSecondID String @db.ObjectId 
   lastMessageDate DateTime @default(now())
+}
+
+model CommunityChat {
+  chatID     String   @id @default(auto()) @map("_id") @db.ObjectId
+  chatContent String
+  chatDate DateTime @default(now())
+  chatAuthorID String @db.ObjectId
+  chatAuthor User @relation(fields: [chatAuthorID], references: [userID],onDelete: Cascade)
 }
 
 model Messages {

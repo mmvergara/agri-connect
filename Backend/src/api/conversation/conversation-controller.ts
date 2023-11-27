@@ -1,4 +1,5 @@
 import {
+  CommunityChatMessage,
   GetAllConversationsDataResponse,
   PostGetConversationByIDDataResponse,
   PostGetConversationByUserIDataResponse,
@@ -9,9 +10,11 @@ import { getSocket } from "../../utilities/socket";
 import {
   createConversation,
   fetchAllConversations,
+  fetchCommunityChatMessages,
   findConversation,
   getMessagesByConversationID,
   isPartOfConversation,
+  sendCommunityChatMessage,
   sendMessage,
 } from "./conversation-services";
 
@@ -123,6 +126,32 @@ export const postSendMessage = async (req: Req, res: Res) => {
     io.emit(`new-message-${conversationID}`, sentMessage);
 
     return res.status(200).json({ data: sentMessage, error: null });
+  } catch (error) {
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const postSendMessageCommunityChat = async (req: Req, res: Res) => {
+  try {
+    const { message } = req.body;
+    const userID = req.session.user_id;
+
+    const sentMessage = await sendCommunityChatMessage(userID, message);
+
+    const io = getSocket();
+
+    io.emit(`new-message-community-chat`, sentMessage);
+
+    return res.status(200).json({ data: sentMessage, error: null });
+  } catch (error) {
+    return res.status(400).json({ data: null, error: error.message });
+  }
+};
+
+export const getCommunityChatMessages = async (req: Req, res: Res) => {
+  try {
+    const messages: CommunityChatMessage[] = await fetchCommunityChatMessages();
+    return res.status(200).json({ data: messages, error: null });
   } catch (error) {
     return res.status(400).json({ data: null, error: error.message });
   }

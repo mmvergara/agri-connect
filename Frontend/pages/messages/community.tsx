@@ -1,29 +1,22 @@
-import ConversationList from "@/components/Messages/ConversationList";
 import MessageItem from "@/components/Messages/MessageItem";
 import { BASE_URL } from "@/config";
 import { useAuth } from "@/context/AuthContext";
 import {
-  getAllConversation,
-  getConversationById,
-  sendMessage,
+  getAllCommunityChatMessages,
+  sendCommunityChatMessage,
 } from "@/services/ConversationService";
 import { MessageItemType } from "@/types";
-import {
-  GetAllConversationsDataResponse,
-  MessageData,
-} from "@/types/shared-types";
-import Head from "next/head";
+import { CommunityChatMessage } from "@/types/shared-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import openSocket from "socket.io-client";
-const Conversation = () => {
-  const { query } = useRouter();
+
+const CommunityChat = () => {
   const { user } = useAuth();
 
   const [messageInput, setMessageInput] = useState<string>("");
-  const [messages, setMessages] = useState<MessageItemType[]>([]);
-  const conversationID = query.id as string;
+  const [messages, setMessages] = useState<CommunityChatMessage[]>([]);
 
   const messageContainerRef = useRef<null | HTMLDivElement>(null!);
 
@@ -35,111 +28,44 @@ const Conversation = () => {
     }, 400);
   };
 
-  const [conversations, setConversations] =
-    useState<GetAllConversationsDataResponse>([]);
-
-  const fetchConversations = async () => {
-    const { data } = await getAllConversation();
-    if (data) setConversations(data);
-  };
-
-  const currentConversationUser = conversations.find(
-    (v) => v.conversationID === conversationID,
-  )?.user;
-
   const handleSubmitMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!messageInput) return;
-    if (!query.id) return;
-    const { error } = await sendMessage({
-      conversationID,
-      message: messageInput,
-    });
+    const { error } = await sendCommunityChatMessage(messageInput);
     if (error) return;
     setMessageInput("");
   };
-  const fetchMessages = async (conversationID: string) => {
-    const { data } = await getConversationById({ conversationID });
+  const fetchMessages = async () => {
+    const { data, error } = await getAllCommunityChatMessages();
+    if (error) {
+      console.log(error);
+    }
     if (data) {
-      const { messages } = data;
-      const allMessages: MessageItemType[] = [];
-      for (let i = 0; i < messages.length; i++) {
-        let isFirstMessage = true;
-        if (i > 0 && messages[i].senderID === messages[i - 1].senderID)
-          isFirstMessage = false;
-        const isMessageOwner = messages[i].senderID === user?.id;
-        const message: MessageItemType = {
-          senderID: messages[i].senderID,
-          content: messages[i].messageContent,
-          created_at: new Date(messages[i].messageDate).toUTCString(),
-          isMessageOwner,
-          isFirstMessage,
-        };
-        allMessages.push(message);
-      }
-      setMessages(allMessages);
+      setMessages(data);
     }
     scrollToBottom();
   };
 
   useEffect(() => {
-    fetchConversations();
-  }, []);
-
-  useEffect(() => {
+    fetchMessages();
     const socket = openSocket(BASE_URL);
-    const conID = query.id || "";
-    if (conID) {
-      fetchMessages(query.id as string);
-      socket.on(`new-message-${conversationID}`, (data: MessageData) => {
-        console.log(`new-message-${conversationID}`, data);
-        if (data.conversationID === conversationID) {
-          const message: MessageItemType = {
-            senderID: data.senderID,
-            content: data.messageContent,
-            created_at: new Date(data.messageDate).toUTCString(),
-            isMessageOwner: data.senderID === user?.id,
-            isFirstMessage: false,
-          };
-          setMessages((prev) => [...prev, message]);
-          scrollToBottom();
-        }
-      });
-    } else {
-      setMessages([]);
-    }
+
+    socket.on(`new-message-community-chat`, (data: CommunityChatMessage) => {
+      setMessages((prev) => [...prev, data]);
+    });
 
     return () => {
       socket.off();
     };
-  }, [query]);
+  }, []);
 
   return (
     <>
-      <Head>
-        <title>AgriConnect - Messages</title>
-      </Head>
       <main className="flex h-[92vh] overflow-hidden">
-        <section className="hidden min-w-[300px] border-[hsl(34,45%,75%)] bg-[hsl(152,42%,13%)] font-poppins text-white sm:block">
-          <div className="conversations-container h-[100%] overflow-y-scroll">
-            <ConversationList conversations={conversations} />
-          </div>
-        </section>
-
-        {/* Message Body */}
         <section className="flex w-full flex-col">
           <div className="drop-shadow-bottom-only flex items-center justify-between bg-[hsl(152,42%,13%)] p-2">
             <div className="flex items-center gap-2">
-              {currentConversationUser?.avatarUrl && (
-                <img
-                  src={currentConversationUser?.avatarUrl}
-                  alt="user image"
-                  className="h-[32px] w-[32px] rounded-full"
-                />
-              )}
-              <p className="font-poppins text-white">
-                {currentConversationUser?.username}
-              </p>
+              <p className="font-poppins text-white">Community Chat</p>
             </div>
             <div className="block sm:hidden">
               <Link
@@ -165,14 +91,25 @@ const Conversation = () => {
           >
             {/* Message Container */}
             {messages.map((message, index) => (
-              <MessageItem
-                key={index}
-                message={message}
-                avatarURL={
-                  currentConversationUser?.avatarUrl ||
-                  "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
-                }
-              />
+              <article
+                className={`} mx-4 my-2 flex items-center 
+              gap-2 ${message.chatAuthorID === user?.id ? "justify-end" : ""}`}
+              >
+                {message.chatAuthorID !== user?.id && (
+                  <img
+                    src={message.chatAuthor.avatarUrl}
+                    alt="user image"
+                    width={32}
+                    height={32}
+                    className="h-[32px] w-[32px] rounded-full"
+                  />
+                )}
+                <div>
+                  <p className={`rounded-xl bg-[#1c4532] p-2 text-white`}>
+                    {message.chatContent}
+                  </p>
+                </div>
+              </article>
             ))}
             {/* Message Container */}
           </div>
@@ -211,4 +148,4 @@ const Conversation = () => {
   );
 };
 
-export default Conversation;
+export default CommunityChat;
