@@ -1,7 +1,6 @@
-import { useAuth } from "@/context/AuthContext";
 import { changePassword, deleteAccount } from "@/services/AuthService";
-import { createProduct } from "@/services/ProductService";
 import { ChangePasswordFields } from "@/types/shared-types";
+import { useAuth } from "@/context/AuthContext";
 import {
   useColorModeValue,
   FormLabel,
@@ -49,6 +48,7 @@ const SettingsPage = () => {
     toast({ title: "Password changed successfully", status: "success" });
     setChangePasswordFields({ oldPassword: "", newPassword: "" });
   };
+
   const handleDeleteAccount = () => {
     deleteAccount(deleteAccountPassword);
     user.logout();
