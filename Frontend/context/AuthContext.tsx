@@ -46,14 +46,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     const user = localStorage.getItem("user");
     if (user == "undefined" || user == null) {
       localStorage.removeItem("user");
+      setLoading(false);
       return;
     }
     const userData = JSON.parse(user) as LoggedInUserData;
-    if (!userData) return console.log("No user data");
+    if (!userData) {
+      setLoading(false);
+      return;
+    }
     // Check if token is expired
     if (new Date(userData.token_expiration).getTime() < new Date().getTime()) {
       localStorage.removeItem("user");
       console.log("Session Expired");
+      setLoading(false);
       return;
     }
     if (user) setUser(userData);
