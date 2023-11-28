@@ -11,10 +11,13 @@ import { MdCreateNewFolder } from "react-icons/md";
 import { AiOutlineShop, AiFillPlusSquare } from "react-icons/ai";
 import { HiSearch } from "react-icons/hi";
 import { RiDiscussFill } from "react-icons/ri";
+import { useLoading } from "@/hooks/useLoadingHook";
 
 export default function Home() {
   const [products, setProducts] = useState<ProductData[] | []>([]);
   const user = useAuth();
+  const { isLoading, loadingSpinner, setIsLoading } = useLoading();
+
   const links = [
     {
       href: "/messages",
@@ -61,8 +64,12 @@ export default function Home() {
   useEffect(() => {
     const fetch = async () => {
       const { data, error } = await getProducts(1);
-      if (error) return;
-      setProducts(data);
+      if (error) {
+        console.log(error);
+      } else {
+        setProducts(data);
+      }
+      setIsLoading(false);
     };
     fetch();
   }, []);
@@ -71,7 +78,7 @@ export default function Home() {
       <Head>
         <title>AgriConnect | Home</title>
       </Head>
-      <main className="mt-[2vh] flex flex-col items-center justify-center gap-2">
+      <main className="ju stify-center mt-[2vh] flex flex-col items-center gap-2">
         <h2
           className="rounded-md bg-gray-300 p-6 px-20 text-center font-poppins text-xl font-semibold text-[#1c4532]
 underline"
@@ -112,6 +119,8 @@ underline"
           </Link>{" "}
         </section>
         <section className="mx-auto flex w-full max-w-[1700px] flex-wrap justify-start gap-8 p-4 ">
+          {isLoading && loadingSpinner}
+          {!isLoading && products.length === 0 && <p>No Products Found</p>}
           {products.map((product) => {
             return (
               <ProductCard key={product.productID} ProductData={product} />
@@ -123,7 +132,7 @@ underline"
           href="/market?page=1"
         >
           See More Products
-        </Link>{" "}
+        </Link>
       </main>
     </>
   );

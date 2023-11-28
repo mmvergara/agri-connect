@@ -52,6 +52,7 @@ const CommunityChat = () => {
 
     socket.on(`new-message-community-chat`, (data: CommunityChatMessage) => {
       setMessages((prev) => [...prev, data]);
+      scrollToBottom();
     });
 
     return () => {
