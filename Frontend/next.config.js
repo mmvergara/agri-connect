@@ -9,6 +9,7 @@ const nextConfig = {
       "www.gravatar.com",
     ],
   },
+  swcMinify: true,
 };
 
 module.exports = nextConfig;
