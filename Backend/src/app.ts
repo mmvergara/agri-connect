@@ -1,7 +1,6 @@
 import { MainLoader } from "./loaders/main-loader";
 import { PORT } from "./config";
 import express from "express";
-import { Server } from "socket.io";
 import { getSocket, initSocket } from "./utilities/socket";
 
 const startServer = async () => {
