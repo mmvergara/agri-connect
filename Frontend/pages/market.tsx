@@ -44,6 +44,7 @@ const Market = () => {
         <div className="mx-auto flex w-full max-w-[1370px] items-center justify-start gap-4 py-6">
           <span className="font-poppins text-3xl font-bold">Page: {page}</span>
           <Button
+            data-cy="prev-page-button"
             onClick={handlePrevPage}
             disabled={page === 1}
             color="white"
@@ -55,6 +56,7 @@ const Market = () => {
             Prev
           </Button>
           <Button
+            data-cy="next-page-button"
             onClick={handleNextPage}
             color="white"
             bgColor="green.900"

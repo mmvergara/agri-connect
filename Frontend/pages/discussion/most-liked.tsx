@@ -67,6 +67,7 @@ const DiscussionPage = () => {
         {posts.length === 0 && <p>No posts found</p>}
         <div className="mx-auto flex  items-center justify-start gap-4 py-6">
           <Button
+            data-cy="prev-page-button"
             onClick={handlePrevPage}
             disabled={page === 1}
             color="white"
@@ -79,6 +80,7 @@ const DiscussionPage = () => {
           </Button>
           <span className="font-poppins text-3xl font-bold"> {page}</span>
           <Button
+            data-cy="next-page-button"
             onClick={handleNextPage}
             color="white"
             bgColor="green.900"

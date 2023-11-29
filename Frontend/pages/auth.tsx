@@ -59,7 +59,6 @@ const SignInPage = () => {
     }
   };
 
-
   useEffect(() => {
     if (user) {
       router.push("/");
@@ -99,6 +98,7 @@ const SignInPage = () => {
           </Text>
 
           <Input
+            data-cy="email-input"
             name="email"
             type="email"
             id="emailInput"
@@ -109,6 +109,7 @@ const SignInPage = () => {
           />
           {!isSignIn && (
             <Input
+              data-cy="username-input"
               name="username"
               type="text"
               borderColor="gray.300"
@@ -118,6 +119,7 @@ const SignInPage = () => {
             />
           )}
           <Input
+            data-cy="password-input"
             name="password"
             type="password"
             id="passwordInput"
@@ -127,13 +129,23 @@ const SignInPage = () => {
             placeholder="Password"
           />
 
-          <Button type="submit" colorScheme="teal" size="md">
+          <Button
+            data-cy="submit-auth-button"
+            type="submit"
+            colorScheme="teal"
+            size="md"
+          >
             <span>{isSignIn ? "Sign In" : "Create Account"}</span>
           </Button>
 
           <Text textAlign="center">
             {isSignIn ? "Don't have an account? " : "Already have an account? "}
-            <Button variant="link" colorScheme="teal" onClick={changeAuthMode}>
+            <Button
+              data-cy="change-auth-mode-button"
+              variant="link"
+              colorScheme="teal"
+              onClick={changeAuthMode}
+            >
               {isSignIn ? "Sign Up" : "Sign In"}
             </Button>
           </Text>

@@ -113,6 +113,7 @@ const ProductPreview = () => {
 
           <section className="flex w-full gap-2">
             <Button
+              data-cy="message-seller-button"
               color="white"
               bgColor="green.800"
               variant="solid"
@@ -124,6 +125,7 @@ const ProductPreview = () => {
               Message Seller
             </Button>
             <Button
+              data-cy="endorse-product-button"
               colorScheme="yellow"
               variant={isEndorsed ? "solid" : "outline"}
               className="w-full text-white"
@@ -133,6 +135,7 @@ const ProductPreview = () => {
               {isEndorsed ? "Endorsed" : "Endorse Product"}
             </Button>
             <IconButton
+              data-cy="open-qr-code-button"
               onClick={onOpen}
               bgColor="white"
               color="black"
@@ -141,7 +144,7 @@ const ProductPreview = () => {
             />
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalContent>
-                <ModalCloseButton />
+                <ModalCloseButton data-cy="close-qr-code-button" />
                 <ModalHeader>QR Code: {product.productName} </ModalHeader>
                 <ModalBody className="flex items-center justify-center rounded-lg shadow-lg">
                   <Image

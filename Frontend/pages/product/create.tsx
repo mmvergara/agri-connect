@@ -101,6 +101,7 @@ const CreateProduct = () => {
           <Divider />
           <FormLabel>Product Data</FormLabel>
           <Input
+            data-cy="product-name-input"
             name="productName"
             type="text"
             value={inputs.productName}
@@ -109,6 +110,7 @@ const CreateProduct = () => {
             variant="filled"
           />
           <Input
+            data-cy="product-description-input"
             name="productDescription"
             type="text"
             value={inputs.productDescription}
@@ -120,6 +122,7 @@ const CreateProduct = () => {
           <div className="flex flex-col">
             <FormLabel>Product Price</FormLabel>
             <Input
+              data-cy="product-price-input"
               name="productPrice"
               type="number"
               value={inputs.productPrice}
@@ -129,6 +132,7 @@ const CreateProduct = () => {
             />
             <FormLabel className="pt-2">per</FormLabel>
             <Input
+              data-cy="product-price-per-input"
               name="productPricePer"
               type="text"
               value={inputs.productPricePer}
@@ -152,6 +156,7 @@ const CreateProduct = () => {
             </div>
           )}
           <input
+            data-cy="product-image-input"
             type="file"
             multiple={false}
             hidden
@@ -160,6 +165,7 @@ const CreateProduct = () => {
             onChange={handleImageInputChange}
           />
           <Button
+            data-cy="upload-product-image-button"
             type="button"
             leftIcon={<FaImage />}
             colorScheme={colorMode === "light" ? "teal" : "whatsapp"}
@@ -170,6 +176,7 @@ const CreateProduct = () => {
           <Divider />
 
           <Button
+            data-cy="submit-product-button"
             leftIcon={<MdLibraryAdd />}
             type="submit"
             colorScheme={colorMode === "light" ? "teal" : "linkedin"}

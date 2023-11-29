@@ -46,6 +46,7 @@ const Navbar = () => {
         <Spacer />
         <Center>
           <Button
+            data-cy="messages-link"
             as={Link}
             href={`/messages`}
             color="green.100"
@@ -65,6 +66,7 @@ const Navbar = () => {
             </>
           ) : (
             <Button
+              data-cy="sign-in-button"
               as={Link}
               color="green.100"
               bgColor="green.800"

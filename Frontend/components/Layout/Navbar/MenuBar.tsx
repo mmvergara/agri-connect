@@ -46,6 +46,7 @@ const MenuBar = () => {
   return (
     <Menu isLazy placement="bottom-end">
       <MenuButton
+        data-cy="menu-bar-button"
         as={IconButton}
         icon={<Icon as={GiHamburgerMenu} />}
         color="green.100"

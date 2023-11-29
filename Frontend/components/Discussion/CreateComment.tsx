@@ -38,6 +38,7 @@ const CreateComment = ({ postID, onAddComment }: CreateCommentProps) => {
     <div className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 drop-shadow-md transition-all hover:drop-shadow-xl">
       <form className="w-full" onSubmit={handleSubmitComment}>
         <input
+          data-cy="create-comment-input"
           disabled={isLoading}
           type="text"
           className=" font-md w-full rounded-md bg-gray-100 p-4"
@@ -45,7 +46,13 @@ const CreateComment = ({ postID, onAddComment }: CreateCommentProps) => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <Button className="mt-4" colorScheme="teal" type="submit">
+        <Button
+          isLoading={isLoading}
+          data-cy="create-comment-button"
+          className="mt-4"
+          colorScheme="teal"
+          type="submit"
+        >
           Submit
         </Button>
       </form>

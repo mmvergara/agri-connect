@@ -43,6 +43,7 @@ const SearchDiscussionpage = () => {
           onSubmit={handleSearch}
         >
           <Input
+            data-cy="search-query-input"
             placeholder="Search Discussion by Title"
             value={searchQuery}
             borderColor={"gray.400"}
@@ -50,6 +51,7 @@ const SearchDiscussionpage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Button
+            data-cy="submit-search-button"
             type="submit"
             color="white"
             bgColor="green.900"

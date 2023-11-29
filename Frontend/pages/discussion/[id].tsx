@@ -129,6 +129,7 @@ const Discussion = () => {
             <p>{ifMoreThanXCharactersAddThreeDots(post.postContent, 100)}</p>
             <div className="mt-4 flex gap-4">
               <Button
+                data-cy="like-post-button"
                 onClick={handleLikePost}
                 className="flex items-center gap-2"
               >

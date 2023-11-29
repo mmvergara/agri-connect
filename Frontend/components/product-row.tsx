@@ -59,7 +59,7 @@ const ProductRow = (props: Props) => {
     <Tr className="font-semibold">
       <Td>
         <Link
-          className="bg-gray-100 hover:underline p-2 rounded-md"
+          className="rounded-md bg-gray-100 p-2 hover:underline"
           href={`/product/${product.productID}`}
         >
           {product.productName}
@@ -70,6 +70,7 @@ const ProductRow = (props: Props) => {
       </Td>
       <Td className="flex flex-col gap-2">
         <Input
+          data-cy="update-price-input"
           type="number"
           variant="filled"
           placeholder="Enter new price"
@@ -77,6 +78,7 @@ const ProductRow = (props: Props) => {
           onChange={(e) => setProductPrice(parseInt(e.target.value))}
         />
         <Button
+          data-cy="update-price-button"
           colorScheme="blue"
           onClick={handleUpdatePrice}
           isLoading={updateLoading}
@@ -86,6 +88,7 @@ const ProductRow = (props: Props) => {
       </Td>
       <Td>
         <Button
+          data-cy="delete-product-button"
           colorScheme="red"
           onClick={handleDeleteProduct}
           isLoading={deleteLoading}

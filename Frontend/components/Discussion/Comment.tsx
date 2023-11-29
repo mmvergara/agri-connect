@@ -54,6 +54,7 @@ const PostComment = ({ commentData, onCommentDelete }: PostCommentProps) => {
         <p>{commentContent}</p>
         <div className="mt-4 flex gap-4">
           <Button
+            data-cy="like-comment-button"
             onClick={handleLikeComment}
             className="flex items-center gap-2"
           >

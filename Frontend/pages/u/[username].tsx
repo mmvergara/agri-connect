@@ -124,6 +124,7 @@ const UserProfilePage = () => {
             </div>
             <div className="flex flex-wrap items-center justify-around gap-1  ">
               <Button
+                data-cy="message-user-button"
                 color="white"
                 bgColor="green.900"
                 variant="solid"
@@ -134,6 +135,7 @@ const UserProfilePage = () => {
                 Message
               </Button>
               <Button
+                data-cy="endorse-user-button"
                 colorScheme={isEndorsed ? "green" : "gray"}
                 variant={isEndorsed ? "solid" : "outline"}
                 className=" text-white"
@@ -143,6 +145,7 @@ const UserProfilePage = () => {
                 {isEndorsed ? "Endorsed" : "Endorse User"}
               </Button>
               <IconButton
+                data-cy="qr-code-button"
                 onClick={onOpen}
                 bgColor="white"
                 color="black"

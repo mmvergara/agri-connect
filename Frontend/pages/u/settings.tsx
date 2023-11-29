@@ -77,8 +77,8 @@ const SettingsPage = () => {
           <Divider />
           <FormLabel>Change Passowrd</FormLabel>
           <Input
+            data-cy="old-password-input"
             name="oldPassword"
-            data-cy="oldPasswordField"
             type="password"
             value={changePasswordFields.oldPassword}
             onChange={handleChangePasswordInputChange}
@@ -86,8 +86,8 @@ const SettingsPage = () => {
             variant="filled"
           />
           <Input
+            data-cy="new-password-input"
             name="newPassword"
-            data-cy="newPasswordField"
             type="password"
             value={changePasswordFields.newPassword}
             onChange={handleChangePasswordInputChange}
@@ -95,10 +95,10 @@ const SettingsPage = () => {
             variant="filled"
           />
           <Button
+            data-cy="change-password-button"
             type="button"
             colorScheme="teal"
             variant="outline"
-            data-cy="changePasswordButton"
             onClick={handleChangePassword}
           >
             Change Password
@@ -107,8 +107,8 @@ const SettingsPage = () => {
 
           <FormLabel>Delete Account</FormLabel>
           <Input
+            data-cy="delete-account-password-input"
             name="deleteAccountPassword"
-            data-cy="deleteAccountPasswordField"
             type="password"
             value={deleteAccountPassword}
             onChange={(e) => {
@@ -122,10 +122,10 @@ const SettingsPage = () => {
             be undone.
           </Text>
           <Button
+            data-cy="delete-account-button"
             type="button"
             colorScheme="red"
             variant="solid"
-            data-cy="deleteAccountButton"
             onClick={handleDeleteAccount}
           >
             Delete Account

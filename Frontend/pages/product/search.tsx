@@ -40,6 +40,7 @@ const SearchProductPage = () => {
           onSubmit={handleSearch}
         >
           <Input
+            data-cy="search-query-input"
             placeholder="Search Products"
             value={searchQuery}
             borderColor={"gray.400"}
@@ -47,6 +48,7 @@ const SearchProductPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Button
+            data-cy="submit-search-button"
             type="submit"
             color="white"
             bgColor="green.900"

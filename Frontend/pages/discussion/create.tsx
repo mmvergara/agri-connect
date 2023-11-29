@@ -51,6 +51,7 @@ const CreateDiscussion = () => {
             Create New Discussion
           </p>
           <input
+            data-cy="discussion-title-input"
             type="text"
             className=" font-md mb-4 w-full rounded-md bg-gray-100 p-4"
             placeholder="Title"
@@ -64,7 +65,12 @@ const CreateDiscussion = () => {
             onChange={(e) => setPostContent(e.target.value)}
           />
 
-          <Button className="mt-4" colorScheme="teal" type="submit">
+          <Button
+            data-cy="create-discussion-button"
+            className="mt-4"
+            colorScheme="teal"
+            type="submit"
+          >
             Create Discussion
           </Button>
         </form>

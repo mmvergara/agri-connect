@@ -181,6 +181,7 @@ const Conversation = () => {
             onSubmit={handleSubmitMessage}
           >
             <input
+              data-cy="message-input"
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
               type="text"
@@ -188,7 +189,6 @@ const Conversation = () => {
               placeholder="Type a message"
               name="messageInput"
               id="messageInput"
-              data-cy="message-input"
             />
             <button
               className="mx-2 flex w-[20%] items-center justify-center rounded-lg bg-[hsl(152,42%,15%)] hover:bg-[hsl(152,42%,20%)]"
