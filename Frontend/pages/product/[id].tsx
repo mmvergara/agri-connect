@@ -24,6 +24,7 @@ import { IoQrCodeSharp } from "react-icons/io5";
 import { timeFromNow } from "@/utils/helpers";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import { getConversationByUserId } from "@/services/ConversationService";
 
 const ProductPreview = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +47,17 @@ const ProductPreview = () => {
     else setEndorsersCount((prev) => prev - 1);
   };
 
+  const handleMessageUser = async () => {
+    if (!product) return;
+    const { data, error } = await getConversationByUserId({
+      userID2: product.productOwnerId,
+    });
+    if (error) return;
+    if (data) {
+      router.push(`/messages?id=${data?.conversation.conversationID}`);
+    }
+  };
+
   const fetchProduct = async (id: string) => {
     const { data, error } = await getProductById(id);
     if (error) {
@@ -53,7 +65,9 @@ const ProductPreview = () => {
     }
     console.log(data);
     setIsEndorsed(
-      data.productEndorsers.find((endorser: any) => endorser.userID === auth.user?.id)
+      data.productEndorsers.find(
+        (endorser: any) => endorser.userID === auth.user?.id,
+      )
         ? true
         : false,
     );
@@ -105,6 +119,7 @@ const ProductPreview = () => {
               colorScheme="green"
               className="w-full"
               leftIcon={<EmailIcon />}
+              onClick={handleMessageUser}
             >
               Message Seller
             </Button>
@@ -140,7 +155,10 @@ const ProductPreview = () => {
               </ModalContent>
             </Modal>
           </section>
-          <Link href={`/u/${product.productOwner.username}`} className="font-bold hover:underline">
+          <Link
+            href={`/u/${product.productOwner.username}`}
+            className="font-bold hover:underline"
+          >
             Seller : {product.productOwner.username}
           </Link>
           <p className="font-semibold">
