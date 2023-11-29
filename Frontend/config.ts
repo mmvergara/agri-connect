@@ -1,1 +1,17 @@
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log(process.env.NEXT_PUBLIC_BASE_URL);
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
+console.log("ENVIRONMENT VARIABLES");
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
