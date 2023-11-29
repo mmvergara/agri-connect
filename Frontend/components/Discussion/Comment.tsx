@@ -45,6 +45,8 @@ const PostComment = ({ commentData, onCommentDelete }: PostCommentProps) => {
           </span>
           {commentAuthor.userID === user.user?.id && (
             <Icon
+              data-cy="delete-comment-button"
+              style={{ cursor: "pointer" }}
               onClick={() => onCommentDelete(commentID)}
               as={RiDeleteBin6Line}
               className=" inline-block cursor-pointer hover:text-red-500"

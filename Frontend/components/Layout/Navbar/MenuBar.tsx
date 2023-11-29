@@ -73,6 +73,7 @@ const MenuBar = () => {
           </MenuItem>
         ))}
         <MenuItem
+          data-cy="sign-out-button"
           icon={<Icon as={RiLogoutCircleRFill} />}
           bg="green.900"
           className="flex min-h-[40px] grow items-center justify-center gap-2 font-semibold hover:bg-green-950"

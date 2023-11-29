@@ -145,6 +145,7 @@ const Discussion = () => {
           </div>
           {post.postAuthor.userID === auth.user?.id && (
             <Icon
+              data-cy="delete-post-button"
               onClick={handleDeletePost}
               as={RiDeleteBin6Line}
               className=" ml-auto inline-block cursor-pointer hover:text-red-500"
