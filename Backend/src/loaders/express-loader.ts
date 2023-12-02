@@ -25,6 +25,7 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
   });
   app.use(
     session({
+      name: "sid",
       store: store,
       secret: "BOGARTYIWASHERE",
       resave: false,
@@ -32,6 +33,8 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
       },
     })
   );

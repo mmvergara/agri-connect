@@ -62,6 +62,7 @@ const MenuBar = () => {
       >
         {MenuItems.map(({ icon, link, name }) => (
           <MenuItem
+            data-cy={`${name}-button`}
             as={Link}
             key={name}
             icon={icon}
