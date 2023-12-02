@@ -23,6 +23,7 @@ const ExpressLoader = async ({ app }: { app: Express }) => {
     uri: MONGODB_URL,
     collection: "authSession",
   });
+  app.set("trust proxy", 1);
   app.use(
     session({
       name: "sid",
