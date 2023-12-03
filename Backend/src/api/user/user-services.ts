@@ -3,6 +3,26 @@ import { db } from "../../lib/db";
 import { Req } from "../../types/express-types";
 import { Cloudinary } from "../../cloudinary/cloudinary";
 
+// export const parserCreateProductReq = async (req: Req) => {
+//   const form = formidable({ maxFileSize: 8 * 1024 * 1024 });
+//   const productData = await new Promise<ProductData>((res, rej) => {
+//     form.parse(req, async (err, fields, files) => {
+//       if (err) return null;
+//       const uploadResponse = await Cloudinary.uploader.upload(
+//         files.productImage[0].filepath,
+//         { folder: "products" }
+//       );
+//       const productData = {};
+//       for (let key in fields) productData[key] = fields[key][0];
+//       productData["productOwnerID"] = req.session.user_id;
+//       productData["productImageUrl"] = uploadResponse.secure_url;
+//       productData["productPrice"] = parseInt(productData["productPrice"]);
+//       res(productData as ProductData);
+//     });
+//   });
+//   return productData;
+// };
+
 export const getUserProfileByUsername = async (username: string) => {
   try {
     return await db.user.findUnique({
@@ -137,11 +157,16 @@ export const parseChangeAvatarReq = async (req: Req) => {
   const form = formidable({ maxFileSize: 8 * 1024 * 1024 });
   const avatarUrl = await new Promise<string>((res, rej) => {
     form.parse(req, async (err, fields, files) => {
+      console.log("1111111");
       if (err) return null;
+      console.log("2222222");
+
       const uploadResponse = await Cloudinary.uploader.upload(
         files.avatar[0].filepath,
-        { folder: "avatars" }
+        { folder: "products" }
       );
+      console.log("3333333");
+
       res(uploadResponse.secure_url);
     });
   });

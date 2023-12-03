@@ -13,7 +13,7 @@ type CreateCommentProps = {
 const CreateComment = ({ postID, onAddComment }: CreateCommentProps) => {
   const toast = useToast();
   const [comment, setComment] = useState<string>("");
-  const { isLoading, setIsLoading } = useLoading();
+  const { isLoading, setIsLoading } = useLoading(false);
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -34,6 +34,7 @@ const CreateComment = ({ postID, onAddComment }: CreateCommentProps) => {
     }
     setIsLoading(false);
   };
+  console.log(isLoading)
   return (
     <div className="flex w-full  max-w-[900px] gap-4 rounded-md bg-gray-200 p-4 drop-shadow-md transition-all hover:drop-shadow-xl">
       <form className="w-full" onSubmit={handleSubmitComment}>

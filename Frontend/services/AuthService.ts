@@ -7,6 +7,10 @@ import {
 } from "@/types/shared-types";
 import { AxiosPost } from "./AxiosInstance";
 
+export const changePfp = async (pfp: FormData) => {
+  return await AxiosPost("/user/change-pfp", pfp, true);
+};
+
 export const Login = async (userData: LoginFields) => {
   return await AxiosPost<LoggedInUserData>("/auth/login", userData);
 };

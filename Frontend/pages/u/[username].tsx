@@ -164,7 +164,7 @@ const UserProfilePage = () => {
             </span>
             <span className="flex items-center gap-2">
               <StarIcon /> Endorsers:
-              <Text>{endorsersCount}</Text>
+              <Text data-cy="endorsers-count">{endorsersCount}</Text>
             </span>
           </div>
         </section>

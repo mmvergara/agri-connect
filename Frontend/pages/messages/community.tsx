@@ -56,7 +56,7 @@ const CommunityChat = () => {
     });
 
     return () => {
-      socket.off();
+      socket.off("new-message-community-chat");
     };
   }, []);
 

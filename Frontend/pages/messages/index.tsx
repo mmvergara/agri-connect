@@ -110,7 +110,7 @@ const Conversation = () => {
     }
 
     return () => {
-      socket.off();
+      socket.off(`new-message-${conversationID}`);
     };
   }, [query]);
 

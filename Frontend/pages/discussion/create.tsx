@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { createPost } from "@/services/PostService";
-import { Button } from "@chakra-ui/react";
+import { Button, Toast, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,8 +10,8 @@ const CreateDiscussion = () => {
   const [postTitle, setPostTitle] = useState<string>("");
   const [postContent, setPostContent] = useState<string>("");
   const auth = useAuth();
+  const toast = useToast();
   const router = useRouter();
-
   const handleSubmitDiscussion = async (
     e: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -21,14 +21,14 @@ const CreateDiscussion = () => {
       console.log(error);
       return;
     }
-    console.log(data);
+    toast({
+      title: "Discussion Created.",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+    router.push(`/discussion/${data.postID}`);
   };
-
-  useEffect(() => {
-    if (!auth.user) {
-      router.push("/auth");
-    }
-  }, [auth.user]);
 
   return (
     <>
@@ -59,6 +59,7 @@ const CreateDiscussion = () => {
             onChange={(e) => setPostTitle(e.target.value)}
           />
           <textarea
+            data-cy="discussion-content-input"
             className=" font-md w-full rounded-md bg-gray-100 p-4"
             placeholder="Description"
             value={postContent}

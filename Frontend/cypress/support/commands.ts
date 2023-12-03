@@ -10,21 +10,7 @@
 // ***********************************************
 //
 //
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
+
 // declare global {
 //   namespace Cypress {
 //     interface Chainable {
@@ -35,3 +21,25 @@
 //     }
 //   }
 // }
+
+// cypress/support/commands.js
+
+Cypress.Commands.addAll({
+  register(email: string, username: string, password: string) {
+    cy.visit("/auth");
+    cy.get('[data-cy="change-auth-mode-button"]').click();
+    cy.get('[data-cy="email-input"]').type(email);
+    cy.get('[data-cy="username-input"]').type(username);
+    cy.get('[data-cy="password-input"]').type(password);
+    cy.get('[data-cy="submit-auth-button"]').click();
+    cy.contains("Account Created.", { timeout: 10000 });
+  },
+
+  login(email: string, password: string) {
+    cy.visit("/auth");
+    cy.get('[data-cy="email-input"]').type(email);
+    cy.get('[data-cy="password-input"]').type(password);
+    cy.get('[data-cy="submit-auth-button"]').click();
+    cy.url().should("include", "/");
+  },
+});

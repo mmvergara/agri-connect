@@ -1,4 +1,4 @@
-import { PostCommentType, PostDataWithAuthor } from "@/types/shared-types";
+import { PostCommentType, PostData, PostDataWithAuthor } from "@/types/shared-types";
 import { AxiosGet, AxiosPost } from "./AxiosInstance";
 
 export const getPosts = async (pageNumber: number) => {
@@ -25,7 +25,7 @@ export const createPost = async (PostData: {
   postTitle: string;
   postContent: string;
 }) => {
-  return await AxiosPost<{ message: string }>("/posts/create", PostData);
+  return await AxiosPost<PostData>("/posts/create", PostData);
 };
 
 export const getPost = async (postID: string) => {

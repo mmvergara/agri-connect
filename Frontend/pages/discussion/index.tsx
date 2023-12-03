@@ -10,6 +10,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa6";
+import { AiFillPlusSquare } from "react-icons/ai";
 
 const DiscussionPage = () => {
   const router = useRouter();
@@ -52,6 +53,12 @@ const DiscussionPage = () => {
           >
             Search Discussion <HiSearch />
           </Link>{" "}
+          <Link
+            className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+            href="/discussion/create"
+          >
+            Create Discussion <AiFillPlusSquare />
+          </Link>
           <Link
             className="flex items-center justify-center gap-4 rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
             href="/discussion/most-discussed"

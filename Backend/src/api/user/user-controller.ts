@@ -40,6 +40,7 @@ export const postChangeUserAvatar = async (req: Req, res: Res) => {
     await changeUserAvatarUrl(avatarUrl, req.session.user_id);
     return res.status(200).json({ data: null, error: null });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ data: null, error: error.message });
   }
 };
