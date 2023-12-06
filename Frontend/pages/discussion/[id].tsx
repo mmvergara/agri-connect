@@ -126,7 +126,7 @@ const Discussion = () => {
             <p className="text-gray-500">
               {post.postAuthor.username} - {timeFromNow(post.postDate)}
             </p>
-            <p>{ifMoreThanXCharactersAddThreeDots(post.postContent, 100)}</p>
+            <p>{post.postContent}</p>
             <div className="mt-4 flex gap-4">
               <Button
                 data-cy="like-post-button"
