@@ -132,6 +132,12 @@ underline"
           href="/market?page=1"
         >
           See More Products
+        </Link>{" "}
+        <Link
+          className="mb-8  rounded-md bg-[#003d29] p-6 py-4 font-poppins text-lg font-semibold text-white opacity-90 hover:opacity-100"
+          href="/product/most-endorsed"
+        >
+          See Most Endorsed Products
         </Link>
       </main>
     </>

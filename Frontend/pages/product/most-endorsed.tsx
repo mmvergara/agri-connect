@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useColorModeValue, Button } from "@chakra-ui/react";
 import { getMostEndorsedProducts } from "@/services/ProductService";
 
-const Market = () => {
+const MostEndorsedProduct = () => {
   const bgColor = "hsl(0,0%,95%)";
 
   const router = useRouter();
@@ -92,4 +92,4 @@ const Market = () => {
   );
 };
 
-export default Market;
+export default MostEndorsedProduct;
