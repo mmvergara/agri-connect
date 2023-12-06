@@ -166,7 +166,7 @@ const SettingsPage = () => {
             colorScheme="teal"
             onClick={handleImageUploadClick}
           >
-            Upload Product Image
+            Upload Profile Image
           </Button>
           {image && (
             <Button
