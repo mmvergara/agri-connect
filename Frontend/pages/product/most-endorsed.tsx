@@ -7,7 +7,7 @@ import { useColorModeValue, Button } from "@chakra-ui/react";
 import { getMostEndorsedProducts } from "@/services/ProductService";
 
 const Market = () => {
-  const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
+  const bgColor = "hsl(0,0%,95%)";
 
   const router = useRouter();
   const page = Number(router.query.page) || 1;

@@ -9,7 +9,6 @@ import {
   Button,
   Heading,
   Text,
-  useColorMode,
   createStandaloneToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
@@ -23,7 +22,6 @@ const CreateProduct = () => {
   const auth = useAuth();
   const router = useRouter();
   const { toast } = createStandaloneToast();
-  const { colorMode } = useColorMode();
   const [inputs, setInputs] = useState({
     productName: "",
     productDescription: "",
@@ -168,7 +166,7 @@ const CreateProduct = () => {
             data-cy="upload-product-image-button"
             type="button"
             leftIcon={<FaImage />}
-            colorScheme={colorMode === "light" ? "teal" : "whatsapp"}
+            colorScheme={"teal"}
             onClick={handleImageUploadClick}
           >
             Upload Product Image
@@ -179,7 +177,7 @@ const CreateProduct = () => {
             data-cy="submit-product-button"
             leftIcon={<MdLibraryAdd />}
             type="submit"
-            colorScheme={colorMode === "light" ? "teal" : "linkedin"}
+            colorScheme={"teal"}
             w="full"
             disabled={!!image}
           >

@@ -3,11 +3,11 @@ import { ProductData } from "@/types/shared-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useColorModeValue, Button } from "@chakra-ui/react";
 import { getProducts } from "@/services/ProductService";
+import { Button } from "@chakra-ui/react";
 
 const Market = () => {
-  const bgColor = useColorModeValue("hsl(0,0%,95%)", "#252b36");
+  const bgColor = "hsl(0,0%,95%)";
 
   const router = useRouter();
   const page = Number(router.query.page) || 1;

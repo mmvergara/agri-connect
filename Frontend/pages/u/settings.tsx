@@ -26,7 +26,7 @@ const SettingsPage = () => {
   const user = useAuth();
   const auth = user;
   const router = useRouter();
-  const bgColor = useColorModeValue("white", "hsl(220,26%,18%)");
+  const bgColor = "white";
 
   const [image, setImage] = useState<File | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null!);
