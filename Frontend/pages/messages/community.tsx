@@ -105,7 +105,11 @@ const CommunityChat = () => {
                     className="h-[32px] w-[32px] rounded-full"
                   />
                 )}
-                <div>
+                <div className="flex flex-col">
+                  <p>
+                    {message.chatAuthorID !== user?.id &&
+                      message.chatAuthor.username}
+                  </p>
                   <p className={`rounded-xl bg-[#1c4532] p-2 text-white`}>
                     {message.chatContent}
                   </p>
