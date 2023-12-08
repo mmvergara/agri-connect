@@ -10,18 +10,23 @@ import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import { RiLogoutCircleRFill, RiSettingsFill } from "react-icons/ri";
-
+import { CgProfile } from "react-icons/cg";
 import { AiFillShop } from "react-icons/ai";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 const MenuBar = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const router = useRouter();
   const handleSignOut = () => {
     logout();
     router.push("/");
   };
   const MenuItems = [
+    {
+      name: "My Profile",
+      icon: <Icon as={CgProfile} />,
+      link: `/u/${user?.username}`,
+    },
     {
       name: "My Products",
       icon: <Icon as={AiFillShop} />,
